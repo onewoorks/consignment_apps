@@ -34,6 +34,7 @@ Route::get('index/{locale}', [HomeController::class, 'lang']);
 Route::group([
     'prefix' => 'mob'
 ], function () {
+    Route::get('/index', [HomeController::class, 'home']);
     Route::group([
         'prefix' => 'customer'
     ], function () {

@@ -25,6 +25,10 @@ class HomeController extends Controller
         return view('index');
     }
 
+    public function home(){
+        return redirect('/');
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -33,13 +37,15 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $redirectPath = $request->path();
-        // $user_role = Auth::user()->role;
-        // if ($user_role == 'admin') {
-        //     $redirectPath = 'web.index';
-        // } else {
-        //     $redirectPath = 'mob.index';
-        // }
         if (view()->exists($redirectPath)) {
+            if($redirectPath == 'index'){
+                $user_role = Auth::user()->role;
+                if ($user_role == 'admin') {
+                    $redirectPath = 'web.index';
+                } else {
+                    $redirectPath = 'mob.index';
+                }
+            }
             return view($redirectPath);
         }
         return abort(404);
