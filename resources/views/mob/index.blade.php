@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="row">
-        <div class="row">
+        <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="d-flex">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="d-flex">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="d-flex">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
                     <div class="d-flex">
