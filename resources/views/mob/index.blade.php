@@ -28,6 +28,7 @@
         <div class="row">
             <div class="card mini-stats-wid">
                 <div class="card-body">
+                    <a href="{{ url('/mob/customer')}}">
                     <div class="d-flex">
                         <div class="flex-grow-1">
                             <p class="text-muted fw-medium">Customer</p>
@@ -42,6 +43,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>

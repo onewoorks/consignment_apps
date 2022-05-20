@@ -38,7 +38,7 @@
     <!-- END layout-wrapper -->
 
     <!-- Right Sidebar -->
-    @include('layouts.mob.right-sidebar')
+    {{-- @include('layouts.mob.right-sidebar') --}}
     <!-- /Right-bar -->
 
     <!-- JAVASCRIPT -->

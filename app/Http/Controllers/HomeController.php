@@ -21,6 +21,10 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function ui_design(){
+        return view('index');
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -28,12 +32,13 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $user_role = Auth::user()->role;
-        if ($user_role == 'admin') {
-            $redirectPath = 'web.index';
-        } else {
-            $redirectPath = 'mob.index';
-        }
+        $redirectPath = $request->path();
+        // $user_role = Auth::user()->role;
+        // if ($user_role == 'admin') {
+        //     $redirectPath = 'web.index';
+        // } else {
+        //     $redirectPath = 'mob.index';
+        // }
         if (view()->exists($redirectPath)) {
             return view($redirectPath);
         }

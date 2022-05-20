@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,32 +19,28 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Route::post('custom_login', [App\Http\Controllers\Auth\LoginController::class, 'custom_login'])->name('custom_login');
-Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
+Route::get('/', [HomeController::class, 'root'])->name('root');
+Route::get('/ui', [HomeController::class, 'ui_design'])->name('ui_design');
 
 //Update User Details
-Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
-Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
+Route::post('/update-profile/{id}', [HomeController::class, 'updateProfile'])->name('updateProfile');
+Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])->name('updatePassword');
 
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 //Language Translation
-Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);
+Route::get('index/{locale}', [HomeController::class, 'lang']);
 
 Route::group([
-    'prefix' => 'inventory'
+    'prefix' => 'mob'
 ], function () {
-    // Route::get('/', 'InventoryController@getInventoryList');
-    // Route::post('/create', 'InventoryController@addInventory');
-    // Route::post('/delete', 'InventoryController@deleteInventory');
-});
-
-Route::group([
-    'prefix' => 'branch'
-], function () {
-    // Route::get('/', 'BranchController@getBranchs');
-    // Route::post('/create', 'BranchController@addBranch');
-    // Route::post('/update', 'BranchController@updateBranch');
-    // Route::post('/delete', 'BranchController@deleteBranch');
+    Route::group([
+        'prefix' => 'customer'
+    ], function () {
+        Route::get('/', [CustomerController::class, 'index']);
+        Route::get('/register', [CustomerController::class, 'register']);
+        Route::get('/profile', [CustomerController::class, 'profile']);
+    });
 });
 
 Route::group([
@@ -56,38 +54,4 @@ Route::group([
     Route::post('/delete', 'LovController@delete');
     Route::get('/category/list', 'LovController@getLovCategoryList');
     Route::get('/category/default/', 'LovController@getDefaultLovByCodeCategory');
-});
-
-Route::group([
-    'prefix' => 'product'
-], function () {
-    // Route::get('/', 'ProductController@getProducts');
-    // Route::post('/create', 'ProductController@addProduct');
-    // Route::post('/update', 'ProductController@updateProduct');
-    // Route::post('/delete', 'ProductController@deleteProduct');
-    // Route::group([
-    //     'prefix' => 'package'
-    // ], function () {
-    //     Route::get('/', 'ProductController@getProductPackages');
-    //     Route::post('/create', 'ProductController@addProductPackage');
-    //     Route::post('/update', 'ProductController@updateProductPackage');
-    //     Route::post('/delete', 'ProductController@deleteProductPackage');
-    // });
-});
-
-Route::group([
-    'prefix' => 'team'
-], function () {
-    // Route::get('/', 'TeamController@getTeams');
-    // Route::post('/create', 'TeamController@addTeam');
-    // Route::post('/update', 'TeamController@updateTeam');
-    // Route::post('/delete', 'TeamController@deleteTeam');
-    // Route::group([
-    //     'prefix' => 'agent'
-    // ], function () {
-    //     Route::get('/', 'AgentController@getAgents');
-    //     Route::post('/create', 'AgentController@addAgent');
-    //     Route::post('/update', 'AgentController@updateAgent');
-    //     Route::post('/delete', 'AgentController@deleteAgent');
-    // });
 });

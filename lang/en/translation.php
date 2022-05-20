@@ -1,6 +1,7 @@
 <?php
 
 return [
+"RegisterNewCustomer" => "Register New Customer",
   "Inventory" => "Inventory",
   "Customer" => "Customer",
   "SaleReports" => "Sale Reports",
