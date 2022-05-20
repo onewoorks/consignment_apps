@@ -19,7 +19,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         @include('layouts.mob.topbar')
-        @include('layouts.mob.sidebar')
+        {{-- @include('layouts.mob.sidebar') --}}
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
