@@ -41,6 +41,17 @@
                                 <label for="price">Price</label>
                                 <input id="price" name="price" type="text" class="form-control" placeholder="Price">
                             </div>
+
+                            <div class="mb-3">
+                                <label for="latitude">Latitude</label>
+                                <input id="latitude" name="latitude" type="text" class="form-control text-center" placeholder="Longitude">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="longitude">Logitude</label>
+                                <input id="longitude" name="longitude" type="text" class="form-control text-center" 
+                                placeholder="longitude">
+                            </div>
                         </div>
 
                         <div class="col-sm-6">
@@ -71,6 +82,8 @@
                         </div>
                     </div>
 
+                    <div id="c"></div>
+
                     <div class="d-flex flex-wrap gap-2">
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save Changes</button>
                         <button type="button" class="btn btn-secondary waves-effect waves-light">Cancel</button>
@@ -83,4 +96,23 @@
     <!-- end row -->
 @endsection
 @section('script')
+<script type="text/javascript">
+    var x = document.getElementById("demo");
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    
+    function showPosition(position) {
+    //   x.innerHTML = "Latitude: " + position.coords.latitude +
+    //   "<br>Longitude: " + position.coords.longitude;
+      $('#longitude').val(position.coords.longitude)
+      $('#latitude').val(position.coords.latitude)
+    }
+
+    getLocation();
+    </script>
 @endsection
