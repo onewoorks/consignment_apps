@@ -1,6 +1,10 @@
 <?php
 
 return [
+  "Inventory" => "Inventory",
+  "Customer" => "Customer",
+  "SaleReports" => "Sale Reports",
+  "Profile" => "Profile",
   "Menu" => "Menu",
   "Dashboards" => "Dashboards",
   "Default" => "Default",

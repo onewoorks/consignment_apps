@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -28,15 +28,28 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if (view()->exists($request->path())) {
-            return view($request->path());
+        $user_role = Auth::user()->role;
+        if ($user_role == 'admin') {
+            $redirectPath = 'web.index';
+        } else {
+            $redirectPath = 'mob.index';
+        }
+        if (view()->exists($redirectPath)) {
+            return view($redirectPath);
         }
         return abort(404);
     }
 
     public function root()
     {
-        return view('index');
+        $user_role = Auth::user()->role;
+        if ($user_role == 'admin') {
+            $redirectPath = 'web.index';
+        } else {
+            $redirectPath = 'mob.index';
+        }
+
+        return view($redirectPath);
     }
 
     /*Language Translation*/

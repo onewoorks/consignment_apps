@@ -4,7 +4,7 @@ var __webpack_exports__ = {};
   !*** ./resources/js/pages/dashboard.init.js ***!
   \**********************************************/
 setTimeout(function () {
-  $("#subscribeModal").modal("show");
+//   $("#subscribeModal").modal("show");
 }, 2e3);
 var options = {
   chart: {
