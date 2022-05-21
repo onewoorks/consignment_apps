@@ -4,47 +4,6 @@
 @endsection
 
 @section('css')
-    <style>
-        form#search_form {
-            background-color: #d6d8eb;
-            width: auto;
-            height: 44px;
-            border-radius: 5px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        input#search_field {
-            all: unset;
-            font: 16px system-ui;
-            color: rgb(34, 33, 33);
-            height: 100%;
-            width: 100%;
-            padding: 6px 10px;
-        }
-
-        ::placeholder {
-            color: #fff;
-            opacity: 0.7;
-        }
-
-        .search_icon {
-            color: #fff;
-            fill: currentColor;
-            width: 24px;
-            height: 24px;
-            padding: 10px;
-        }
-
-        button#search_button {
-            all: unset;
-            cursor: pointer;
-            width: 44px;
-            height: 44px;
-        }
-
-    </style>
 @endsection
 
 @section('content')
@@ -96,7 +55,7 @@
                     <div class="col-8">
                         <div>nama barang {{ $i }}</div>
                         <div class='total-consigned'>{{ rand ( 1 , 99 ) }}</div>
-                        
+
                     </div>
                     <div class="col-2 text-center">
                         <div class="btn btn-success btn-lg action-add" data-add="0">0</div>
@@ -116,7 +75,7 @@
         <div class="card mini-stats-wid">
             <div class="card-body">
                 <div class="d-grid mt-2">
-                    <div 
+                    <div
                     class="btn btn-primary btn-block"
                     id='print_consignment'>Print Consigment Note
                 </div>
@@ -140,7 +99,7 @@
             $(this).data('remove', remove_value)
             $(this).text(remove_value)
         })
-        $('#print_consignment').on('click', function(){ 
+        $('#print_consignment').on('click', function(){
             let product_data = []
             $('.list-product').each(function(){
                 var $this = $(this)
@@ -164,7 +123,7 @@
             })
             //do ajax call with payload yang dah dibind
             //suppose akan hantar ke printer bluetooth
-            
+
         })
     </script>
 @endsection

@@ -1,11 +1,14 @@
 <?php
 
 return [
-"RegisterNewCustomer" => "Register New Customer",
+ "RegisterNewCustomer" => "Register New Customer",
   "Inventory" => "Inventory",
   "Customer" => "Customer",
-  "SaleReports" => "Sale Reports",
+  "Shop" => "Shop",
+  "Report" => "Report",
   "Profile" => "Profile",
+  "Branch" => "Branch",
+  "User" => "User",
   "Menu" => "Menu",
   "Dashboards" => "Dashboards",
   "Default" => "Default",

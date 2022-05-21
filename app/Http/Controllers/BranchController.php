@@ -16,4 +16,8 @@ class BranchController extends BaseController
     {
         $this->middleware('auth');
     }
+
+    public function index(){
+        return view('web.branch.index');
+    }
 }

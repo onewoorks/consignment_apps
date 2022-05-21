@@ -16,4 +16,8 @@ class InventoryController extends BaseController
     {
         $this->middleware('auth');
     }
+
+    public function index(){
+        return view('web.inventory.index');
+    }
 }

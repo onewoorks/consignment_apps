@@ -16,4 +16,8 @@ class ReportController extends BaseController
     {
         $this->middleware('auth');
     }
+
+    public function index(){
+        return view('web.report.index');
+    }
 }

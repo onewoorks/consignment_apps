@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 
-class AgentController extends BaseController
+class ShopController extends BaseController
 {
 
     /**
@@ -15,5 +15,9 @@ class AgentController extends BaseController
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function index(){
+        return view('web.shop.index');
     }
 }

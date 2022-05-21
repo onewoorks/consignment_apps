@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8" />
-    <title> @yield('title') | Consignment Apps</title>
+    <title> @yield('title') | Consignment Apps - Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Consignment Apps" name="description" />
+    <meta content="Consignment Apps - Admin" name="description" />
     <meta content="Consignment Apps" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}">
-    @include('layouts.mob.head-css')
+    @include('layouts.web.head-css')
 </head>
 
 @section('body')
@@ -18,8 +18,8 @@
     @show
     <!-- Begin page -->
     <div id="layout-wrapper">
-        @include('layouts.mob.topbar')
-        {{-- @include('layouts.mob.sidebar') --}}
+        @include('layouts.web.topbar')
+        @include('layouts.web.sidebar')
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -31,7 +31,7 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
-            @include('layouts.mob.footer')
+            @include('layouts.web.footer')
         </div>
         <!-- end main content-->
     </div>
@@ -42,10 +42,7 @@
     <!-- /Right-bar -->
 
     <!-- JAVASCRIPT -->
-    @include('layouts.mob.vendor-scripts')
-    <script type="text/javascript">
-        $('#vertical-menu-btn').click();
-    </script>
+    @include('layouts.web.vendor-scripts')
 </body>
 
 </html>

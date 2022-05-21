@@ -3,8 +3,13 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ShopController;
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Sales\SalesController;
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +52,37 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'web'
+], function () {
+    Route::get('/index', [HomeController::class, 'home']);
+    Route::group([
+        'prefix' => 'inventory'
+    ], function () {
+        Route::get('/', [InventoryController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'shop'
+    ], function () {
+        Route::get('/', [ShopController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'branch'
+    ], function () {
+        Route::get('/', [BranchController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'report'
+    ], function () {
+        Route::get('/', [ReportController::class, 'index']);
+    });
+    Route::group([
+        'prefix' => 'user'
+    ], function () {
+        Route::get('/', [UserController::class, 'index']);
+    });
+});
+
+Route::group([
     'prefix' => 'lov'
 ], function () {
     Route::get('/', 'LovController@getLovs');
@@ -59,6 +95,6 @@ Route::group([
     Route::get('/category/default/', 'LovController@getDefaultLovByCodeCategory');
 });
 
-Route::prefix('/print-data')->group(function(){
-    Route::get('/sales/{no_resit}', [SalesController::class,'getSalesResit']);
+Route::prefix('/print-data')->group(function () {
+    Route::get('/sales/{no_resit}', [SalesController::class, 'getSalesResit']);
 });
