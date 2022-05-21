@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CustomerController;
 
+use App\Http\Controllers\Sales\SalesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,4 +57,8 @@ Route::group([
     Route::post('/delete', 'LovController@delete');
     Route::get('/category/list', 'LovController@getLovCategoryList');
     Route::get('/category/default/', 'LovController@getDefaultLovByCodeCategory');
+});
+
+Route::prefix('/print-data')->group(function(){
+    Route::get('/sales/{no_resit}', [SalesController::class,'getSalesResit']);
 });
