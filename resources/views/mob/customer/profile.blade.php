@@ -159,7 +159,7 @@
                     products: product_data
                 }),
                 success: function (data) {
-                    window.location.href = 'my.bluetoothprint.scheme://http://localhost:8000/print-data/sales/1'
+                    window.location.href = 'my.bluetoothprint.scheme://https://ncig.onewoorks-solutions.com/print-data/sales/1'
                 }
             })
             //do ajax call with payload yang dah dibind
