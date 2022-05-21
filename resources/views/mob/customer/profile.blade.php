@@ -144,13 +144,23 @@
             let product_data = []
             $('.list-product').each(function(){
                 var $this = $(this)
-                console.log()
                 product_data.push({
                     product_id: this.id,
                     total_consigned: parseInt($this.find('div.total-consigned').text()),
                     total_add: parseInt($this.find('div.action-add').data('add')),
                     total_sold: parseInt($this.find('div.action-remove').data('remove'))
                 })
+            })
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/sales/create',
+                data: JSON.stringify({
+                    products: product_data
+                }),
+                success: function (data) {
+                    console.log(data)
+                }
             })
             //do ajax call with payload yang dah dibind
             //suppose akan hantar ke printer bluetooth
