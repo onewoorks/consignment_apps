@@ -46,7 +46,10 @@ Route::group([
     ], function () {
         Route::get('/', [CustomerController::class, 'index']);
         Route::get('/index', [CustomerController::class, 'index']);
-        Route::get('/register', [CustomerController::class, 'register']);
+        Route::get('/register', [CustomerController::class, 'view']);
+        Route::post('/register', [CustomerController::class, 'register']);
+        Route::post('/upload', [CustomerController::class, 'upload']);
+        Route::post('/upload/delete', [CustomerController::class, 'delete_uploaded_img']);
         Route::get('/profile', [CustomerController::class, 'profile']);
     });
 });
