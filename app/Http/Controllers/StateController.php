@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branch;
+use App\Models\State;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 
-class BranchController extends BaseController
+class StateController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -21,22 +19,17 @@ class BranchController extends BaseController
 
     public function index()
     {
-        return view('web.branch.index', ['branches' => Branch::all()]);
-    }
-
-    public function show($id)
-    {
-        return Branch::findOrFail($id);
+        return view('web.state.index', ['states' => State::all()]);
     }
 
     public function create(Request $request)
     {
-        return Branch::create($request->all());
+        return State::create($request->all());
     }
 
     public function update(Request $request, $id)
     {
-        $branch = Branch::findOrFail($id);
+        $branch = State::findOrFail($id);
         $branch->update($request->all());
 
         return $branch;
@@ -44,7 +37,7 @@ class BranchController extends BaseController
 
     public function delete(Request $request, $id)
     {
-        $branch = Branch::findOrFail($id);
+        $branch = State::findOrFail($id);
         $branch->delete();
 
         return 204;

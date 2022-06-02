@@ -16,4 +16,6 @@ class TeamController extends BaseController
     {
         $this->middleware('auth');
     }
+
+
 }

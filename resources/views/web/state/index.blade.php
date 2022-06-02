@@ -6,7 +6,7 @@
 
 @component('components.breadcrumb')
 @slot('li_1') Dashboards @endslot
-@slot('title') Branch @endslot
+@slot('title') State @endslot
 @endcomponent
 
 <div class="row">
@@ -26,7 +26,7 @@
                         <div class="text-sm-end">
                             <button type="button"
                                 class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2"><i
-                                    class="mdi mdi-plus me-1"></i> Add New Branch</button>
+                                    class="mdi mdi-plus me-1"></i> Add New State</button>
                         </div>
                     </div><!-- end col-->
                 </div>
@@ -41,9 +41,8 @@
                                         <label class="form-check-label" for="checkAll"></label>
                                     </div>
                                 </th>
-                                <th class="align-middle">State</th>
-                                <th class="align-middle">Branch Code</th>
-                                <th class="align-middle">Branch Name</th>
+                                <th class="align-middle">State Code</th>
+                                <th class="align-middle">State Name</th>
                                 <th class="align-middle">Created Date</th>
                                 <th class="align-middle">Action</th>
                             </tr>
@@ -56,7 +55,6 @@
                                         <label class="form-check-label" for="orderidcheck01"></label>
                                     </div>
                                 </td>
-                                <td>Terengganu</td>
                                 <td><a href="javascript: void(0);" class="text-body fw-bold">01</a> </td>
                                 <td>Kuala Terengganu</td>
                                 <td>
@@ -79,7 +77,6 @@
                                         <label class="form-check-label" for="orderidcheck02"></label>
                                     </div>
                                 </td>
-                                <td>Terengganu</td>
                                 <td><a href="javascript: void(0);" class="text-body fw-bold">02</a> </td>
                                 <td>Dungun</td>
                                 <td>
@@ -102,7 +99,6 @@
                                         <label class="form-check-label" for="orderidcheck03"></label>
                                     </div>
                                 </td>
-                                <td>Terengganu</td>
                                 <td><a href="javascript: void(0);" class="text-body fw-bold">03</a> </td>
                                 <td>Kemaman</td>
                                 <td>

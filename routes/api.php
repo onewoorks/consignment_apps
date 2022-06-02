@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Team\ApiTeamController;
 use App\Http\Controllers\Sales\SalesController as Sales;
 
 /*
@@ -23,5 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('/v1')->group(function(){
     Route::prefix('/sales')->group(function () {
         Route::post('/create', [Sales::class, 'createSales']);
+    });
+
+    Route::prefix('/member')->group(function () {
+        Route::post('/list', [ApiTeamController::class, 'listByTeamId']);
     });
 });

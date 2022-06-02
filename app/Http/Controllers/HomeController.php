@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TeamMember;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -21,11 +22,13 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function ui_design(){
+    public function ui_design()
+    {
         return view('index');
     }
 
-    public function home(){
+    public function home()
+    {
         return redirect('/');
     }
 
@@ -38,7 +41,7 @@ class HomeController extends Controller
     {
         $redirectPath = $request->path();
         if (view()->exists($redirectPath)) {
-            if($redirectPath == 'index'){
+            if ($redirectPath == 'index') {
                 $user_role = Auth::user()->role;
                 if ($user_role == 'admin') {
                     $redirectPath = 'web.index';
@@ -54,13 +57,18 @@ class HomeController extends Controller
     public function root()
     {
         $user_role = Auth::user()->role;
+        $data = [];
         if ($user_role == 'admin') {
             $redirectPath = 'web.index';
         } else {
+            $m = TeamMember::where('user_id', Auth::user()->name)->first();
             $redirectPath = 'mob.index';
+            $data = ['team_role' => isset($m) ? $m->role : 'L'];
         }
 
-        return view($redirectPath);
+
+
+        return view($redirectPath, $data);
     }
 
     /*Language Translation*/

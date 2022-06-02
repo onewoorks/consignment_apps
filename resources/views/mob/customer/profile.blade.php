@@ -118,7 +118,8 @@
                     products: product_data
                 }),
                 success: function (data) {
-                    window.location.href = 'my.bluetoothprint.scheme://https://ncig.onewoorks-solutions.com/print-data/sales/1'
+                    console.log(data)
+                    // window.location.href = 'my.bluetoothprint.scheme://https://ncig.onewoorks-solutions.com/print-data/sales/1'
                 }
             })
             //do ajax call with payload yang dah dibind

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lov extends Model
+class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'kh_lovs';
+    protected $table = 'kh_products';
 
     /**
      * The attributes that are mass assignable.
@@ -18,13 +18,10 @@ class Lov extends Model
      */
     protected $fillable = [
         'id',
-        'lov_category',
-        'lov_code',
-        'lov_name',
+        'product_code',
+        'product_name',
         'description',
-        'is_default',
-        'created_by',
-        'updated_by',
+        'product_category'
     ];
 
     protected $primaryKey = 'id';

@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
 class CustomerController extends BaseController
@@ -57,6 +58,17 @@ class CustomerController extends BaseController
         return view('mob.customer.register', $data);
     }
 
+    public function getCustomersByUser(Request $request)
+    {
+        try {
+            $user = Auth::user()->name;
+
+            Customer::findByRegion();
+        } catch (Exception $e) {
+            Log::error($e);
+        }
+    }
+
     public function upload(Request $request)
     {
         try {
@@ -69,18 +81,19 @@ class CustomerController extends BaseController
         }
     }
 
-    public function delete_uploaded_img(Request $request){
+    public function delete_uploaded_img(Request $request)
+    {
         $filename =  $request->get('filename');
-        Customer::where('shop_image',$filename)->delete();
-        $path = public_path('uploads/').$filename;
+        Customer::where('shop_image', $filename)->delete();
+        $path = public_path('uploads/') . $filename;
         if (file_exists($path)) {
             unlink($path);
         }
-        return response()->json(['success'=>$filename]);
+        return response()->json(['success' => $filename]);
     }
 
-    public function profile()
+    public function profile($id)
     {
-        return view('mob.customer.profile');
+        return view('mob.customer.profile', ['customer' => Customer::findOrFail($id)]);
     }
 }

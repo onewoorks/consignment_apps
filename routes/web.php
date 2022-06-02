@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LovController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
-
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
@@ -48,9 +50,30 @@ Route::group([
         Route::get('/index', [CustomerController::class, 'index']);
         Route::get('/register', [CustomerController::class, 'view']);
         Route::post('/register', [CustomerController::class, 'register']);
-        Route::post('/upload', [CustomerController::class, 'upload']);
-        Route::post('/upload/delete', [CustomerController::class, 'delete_uploaded_img']);
-        Route::get('/profile', [CustomerController::class, 'profile']);
+        Route::group(['prefix' => 'upload'], function () {
+            Route::post('/', [CustomerController::class, 'upload']);
+            Route::post('/delete', [CustomerController::class, 'delete_uploaded_img']);
+        });
+        Route::get('/profile/{id}', [CustomerController::class, 'profile']);
+    });
+    Route::group([
+        'prefix' => 'inventory'
+    ], function () {
+        Route::post('/store', [InventoryController::class, 'store']);
+    });
+    Route::group([
+        'prefix' => 'task'
+    ], function () {
+        Route::get('/', [TaskController::class, 'index']);
+        Route::post('/create', [TaskController::class, 'create']);
+        Route::get('/list/{user}', [TaskController::class, 'list']);
+        Route::get('/details/{id}', [TaskController::class, 'details']);
+        Route::group([
+            'prefix' => 'route'
+        ], function () {
+            Route::get('/index', [HomeController::class, 'home']);
+            Route::post('/add', [TaskController::class, 'addRoute']);
+        });
     });
 });
 
@@ -88,14 +111,32 @@ Route::group([
 Route::group([
     'prefix' => 'lov'
 ], function () {
-    Route::get('/', 'LovController@getLovs');
-    Route::post('/', 'LovController@getLovs');
-    Route::get('/get/{id}', 'LovController@getLovById');
-    Route::post('/create', 'LovController@create');
-    Route::post('/update', 'LovController@update');
-    Route::post('/delete', 'LovController@delete');
-    Route::get('/category/list', 'LovController@getLovCategoryList');
-    Route::get('/category/default/', 'LovController@getDefaultLovByCodeCategory');
+    Route::get('/', [LovController::class, 'getLovs']);
+    Route::get('/get/{id}', [LovController::class, 'getLovById']);
+    Route::post('/create', [LovController::class, 'create']);
+    Route::post('/update', [LovController::class, 'update']);
+    Route::post('/delete', [LovController::class, 'delete']);
+    Route::get('/category/list', [LovController::class, 'getLovCategoryList']);
+    Route::get('/category/default/', [LovController::class, 'getDefaultLovByCodeCategory']);
+});
+
+Route::group([
+    'prefix' => 'branch'
+], function () {
+    Route::get('/', [BranchController::class, 'index']);
+    Route::get('/get/{id}', [BranchController::class, 'show']);
+    Route::post('/create', [BranchController::class, 'create']);
+    Route::put('/update/{id}', [BranchController::class, 'update']);
+    Route::delete('/delete/{id}', [BranchController::class, 'delete']);
+});
+
+Route::group([
+    'prefix' => 'state'
+], function () {
+    Route::get('/', [StateController::class, 'index']);
+    Route::post('/create', [StateController::class, 'create']);
+    Route::put('/update/{id}', [StateController::class, 'update']);
+    Route::delete('/delete/{id}', [StateController::class, 'delete']);
 });
 
 Route::prefix('/print-data')->group(function () {
