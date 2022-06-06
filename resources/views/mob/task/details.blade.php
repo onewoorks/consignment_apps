@@ -40,14 +40,20 @@
                                                     <div class="avatar-md">
                                                         <span
                                                             class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                                            <img src="assets/images/companies/img-1.png" alt="" height="30">
+                                                            @if (isset($route->customer))
+                                                                <img src="{{ asset($route->customer->shop_image) }}"
+                                                                    alt="" height="30">
+                                                            @else
+                                                                {{ $route->sequence }}
+                                                            @endif
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h5 class="text-truncate font-size-15"><a href="javascript: void(0);"
-                                                            class="text-dark">New admin Design</a></h5>
-                                                    <p class="text-muted mb-4">It will be as simple as Occidental</p>
+                                                            class="text-dark">{{ $route->customer->shop_name }}</a>
+                                                    </h5>
+                                                    <p class="text-muted mb-4">Owner: {{ $route->customer->owner }}</p>
                                                     <div class="avatar-group">
                                                         @if (isset($task->users))
                                                             @foreach ($task->users as $user)

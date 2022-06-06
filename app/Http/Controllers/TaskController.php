@@ -66,7 +66,7 @@ class TaskController extends Controller
         $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
         $routes = TaskAssignment::where('task_id', $task->id)->get();
 
-        if ($routes != null && count($routes) > 1) {
+        if ($routes != null && count($routes) > 0) {
             foreach ($routes as $route) {
                 $route->customer = Customer::findOrFail($route->shop_id);
             }
@@ -97,13 +97,11 @@ class TaskController extends Controller
             $routes = TaskAssignment::where('task_id', $id)->get();
 
             $task->users = $users;
-
-            if ($routes != null && count($routes) > 1) {
+            if ($routes != null && count($routes) > 0) {
                 foreach ($routes as $route) {
                     $route->customer = Customer::findOrFail($route->shop_id);
                 }
             }
-
             $task->routes = $routes;
         }
         return view('mob.task.details', ['task' => $task]);

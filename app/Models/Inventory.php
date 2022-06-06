@@ -18,12 +18,15 @@ class Inventory extends Model
      */
     protected $fillable = [
         'id',
+        'product_code',
         'product_name',
         'shop_id',
         'qty_stock_in',
         'qty_stock_out',
         'price_per_unit',
         'total_price',
+        'created_by',
+        'updated_by'
     ];
 
     protected $primaryKey = 'id';

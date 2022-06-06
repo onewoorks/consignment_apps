@@ -19,8 +19,11 @@ class Catalog extends Model
     protected $fillable = [
         'id',
         'product_code',
-        'branch_code',
-        'price_per_unit'
+        'shop_id',
+        'price_per_unit',
+        'available_stock',
+        'created_by',
+        'updated_by'
     ];
 
     protected $primaryKey = 'id';
