@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Catalog;
+use App\Models\Product;
 use App\Models\Customer;
+use App\Traits\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +14,8 @@ use Illuminate\Routing\Controller as BaseController;
 
 class CustomerController extends BaseController
 {
+
+    use ProductService;
 
     /**
      * Create a new controller instance.
@@ -94,6 +99,20 @@ class CustomerController extends BaseController
 
     public function profile($id)
     {
-        return view('mob.customer.profile', ['customer' => Customer::findOrFail($id)]);
+        $customer = Customer::findOrFail($id);
+        $catalogs = Catalog::where('shop_id', $customer->id)->get();
+
+        if (isset($catalogs) && count($catalogs) > 0) {
+            foreach ($catalogs as $catalog) {
+                $product = Product::where('product_code', $catalog->product_code)->first();
+                $catalog->product = $product;
+            }
+
+            $customer->catalogs = $catalogs;
+        }
+
+        $products = $this->getProductNotYetAvailableInCustomerShop($customer->id);
+
+        return view('mob.customer.wizard', ['customer' => $customer, 'products' => $products]);
     }
 }

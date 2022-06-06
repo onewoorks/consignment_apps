@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Sales\SalesController;
@@ -74,6 +75,11 @@ Route::group([
             Route::get('/index', [HomeController::class, 'home']);
             Route::post('/add', [TaskController::class, 'addRoute']);
         });
+    });
+    Route::group([
+        'prefix' => 'catalog'
+    ], function () {
+        Route::post('/add', [CatalogController::class, 'add']);
     });
 });
 

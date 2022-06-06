@@ -17,9 +17,11 @@ class CreateCatalogsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('product_code');
-            $table->string('branch_code');
-            $table->integer('in_stock');
+            $table->integer('shop_id');
+            $table->integer('available_stock');
             $table->string('price_per_unit');
+            $table->string('created_by');
+            $table->string('updated_by');
         });
     }
 
