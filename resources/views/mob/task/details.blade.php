@@ -25,24 +25,23 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Task Routes by Task Sequence</h4>
-                    <p class="card-title-desc">Task #ID {{ $task->id }} Task Name: {{ $task->task_name }}</p>
+                    <h4 class="card-title">Customer Routes</h4>
 
                     @if (isset($task->routes))
                         @foreach ($task->routes as $route)
                             <div class="col-xl-4 col-sm-6">
                                 <div class="card">
                                     <a href="{{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }}"
-                                        class="text-decoration-underline text-reset">
+                                        class="text-reset">
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-4">
                                                     <div class="avatar-md">
                                                         <span
-                                                            class="avatar-title rounded-circle bg-light text-danger font-size-16">
+                                                            class="avatar-title rounded-circle bg-light text-danger">
                                                             @if (isset($route->customer))
                                                                 <img src="{{ asset($route->customer->shop_image) }}"
-                                                                    alt="" height="30">
+                                                                    alt="{{ $route->customer->shop_name }}" height="55">
                                                             @else
                                                                 {{ $route->sequence }}
                                                             @endif
@@ -50,22 +49,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
-                                                    <h5 class="text-truncate font-size-15"><a href="javascript: void(0);"
-                                                            class="text-dark">{{ $route->customer->shop_name }}</a>
+                                                    <h5 class="text-truncate font-size-15"><span
+                                                            class="text-dark">{{ $route->customer->shop_name }}</span>
                                                     </h5>
                                                     <p class="text-muted mb-4">Owner: {{ $route->customer->owner }}</p>
                                                     <div class="avatar-group">
                                                         @if (isset($task->users))
-                                                            @foreach ($task->users as $user)
-                                                                <div class="avatar-group-item">
-                                                                    <a href="javascript: void(0);"
-                                                                        title="{{ $user->user_id }}"
-                                                                        class="d-inline-block">
-                                                                        <img src="assets/images/users/avatar-4.jpg" alt=""
-                                                                            class="rounded-circle avatar-xs">
-                                                                    </a>
-                                                                </div>
-                                                            @endforeach
+                                                            Assignee:<ul>
+                                                                @foreach ($task->users as $user)
+                                                                    <div class="avatar-group-item">
+                                                                        <li>{{ $user->user_id }}</li>
+                                                                    </div>
+                                                                @endforeach
+                                                            </ul>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -75,13 +71,13 @@
                                     <div class="px-4 py-3 border-top">
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item me-3">
-                                                <span class="badge bg-success">Completed</span>
+                                                <span class="badge bg-success">{{ $route->status }}</span>
                                             </li>
                                             <li class="list-inline-item me-3">
-                                                <i class="bx bx-calendar me-1"></i> 15 Oct, 19
+                                                <i class="bx bx-calendar me-1"></i>{{ $route->updated_at }}
                                             </li>
                                             <li class="list-inline-item me-3">
-                                                <i class="bx bx-comment-dots me-1"></i> 214
+                                                <i class="bx bx-info-circle me-1"></i> {{ $route->shop_status }}
                                             </li>
                                         </ul>
                                     </div>

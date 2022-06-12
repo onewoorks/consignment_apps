@@ -16,7 +16,7 @@
         <!-- TITLE -->
         <div class="col-lg-4 offset-lg-1 mx-0 px-0">
             <div id="title-container">
-                <img class="covid-image" src="{{ asset($customer->shop_image) }}">
+                <img class="shop-image rounded-circle" src="{{ asset($customer->shop_image) }}">
                 <h2>{{ $customer->shop_name }}</h2>
                 <h3>Region: {{ $customer->region }}</h3>
                 <h3>{{ $customer->owner }} - {{ $customer->phone_number }}</h3>
@@ -103,19 +103,39 @@
                         <hr />
                         @if (isset($customer->catalogs))
                             @foreach ($customer->catalogs as $catalog)
-                                <div id="product-{{ $catalog->id }}" class="row list-product">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <form>
-                                                        <div>{{ $catalog->product_code }} -
-                                                            {{ $catalog->product->product_name }}</div>
-                                                        <div class='total-consigned'>Quantity:
-                                                            {{ $catalog->available_stock }} Price Per Unit (RM):
-                                                            {{ $catalog->price_per_unit }}
+                                <div class="card mini-stats-wid" class="row">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="avatar-sm mx-auto mb-3 mt-1">
+                                                            <span
+                                                                class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                                {{ $catalog->product_code }}
+                                                            </span>
                                                         </div>
-                                                    </form>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="text-center mx-auto mb-3 mt-3">
+                                                            <h5>
+                                                                {{ $catalog->product->product_name }}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    <p class="text-muted mb-2 text-truncate">Total Consigned</p>
+                                                    <h5>{{ $catalog->available_stock }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    <p class="text-muted mb-2 text-truncate">Price Per Unit (RM)
+                                                    </p>
+                                                    <h5>{{ $catalog->price_per_unit }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,20 +148,36 @@
                         <h4>Stock Out:</h4>
                         @if (isset($customer->catalogs))
                             @foreach ($customer->catalogs as $catalog)
-                                <div id="product-{{ $catalog->id }}" class="row list-product">
+                                <div class="row">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <div>{{ $catalog->product_code }} -
-                                                        {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>Quantity:
-                                                        {{ $catalog->available_stock }}</div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="avatar-sm mx-auto mb-3 mt-1">
+                                                                <span
+                                                                    class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                                    {{ $catalog->product_code }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="text-center mx-auto mb-3 mt-3">
+                                                                <h5>
+                                                                    {{ $catalog->product->product_name }}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <input id="qty_stock_out" name="qty_stock_out[]"
-                                                        data-catalog="{{ $catalog }}" data-toggle="touchspin" data-region="{{ $customer->region }}"
-                                                        type="text" value="0" class="form-control consignment-tspin">
+                                                    <div class="text-center mx-auto mb-3 mt-3">
+                                                        <input id="qty_stock_out" name="qty_stock_out[]"
+                                                            data-catalog="{{ $catalog }}" data-toggle="touchspin"
+                                                            data-region="{{ $customer->region }}" type="text" value="0"
+                                                            class="form-control consignment-tspin">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,20 +190,36 @@
                         <h4>Stock In:</h4>
                         @if (isset($customer->catalogs))
                             @foreach ($customer->catalogs as $catalog)
-                                <div id="product-{{ $catalog->id }}" class="row list-product">
+                                <div class="row">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <div>{{ $catalog->product_code }} -
-                                                        {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>Quantity:
-                                                        {{ $catalog->available_stock }}</div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="avatar-sm mx-auto mb-3 mt-1">
+                                                                <span
+                                                                    class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                                    {{ $catalog->product_code }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="text-center mx-auto mb-3 mt-3">
+                                                                <h5>
+                                                                    {{ $catalog->product->product_name }}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <input id="qty_stock_in" name="qty_stock_in[]"
-                                                        data-catalog="{{ $catalog }}" data-toggle="touchspin" data-region="{{ $customer->region }}"
-                                                        type="text" value="0" class="form-control consignment-tspin">
+                                                    <div class="text-center mx-auto mb-3 mt-3">
+                                                        <input id="qty_stock_in" name="qty_stock_in[]"
+                                                            data-catalog="{{ $catalog }}" data-toggle="touchspin"
+                                                            data-region="{{ $customer->region }}" type="text" value="0"
+                                                            class="form-control consignment-tspin">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,45 +231,64 @@
                     <div class="step">
                         <h4>Verify Stock In/Out:</h4>
                         @if (isset($customer->catalogs))
-                            <div id="product-{{ $catalog->id }}" class="row list-product">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-6">
-                                            </div>
-                                            <div class="col-3 text-center">
-                                                <span>Stock In</span>
-                                            </div>
-                                            <div class="col-3 text-center">
-                                                <span>Stock Out</span>
+                            <hr />
+                            @foreach ($customer->catalogs as $catalog)
+                                <div id="{{ $catalog->id }}" data-catalog={{ $catalog }} class="row list-product">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3 text-center p-1">
+                                                            <div class="avatar-sm mx-auto mb-3 mt-1">
+                                                                <span
+                                                                    class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                                    {{ $catalog->product_code }}
+                                                                </span>
+                                                            </div>
+                                                            <h5 class="text-truncate pb-1">
+                                                                {{ $catalog->product->product_name }}</h5>
+                                                        </div>
+                                                        <div class="col-sm-6 text-center mx-auto mb-3 mt-3">
+                                                            <p class="text-muted mb-2 text-truncate">Total New Consigned
+                                                            </p>
+                                                            <h5>
+                                                                <div data-initialstock="{{ $catalog->available_stock }}"
+                                                                    id="total_consigned_{{ $loop->index }}"
+                                                                    class='total-consigned'>
+                                                                    {{ $catalog->available_stock }}</div>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row text-center">
+                                                        <div class="col-3"></div>
+                                                        <div class="col-3 text-center">
+                                                            <div class="mx-auto mb-3 mt-3">
+                                                                <div id="new_stock_in_{{ $loop->index }}"
+                                                                    class="btn btn-success btn-lg action-add"
+                                                                    name="new_stock_in[]">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3 text-center">
+                                                            <div class="mx-auto mb-3 mt-3">
+                                                                <div id="new_stock_out_{{ $loop->index }}"
+                                                                    class="btn btn-danger btn-lg action-remove"
+                                                                    name="new_stock_out[]">0
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                @foreach ($customer->catalogs as $catalog)
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div>{{ $catalog->product_code }} -
-                                                        {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>{{ $catalog->available_stock }}</div>
-                                                </div>
-                                                <div class="col-3 text-center">
-                                                    <div id="new_stock_in_{{ $loop->index }}"
-                                                        class="btn btn-success btn-lg action-add" name="new_stock_in[]">0
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 text-center">
-                                                    <div id="new_stock_out_{{ $loop->index }}"
-                                                        class="btn btn-danger btn-lg action-remove" name="new_stock_out[]">0
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                            @endforeach
                         @endif
                     </div>
                     <div class="step">
@@ -233,7 +304,18 @@
                         <div class="mt-5">
                             <h4>Success! Your stock successfully submitted!</h4>
                             <p>Thank you!</p>
-                            <a class="back-link" href="{{ url('/mob/task/details/') }}/{{ $task->id }}">Go back from the beginning ➜</a>
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-grid mt-2">
+                                        <div class="btn btn-primary btn-block" id='print_consignment'>Print Consigment Note
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <a class="back-link" href="{{ url('/mob/task/details/') }}/{{ $task->id }}">Go
+                                back
+                                from the beginning ➜</a>
                         </div>
                     </div>
                 </div>
@@ -245,6 +327,8 @@
                 {{-- </form> --}}
             </div>
         </div>
+        <input type="hidden" name="taskid" id="taskid" value="{{ $task->id }}" />
+        <input type="hidden" name="custid" id="custid" value="{{ $customer->id }}" />
     </div>
     {{-- </div> --}}
     <div id="preloader-wrapper">
@@ -265,7 +349,7 @@
         $("input[name='price_per_unit']").TouchSpin({
             verticalbuttons: 0,
             decimals: 2,
-            step: 0.1
+            step: 0.01
         });
         $("input[name='qty_stock_in[]']").TouchSpin({
             verticalbuttons: 0,

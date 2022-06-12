@@ -92,6 +92,8 @@ submitBtn.addEventListener('click', () => {
             o_catalog['qty_stock_out'] = qty_stock_out;
             o_catalog['region'] = region;
 
+            localStorage.removeItem(`prev_stock_out_${idx}`);
+
             stock_outs.push(o_catalog);
         });
 
@@ -102,6 +104,8 @@ submitBtn.addEventListener('click', () => {
             var qty_stock_in = $(elem).val()
             o_catalog['qty_stock_in'] = qty_stock_in;
             o_catalog['region'] = region;
+
+            localStorage.removeItem(`prev_stock_in_${idx}`);
 
             stock_ins.push(o_catalog);
         });
@@ -142,9 +146,35 @@ submitBtn.addEventListener('click', () => {
 
 var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
     $(elem).on('change', () => {
+        let stock_dec = $(elem).val();
         $('div[name^=new_stock_out]').map(function (idx2, elem2) {
             if (idx === idx2) {
-                document.getElementById(`new_stock_out_${idx2}`).innerHTML = $(elem).val();
+                let previous_stockOut = localStorage.getItem(`prev_stock_out_${idx2}`);
+                if(previous_stockOut == null){
+                    localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec);
+                    previous_stockOut = 0;
+                }
+
+                let tot_stock_ele = document.getElementById(`total_consigned_${idx2}`);
+                let initial_stock = tot_stock_ele.getAttribute('data-initialstock');
+                let current_stock = tot_stock_ele.innerHTML;
+
+                if(stock_dec > initial_stock){
+                    alert(`Maximum allowable Stock Out is ${initial_stock}`);
+                    $(elem).val(stock_dec - 1);
+                    localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec - 1);
+                    document.getElementById(`new_stock_out_${idx2}`).innerHTML = stock_dec - 1;
+                } else {
+                    document.getElementById(`new_stock_out_${idx2}`).innerHTML = stock_dec;
+
+                    if(parseInt(stock_dec) > parseInt(previous_stockOut)){
+                        tot_stock_ele.innerHTML = parseInt(current_stock) - 1;
+                    } else {
+                        tot_stock_ele.innerHTML = parseInt(current_stock) + 1;
+                    }
+
+                    localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec);
+                }
             }
         });
     });
@@ -152,10 +182,57 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
 
 var qty_stock_ins = $('input[name^=qty_stock_in]').map(function (idx, elem) {
     $(elem).on('change', () => {
+        let stock_inc = $(elem).val();
         $('div[name^=new_stock_in]').map(function (idx2, elem2) {
             if (idx === idx2) {
-                document.getElementById(`new_stock_in_${idx2}`).innerHTML = $(elem).val();
+                let previous_stockIn = localStorage.getItem(`prev_stock_in_${idx2}`);
+                if(previous_stockIn == null){
+                    localStorage.setItem(`prev_stock_in_${idx2}`, stock_inc);
+                    previous_stockIn = 0;
+                }
+
+                document.getElementById(`new_stock_in_${idx2}`).innerHTML = stock_inc;
+
+                let tot_stock_ele = document.getElementById(`total_consigned_${idx2}`);
+                let current_stock = tot_stock_ele.innerHTML;
+                if(parseInt(stock_inc) > parseInt(previous_stockIn)){
+                    tot_stock_ele.innerHTML = parseInt(current_stock) + 1;
+                } else {
+                    tot_stock_ele.innerHTML = parseInt(current_stock) - 1;
+                }
+
+                localStorage.setItem(`prev_stock_in_${idx2}`, stock_inc);
             }
         });
     });
 }).get();
+
+$('#print_consignment').on('click', function(){
+    let product_data = []
+    $('.list-product').each(function(){
+        var $this = $(this)
+        product_data.push({
+            catalog_id: this.id,
+            total_consigned: parseInt($this.find('div.total-consigned').text()),
+            total_add: parseInt($this.find('div.action-add').text()),
+            total_sold: parseInt($this.find('div.action-remove').text())
+        })
+    })
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/v1/sales/create',
+        data: JSON.stringify({
+            products: product_data,
+            'task_id': $('#taskid').val(),
+            'customer_id': $('#custid').val(),
+        }),
+        success: function (data) {
+            console.log(data)
+            // window.location.href = 'my.bluetoothprint.scheme://https://ncig.onewoorks-solutions.com/print-data/sales/1'
+        }
+    })
+    //do ajax call with payload yang dah dibind
+    //suppose akan hantar ke printer bluetooth
+
+})
