@@ -18,6 +18,7 @@
             <div id="title-container">
                 <img class="covid-image" src="{{ asset($customer->shop_image) }}">
                 <h2>{{ $customer->shop_name }}</h2>
+                <h3>Region: {{ $customer->region }}</h3>
                 <h3>{{ $customer->owner }} - {{ $customer->phone_number }}</h3>
                 <p>{{ $customer->address }}</p>
             </div>
@@ -74,8 +75,8 @@
                                                     <div class="mb-3">
                                                         <label for="price_per_unit">Price Per Unit:</label>
                                                         <input data-toggle="touchspin" id="price_per_unit"
-                                                            name="price_per_unit" type="text" value="0.00" class="form-control consignment-tspin"
-                                                            data-bts-prefix="RM">
+                                                            name="price_per_unit" type="text" value="0.00"
+                                                            class="form-control consignment-tspin" data-bts-prefix="RM">
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,12 +109,12 @@
                                             <div class="row">
                                                 <div class="col-8">
                                                     <form>
-                                                    <div>{{ $catalog->product_code }} -
-                                                        {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>Quantity:
-                                                        {{ $catalog->available_stock }} Price Per Unit (RM):
-                                                        {{ $catalog->price_per_unit }}
-                                                    </div>
+                                                        <div>{{ $catalog->product_code }} -
+                                                            {{ $catalog->product->product_name }}</div>
+                                                        <div class='total-consigned'>Quantity:
+                                                            {{ $catalog->available_stock }} Price Per Unit (RM):
+                                                            {{ $catalog->price_per_unit }}
+                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
@@ -134,11 +135,12 @@
                                                 <div class="col-sm-6">
                                                     <div>{{ $catalog->product_code }} -
                                                         {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>{{ $catalog->available_stock }}</div>
-
+                                                    <div class='total-consigned'>Quantity:
+                                                        {{ $catalog->available_stock }}</div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <input id="qty_stock_out" name="qty_stock_out" data-toggle="touchspin"
+                                                    <input id="qty_stock_out" name="qty_stock_out[]"
+                                                        data-catalog="{{ $catalog }}" data-toggle="touchspin" data-region="{{ $customer->region }}"
                                                         type="text" value="0" class="form-control consignment-tspin">
                                                 </div>
                                             </div>
@@ -159,10 +161,12 @@
                                                 <div class="col-sm-6">
                                                     <div>{{ $catalog->product_code }} -
                                                         {{ $catalog->product->product_name }}</div>
-                                                    <div class='total-consigned'>{{ $catalog->available_stock }}</div>
+                                                    <div class='total-consigned'>Quantity:
+                                                        {{ $catalog->available_stock }}</div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <input id="qty_stock_in" name="qty_stock_in" data-toggle="touchspin"
+                                                    <input id="qty_stock_in" name="qty_stock_in[]"
+                                                        data-catalog="{{ $catalog }}" data-toggle="touchspin" data-region="{{ $customer->region }}"
                                                         type="text" value="0" class="form-control consignment-tspin">
                                                 </div>
                                             </div>
@@ -173,47 +177,63 @@
                         @endif
                     </div>
                     <div class="step">
-                        <h4>Review Stock In/Out:</h4>
+                        <h4>Verify Stock In/Out:</h4>
                         @if (isset($customer->catalogs))
-                            @foreach ($customer->catalogs as $catalog)
-                                <div id="product-{{ $catalog->id }}" class="row list-product">
+                            <div id="product-{{ $catalog->id }}" class="row list-product">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <span>Stock In</span>
+                                            </div>
+                                            <div class="col-3 text-center">
+                                                <span>Stock Out</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @foreach ($customer->catalogs as $catalog)
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-8">
+                                                <div class="col-6">
                                                     <div>{{ $catalog->product_code }} -
                                                         {{ $catalog->product->product_name }}</div>
                                                     <div class='total-consigned'>{{ $catalog->available_stock }}</div>
-
                                                 </div>
-                                                <div class="col-2 text-center">
-                                                    <div class="btn btn-success btn-lg action-add" data-add="0">0</div>
+                                                <div class="col-3 text-center">
+                                                    <div id="new_stock_in_{{ $loop->index }}"
+                                                        class="btn btn-success btn-lg action-add" name="new_stock_in[]">0
+                                                    </div>
                                                 </div>
-                                                <div class="col-2 text-center">
-                                                    <div class="btn btn-danger btn-lg action-remove" data-remove="0">0
+                                                <div class="col-3 text-center">
+                                                    <div id="new_stock_out_{{ $loop->index }}"
+                                                        class="btn btn-danger btn-lg action-remove" name="new_stock_out[]">0
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         @endif
                     </div>
                     <div class="step">
                         <div class="mt-1">
                             <div class="closing-text">
                                 <h4>Confirmation!</h4>
-                                <p>If the stock already done maintained.</p>
+                                <p>If you have done maintained the stock.</p>
                                 <p>Click on the submit button to continue.</p>
                             </div>
                         </div>
                     </div>
                     <div id="success">
                         <div class="mt-5">
-                            <h4>Success! We'll get back to you ASAP!</h4>
+                            <h4>Success! Your stock successfully submitted!</h4>
                             <p>Thank you!</p>
-                            <a class="back-link" href="">Go back from the beginning ➜</a>
+                            <a class="back-link" href="{{ url('/mob/task/details/') }}/{{ $task->id }}">Go back from the beginning ➜</a>
                         </div>
                     </div>
                 </div>
@@ -247,12 +267,12 @@
             decimals: 2,
             step: 0.1
         });
-        $("input[name='qty_stock_in']").TouchSpin({
+        $("input[name='qty_stock_in[]']").TouchSpin({
             verticalbuttons: 0,
             buttondown_class: "btn btn-success",
             buttonup_class: "btn btn-success"
         });
-        $("input[name='qty_stock_out']").TouchSpin({
+        $("input[name='qty_stock_out[]']").TouchSpin({
             verticalbuttons: 0,
             buttondown_class: "btn btn-danger",
             buttonup_class: "btn btn-danger"

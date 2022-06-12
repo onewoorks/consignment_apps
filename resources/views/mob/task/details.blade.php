@@ -32,7 +32,7 @@
                         @foreach ($task->routes as $route)
                             <div class="col-xl-4 col-sm-6">
                                 <div class="card">
-                                    <a href="{{ url('mob/customer/profile') }}/{{ $route->shop_id }}"
+                                    <a href="{{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }}"
                                         class="text-decoration-underline text-reset">
                                         <div class="card-body">
                                             <div class="d-flex">

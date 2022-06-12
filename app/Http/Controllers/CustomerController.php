@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Task;
 use App\Models\Catalog;
 use App\Models\Product;
 use App\Models\Customer;
-use App\Traits\ProductService;
 use Illuminate\Http\Request;
+use App\Traits\ProductService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
@@ -97,7 +98,7 @@ class CustomerController extends BaseController
         return response()->json(['success' => $filename]);
     }
 
-    public function profile($id)
+    public function profile($task_id, $id)
     {
         $customer = Customer::findOrFail($id);
         $catalogs = Catalog::where('shop_id', $customer->id)->get();
@@ -113,6 +114,6 @@ class CustomerController extends BaseController
 
         $products = $this->getProductNotYetAvailableInCustomerShop($customer->id);
 
-        return view('mob.customer.wizard', ['customer' => $customer, 'products' => $products]);
+        return view('mob.customer.wizard', ['customer' => $customer, 'products' => $products, 'task' => Task::findOrFail($task_id)]);
     }
 }

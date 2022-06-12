@@ -55,7 +55,7 @@ Route::group([
             Route::post('/', [CustomerController::class, 'upload']);
             Route::post('/delete', [CustomerController::class, 'delete_uploaded_img']);
         });
-        Route::get('/profile/{id}', [CustomerController::class, 'profile']);
+        Route::get('/profile/{task_id}/{id}', [CustomerController::class, 'profile']);
     });
     Route::group([
         'prefix' => 'inventory'

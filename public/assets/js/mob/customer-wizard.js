@@ -81,7 +81,47 @@ prevBtn.addEventListener('click', () => {
 submitBtn.addEventListener('click', () => {
     preloader.classList.add('d-block');
 
-    const timer = ms => new Promise(res => setTimeout(res, ms));
+    const timer = ms => new Promise((resolve, reject) => {
+        let stock_outs = [];
+        let stock_ins = [];
+        $('input[name^=qty_stock_out]').map(function (idx, elem) {
+            let catalog = elem.getAttribute('data-catalog');
+            let region = elem.getAttribute('data-region');
+            let o_catalog = JSON.parse(catalog)
+            let qty_stock_out = $(elem).val()
+            o_catalog['qty_stock_out'] = qty_stock_out;
+            o_catalog['region'] = region;
+
+            stock_outs.push(o_catalog);
+        });
+
+        $('input[name^=qty_stock_in]').map(function (idx, elem) {
+            var catalog = elem.getAttribute('data-catalog');
+            let region = elem.getAttribute('data-region');
+            let o_catalog = JSON.parse(catalog)
+            var qty_stock_in = $(elem).val()
+            o_catalog['qty_stock_in'] = qty_stock_in;
+            o_catalog['region'] = region;
+
+            stock_ins.push(o_catalog);
+        });
+
+        $.ajax({
+            url: '/mob/inventory/store',
+            type: "POST",
+            data: {
+                "_token": $('meta[name="csrf-token"]').attr('content'),
+                stock_outs, stock_ins
+            },
+            success: function (data) {
+                setTimeout(resolve(data), ms)
+            },
+            error: function (error) {
+                console.log(error);
+                setTimeout(reject(error), ms)
+            }
+        });
+    });
 
     timer(3000)
         .then(() => {
@@ -98,3 +138,24 @@ submitBtn.addEventListener('click', () => {
         })
 
 });
+
+
+var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
+    $(elem).on('change', () => {
+        $('div[name^=new_stock_out]').map(function (idx2, elem2) {
+            if (idx === idx2) {
+                document.getElementById(`new_stock_out_${idx2}`).innerHTML = $(elem).val();
+            }
+        });
+    });
+}).get();
+
+var qty_stock_ins = $('input[name^=qty_stock_in]').map(function (idx, elem) {
+    $(elem).on('change', () => {
+        $('div[name^=new_stock_in]').map(function (idx2, elem2) {
+            if (idx === idx2) {
+                document.getElementById(`new_stock_in_${idx2}`).innerHTML = $(elem).val();
+            }
+        });
+    });
+}).get();

@@ -283,7 +283,7 @@ input[type="radio"]:hover {
 }
 
 #preloader {
-    background-image: url("../img/preloader.png");
+    background-image: url('../../../images/preloader.gif');
     width: 120px;
     height: 119px;
     border-top-color: #fff;
