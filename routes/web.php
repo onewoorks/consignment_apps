@@ -60,6 +60,8 @@ Route::group([
     Route::group([
         'prefix' => 'inventory'
     ], function () {
+        Route::get('/{user}', [InventoryController::class, 'index']);
+        Route::post('/', [InventoryController::class, 'filter']);
         Route::post('/store', [InventoryController::class, 'store']);
     });
     Route::group([

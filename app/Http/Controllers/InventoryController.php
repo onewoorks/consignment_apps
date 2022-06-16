@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Catalog;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
@@ -20,6 +21,37 @@ class InventoryController extends BaseController
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function index($user)
+    {
+        $inventories = Inventory::select('kh_inventories.*', 'kh_customers.shop_name')
+            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
+            ->where('kh_inventories.created_by', $user)
+            ->whereDate('kh_inventories.created_at', '=', Carbon::now())
+            ->get();
+
+        return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+    }
+
+    private function distinctShopByUser()
+    {
+        return Inventory::select('kh_customers.id', 'kh_customers.shop_name')
+            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
+            ->where('kh_inventories.created_by', Auth::user()->name)->distinct()
+            ->get();
+    }
+
+    public function filter(Request $request)
+    {
+        $inventories = Inventory::select('kh_inventories.*', 'kh_customers.shop_name')
+            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
+            ->where('kh_inventories.created_by', Auth::user()->name)
+            ->where('kh_inventories.shop_id', $request->shop_id)
+            ->whereDate('kh_inventories.created_at', '=', $request->inventorydt)
+            ->get();
+
+        return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
     }
 
     public function store(Request $request)
