@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Traits\ProductService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
@@ -64,15 +65,38 @@ class CustomerController extends BaseController
         return view('mob.customer.register', $data);
     }
 
-    public function getCustomersByUser(Request $request)
+    public function list($user)
     {
         try {
-            $user = Auth::user()->name;
+            $customers = Customer::join('kh_task_assignments', 'kh_task_assignments.shop_id', '=', 'kh_customers.id')
+                ->join('kh_tasks', 'kh_tasks.id', '=', 'kh_task_assignments.task_id')
+                ->join('kh_task_users', 'kh_task_users.task_id', '=', 'kh_tasks.id')
+                ->where('kh_task_users.user_id', $user)
+                ->select('kh_customers.*', 'kh_tasks.id as task_id', 'kh_tasks.task_name')
+                ->get();
 
-            Customer::findByRegion();
+            if (count($customers) > 0) {
+                foreach ($customers as $customer) {
+                    $products = Catalog::where('shop_id', $customer->id)->get();
+                    if (count($products) > 0) {
+                        $total_stock = 0;
+                        $total_amount = 0;
+                        foreach ($products as $product) {
+                            $total_stock += $product->available_stock;
+                            $total_amount += $product->available_stock * $product->price_per_unit;
+                        }
+
+                        $customer->total_stock = $total_stock;
+                        $customer->total_amount = $total_amount;
+                    }
+                }
+            }
         } catch (Exception $e) {
             Log::error($e);
+            $customers = [];
         }
+
+        return view('mob.customer.index', ['customers' => $customers]);
     }
 
     public function upload(Request $request)

@@ -24,6 +24,9 @@ class CreateCustomersTable extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->string('shop_image');
+            $table->string('created_by');
+            $table->string('updated_by');
+            $table->timestamp('last_visit')->nullable();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
 class UserController extends BaseController
@@ -19,5 +20,9 @@ class UserController extends BaseController
 
     public function index(){
         return view('web.user.index');
+    }
+
+    public function viewProfile($id){
+        return view('web.user.profile', ['user' => Auth::user()]);
     }
 }

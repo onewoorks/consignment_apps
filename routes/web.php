@@ -48,6 +48,7 @@ Route::group([
         'prefix' => 'customer'
     ], function () {
         Route::get('/', [CustomerController::class, 'index']);
+        Route::get('/list/{user}', [CustomerController::class, 'list']);
         Route::get('/index', [CustomerController::class, 'index']);
         Route::get('/register', [CustomerController::class, 'view']);
         Route::post('/register', [CustomerController::class, 'register']);
@@ -83,6 +84,11 @@ Route::group([
     ], function () {
         Route::post('/add', [CatalogController::class, 'add']);
     });
+    Route::group([
+        'prefix' => 'report'
+    ], function () {
+        Route::get('/', [ReportController::class, 'index_mob']);
+    });
 });
 
 Route::group([
@@ -114,6 +120,12 @@ Route::group([
     ], function () {
         Route::get('/', [UserController::class, 'index']);
     });
+});
+
+Route::group([
+    'prefix' => 'profile'
+], function () {
+    Route::get('/{id}', [UserController::class, 'viewProfile']);
 });
 
 Route::group([

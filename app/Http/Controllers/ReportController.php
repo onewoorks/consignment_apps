@@ -17,6 +17,10 @@ class ReportController extends BaseController
         $this->middleware('auth');
     }
 
+    public function index_mob(){
+        return view('mob.report.index');
+    }
+
     public function index(){
         return view('web.report.index');
     }

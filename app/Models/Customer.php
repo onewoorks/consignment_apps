@@ -26,6 +26,9 @@ class Customer extends Model
         'latitude',
         'longitude',
         'shop_image',
+        'created_by',
+        'updated_by',
+        'last_visit'
     ];
 
     protected $primaryKey = 'id';
