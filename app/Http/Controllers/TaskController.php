@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Task;
 use App\Models\Team;
+use App\Models\User;
 use App\Models\Customer;
 use App\Models\TaskUser;
 use App\Models\TeamMember;
@@ -39,7 +40,9 @@ class TaskController extends Controller
 
         $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
 
-        return view('mob.task.index', ['team' => $team, 'members' => TeamMember::where('team_id', $team->team_id)->get(), 'task_status' => $task_status]);
+        $tasks = Task::where('created_by', Auth::user()->name)->get();
+
+        return view('mob.task.index', ['team' => $team, 'members' => TeamMember::where('team_id', $team->team_id)->get(), 'task_status' => $task_status, 'tasks' => $tasks]);
     }
 
     public function create(Request $request)
@@ -60,7 +63,7 @@ class TaskController extends Controller
         }
 
         $users = TaskUser::where('task_id', $task->id)->get();
-        $task->users = $users;
+        $task->users = $this->getTaskUserDetails($users);;
 
         $customers = Customer::all();
         $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
@@ -87,6 +90,43 @@ class TaskController extends Controller
         })
             ->where('kh_task_users.user_id', $user)
             ->get()]);
+    }
+
+    private function getTaskUserDetails($taskusers = []){
+        if(count($taskusers) > 0){
+            foreach ($taskusers as $user) {
+                $u = User::findOrFail($user->user_id);
+                $user->user_name = $u->name;
+                $user->role = $u->role;
+                $user->avatar = $u->avatar;
+            }
+        }
+
+        return $taskusers;
+    }
+
+    public function updateTaskDetails($id)
+    {
+        $task = Task::findOrFail($id);
+        $users = TaskUser::where('task_id', $task->id)->get();
+        $task->users = $this->getTaskUserDetails($users);
+
+        $routes = TaskAssignment::where('task_id', $id)->get();
+        $customers = Customer::all();
+        $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
+
+        if ($routes != null && count($routes) > 0) {
+            foreach ($routes as $route) {
+                $route->customer = Customer::findOrFail($route->shop_id);
+            }
+        }
+
+        return view('mob.task.addroute', [
+            'task' => $task,
+            'all_routes' => $routes,
+            'customers' => $customers,
+            'task_status' => $task_status
+        ]);
     }
 
     public function details($id)
@@ -123,9 +163,15 @@ class TaskController extends Controller
 
         $task = Task::findOrFail($request->task_id);
         $users = TaskUser::where('task_id', $request->task_id)->get();
-        $task->users = $users;
+        $task->users = $this->getTaskUserDetails($users);
 
-        return view('mob.task.addroute', ['task' => $task, 'all_routes' => $routes]);
+        $customers = Customer::all();
+        $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
+
+        return view('mob.task.addroute', [
+            'task' => $task, 'all_routes' => $routes, 'customers' => $customers,
+            'task_status' => $task_status
+        ]);
     }
 
     public function updateRoute(Request $request)

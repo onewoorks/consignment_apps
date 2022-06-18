@@ -99,7 +99,8 @@
                                                 <div class="col-sm-6">
                                                     <div>
                                                         <p class="text-muted mb-2 text-truncate">Last Visit</p>
-                                                        <h5>{{ $customer->last_visit }}</h5>
+                                                        <h5>{{ $customer->last_visit != null ? $customer->last_visit : 'NA' }}
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </div>
