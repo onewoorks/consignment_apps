@@ -92,10 +92,11 @@ class TaskController extends Controller
             ->get()]);
     }
 
-    private function getTaskUserDetails($taskusers = []){
-        if(count($taskusers) > 0){
+    private function getTaskUserDetails($taskusers)
+    {
+        if (count($taskusers) > 0) {
             foreach ($taskusers as $user) {
-                $u = User::findOrFail($user->user_id);
+                $u = User::where('name', $user->user_id)->first();
                 $user->user_name = $u->name;
                 $user->role = $u->role;
                 $user->avatar = $u->avatar;
@@ -105,20 +106,24 @@ class TaskController extends Controller
         return $taskusers;
     }
 
-    public function updateTaskDetails($id)
+    public function updateTaskDetails($taskid)
     {
-        $task = Task::findOrFail($id);
-        $users = TaskUser::where('task_id', $task->id)->get();
-        $task->users = $this->getTaskUserDetails($users);
+        try {
+            $task = Task::findOrFail($taskid);
+            $users = TaskUser::where('task_id', $taskid)->get();
+            $task->users = $this->getTaskUserDetails($users);
 
-        $routes = TaskAssignment::where('task_id', $id)->get();
-        $customers = Customer::all();
-        $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
+            $routes = TaskAssignment::where('task_id', $taskid)->get();
+            $customers = Customer::all();
+            $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
 
-        if ($routes != null && count($routes) > 0) {
-            foreach ($routes as $route) {
-                $route->customer = Customer::findOrFail($route->shop_id);
+            if ($routes != null && count($routes) > 0) {
+                foreach ($routes as $route) {
+                    $route->customer = Customer::findOrFail($route->shop_id);
+                }
             }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 30);
         }
 
         return view('mob.task.addroute', [
@@ -174,19 +179,11 @@ class TaskController extends Controller
         ]);
     }
 
-    public function updateRoute(Request $request)
+    public function deleteRoute($routeid)
     {
-        $route = TaskAssignment::findOrFail($request->id);
-        $route->update($request->all());
-
-        return view('mob.task.addroute', ['route' => $route, 'all_routes' => TaskAssignment::where('task_id', $route->task_id)->get()]);
-    }
-
-    public function deleteRoute($id)
-    {
-        $route = TaskAssignment::findOrFail($id);
+        $route = TaskAssignment::findOrFail($routeid);
         $route->delete();
 
-        return view('mob.task.addroute', ['route' => $route, 'all_routes' => TaskAssignment::where('task_id', $route->task_id)->get()]);
+        return redirect('/mob/task/edit/' . $route->task_id);
     }
 }

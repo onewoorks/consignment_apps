@@ -25,7 +25,7 @@
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            See Your Tasks:
+                            See Your Created Tasks:
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -33,7 +33,7 @@
                         <div class="accordion-body">
                             @if (isset($tasks))
                                 @foreach ($tasks as $task)
-                                    <a href="{{ url('mob/task/details/edit') }}/{{ $task->id }}" class="text-reset">
+                                    <a href="{{ url('mob/task/edit') }}/{{ $task->id }}" class="text-reset">
                                         <div class="row">
                                             <div class="col-2">
                                                 <div class="text-center p-1">

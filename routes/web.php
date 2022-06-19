@@ -71,13 +71,14 @@ Route::group([
         Route::get('/', [TaskController::class, 'index']);
         Route::post('/create', [TaskController::class, 'create']);
         Route::get('/list/{user}', [TaskController::class, 'list']);
-        Route::get('/details/edit/{id}', [TaskController::class, 'updateTaskDetails']);
         Route::get('/details/{id}', [TaskController::class, 'details']);
+        Route::get('/edit/{taskid}', [TaskController::class, 'updateTaskDetails']);
         Route::group([
             'prefix' => 'route'
         ], function () {
             Route::get('/index', [TaskController::class, 'home']);
             Route::post('/add', [TaskController::class, 'addRoute']);
+            Route::delete('/delete/{routeid}', [TaskController::class, 'deleteRoute']);
         });
     });
     Route::group([

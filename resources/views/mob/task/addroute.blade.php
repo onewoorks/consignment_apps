@@ -60,7 +60,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Task Users</h4>
+                    <h4 class="card-title mb-4">Assignee</h4>
 
                     <div class="table-responsive">
                         <table class="table align-middle table-nowrap">
@@ -116,7 +116,7 @@
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Add Customer
+                                    Add Route
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -202,9 +202,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Task Routes by Task Sequence</h4>
-                    <p class="card-title-desc">Task #ID {{ $task->id }} Task Name: {{ $task->task_name }}</p>
-
+                    <h4 class="card-title">Task Sequence</h4>
                     @if (isset($all_routes))
                         @foreach ($all_routes as $route)
                             <div class="col-12">
@@ -224,23 +222,13 @@
                                                     </span>
                                                 </div>
                                             </div>
-
-
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="text-truncate font-size-15"><a href="javascript: void(0);"
-                                                        class="text-dark">{{ $route->customer->shop_name }}</a></h5>
+                                                        class="text-dark">Route#{{ $route->sequence }}
+                                                        {{ $route->customer->shop_name }}</a></h5>
                                                 <p class="text-muted mb-4">Owner: {{ $route->customer->owner }}</p>
                                                 <div class="avatar-group">
-                                                    @if (isset($task->users))
-                                                        @foreach ($task->users as $user)
-                                                            <div class="avatar-group-item">
-                                                                <a href="javascript: void(0);" class="d-inline-block">
-                                                                    <img src="assets/images/users/avatar-4.jpg"
-                                                                        alt="" class="rounded-circle avatar-xs">
-                                                                </a>
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
+                                                    Note: {{ $route->remarks }}
                                                 </div>
                                             </div>
                                         </div>
@@ -254,7 +242,14 @@
                                                 <i class="bx bx-calendar me-1"></i> {{ $route->created_at }}
                                             </li>
                                             <li class="list-inline-item me-3">
-                                                <i class="bx bx-sort-down me-1"></i> {{ $route->sequence }}
+                                                <form method="post"
+                                                    action="{{ url('mob/task/route/delete') }}/{{ $route->id }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('delete') }}
+                                                    <button type="submit" name="delroute"
+                                                        class="btn action-icon text-danger" title="Delete"><i
+                                                            class="mdi mdi-trash-can"></i></button>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
