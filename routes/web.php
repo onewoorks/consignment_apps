@@ -81,8 +81,8 @@ Route::group([
             Route::delete('/delete/{routeid}', [TaskController::class, 'deleteRoute']);
             Route::put('/update/{routeid}', [TaskController::class, 'updateRoute']);
             Route::group(['prefix' => 'upload'], function () {
-                Route::post('/', [CustomerController::class, 'upload']);
-                Route::post('/delete', [CustomerController::class, 'delete_uploaded_img']);
+                Route::post('/{routeid}', [TaskController::class, 'upload']);
+                Route::post('/delete/{routeid}', [TaskController::class, 'delete_uploaded_img']);
             });
         });
     });

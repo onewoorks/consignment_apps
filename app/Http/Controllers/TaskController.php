@@ -222,29 +222,41 @@ class TaskController extends Controller
         return redirect('/mob/task/details/' . $route->task_id);
     }
 
-    public function upload(Request $request)
+    public function upload($routeid, Request $request)
     {
         try {
-            $file = $request->file;
+            $file = $request->file('shopimgfile');
             $fileName = $file->getClientOriginalName();
-            $destinationPath = public_path() . '/uploads/customer/';
+            $shop_path = '/uploads/customer/';
+            $destinationPath = public_path() . $shop_path;
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0777);
             }
             $file->move($destinationPath, $fileName);
+
+            $taskassign = TaskAssignment::findOrFail($routeid);
+            $taskassign->shop_image = $shop_path . $fileName;
+            $taskassign->updated_by = Auth::user()->name;
+            $taskassign->save();
         } catch (Exception $e) {
             Log::error($e);
         }
+
+        return redirect('/mob/task/details/' . $request->task_id);
     }
 
-    public function delete_uploaded_img(Request $request)
+    public function delete_uploaded_img($routeid, Request $request)
     {
-        $filename =  $request->get('filename');
-        Customer::where('shop_image', $filename)->delete();
-        $path = public_path('uploads/customer/') . $filename;
+        $taskassign = TaskAssignment::findOrFail($routeid);
+        $path = public_path() . $taskassign->shop_image;
         if (file_exists($path)) {
             unlink($path);
         }
-        return response()->json(['success' => $filename]);
+
+        $taskassign->shop_image = null;
+        $taskassign->updated_by = Auth::user()->name;
+        $taskassign->save();
+
+        return redirect('/mob/task/details/' . $request->task_id);
     }
 }

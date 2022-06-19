@@ -5,7 +5,6 @@
 @endsection
 
 @section('css')
-    <link href="{{ URL::asset('/assets/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('content')
@@ -97,10 +96,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Customer Routes</h4>
+                    <h4 class="card-title">Task Sequence</h4>
                     @if (isset($task->routes))
                         @foreach ($task->routes as $route)
-                            <div class="row">
+                            <div id="customer" class="row">
                                 <div class="col-xl-4 col-sm-4">
                                     <div class="card">
                                         <a href="@if ($route->shop_status !== 'C') {{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }} @else # @endif"
@@ -155,7 +154,8 @@
                                         {{ method_field('PUT') }}
                                         <div class="mb-3">
                                             <label class="control-label">Task Status</label>
-                                            <select id="task_status" name="task_status" class="form-control select2" @if ($route->shop_status === 'C') disabled @endif>
+                                            <select id="task_status" name="task_status" class="form-control select2"
+                                                @if ($route->shop_status === 'C') disabled @endif>
                                                 @if (isset($task_status) && count($task_status) > 0)
                                                     @foreach ($task_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -167,7 +167,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Shop Status</label>
-                                            <select id="shop_status" name="shop_status" class="form-control select2" @if ($route->shop_status === 'C') disabled @endif>
+                                            <select id="shop_status" name="shop_status" class="form-control select2"
+                                                @if ($route->shop_status === 'C') disabled @endif>
                                                 @if (isset($shop_status) && count($shop_status) > 0)
                                                     @foreach ($shop_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -183,44 +184,56 @@
                                                     <div class="card-body">
                                                         <div class="d-flex flex-wrap gap-2">
                                                             <button id="update-route" type="submit"
-                                                                class="btn btn-primary waves-effect waves-light" @if ($route->shop_status === 'C') disabled @endif>Save</button>
+                                                                class="btn btn-primary waves-effect waves-light"
+                                                                @if ($route->shop_status === 'C') disabled @endif>Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="shop_val" id="shop_val" value="Default" />
-                                        <input type="hidden" name="shop_name" id="shop_name" value="Default" />
                                     </form>
                                 </div>
                                 <div class="col-xl-4 col-sm-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            @if ($route->shop_status !== 'C')
-                                                <h4 class="card-title mb-3">Shop Image</h4>
-                                                <form method="post" action="{{ url('/mob/task/route/upload') }}"
-                                                    enctype="multipart/form-data" class="dropzone">
-                                                    {{ csrf_field() }}
-                                                    <div class="fallback"></div>
-                                                    <div class="dz-default dz-message">
-                                                        <div class="mb-3">
-                                                            <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                                        </div>
-
-                                                        <h4>Drop files here or click to upload.</h4>
+                                    @if ($route->shop_status !== 'C' && $route->shop_image == null)
+                                        <h4 class="card-title mb-3">Shop Image</h4>
+                                        <form method="post"
+                                            action="{{ url('/mob/task/route/upload') }}/{{ $route->id }}"
+                                            enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="task_id" id="task_id"
+                                                value="{{ $task->id }}" />
+                                            <div class="input-group">
+                                                <input name="shopimgfile" type="file" class="form-control"
+                                                    id="shopimgfile" aria-describedby="shopimg" aria-label="Upload">
+                                                <button class="btn btn-primary" type="submit"
+                                                    id="shopimg">Upload</button>
+                                            </div>
+                                        </form>
+                                    @else
+                                        @if ($route->shop_image != null)
+                                            <form method="post"
+                                                action="{{ url('/mob/task/route/upload/delete') }}/{{ $route->id }}">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="task_id" id="task_id"
+                                                    value="{{ $task->id }}" />
+                                                <div class="flex-shrink-0 me-4">
+                                                    <div class="avatar-md">
+                                                        <span class="avatar-title rounded-circle bg-light text-danger">
+                                                            <img src="{{ asset($route->shop_image) }}" height="55" />
+                                                        </span>
                                                     </div>
-                                                </form>
-                                            @else
-                                                @if ($route->shop_image != null)
-                                                    <img src="{{ asset($route->shop_image) }}" />
-                                                @else
-                                                    No shop image taken.
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
+                                                </div>
+                                                <button type="submit" name="delshopimg"
+                                                    class="btn action-icon text-danger" title="Delete"><i
+                                                        class="mdi mdi-trash-can"></i></button>
+                                            </form>
+                                        @else
+                                            No shop image taken.
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
+                            <hr />
                         @endforeach
                     @endif
                 </div>
@@ -231,53 +244,4 @@
 
 @endsection
 @section('script')
-    <!-- dropzone plugin -->
-    <script src="{{ URL::asset('/assets/libs/dropzone/dropzone.min.js') }}"></script>
-    <script type="text/javascript">
-        var csrf = $("input[name=_token]").val();
-        Dropzone.autoDiscover = false;
-
-        var myDropzone = new Dropzone(".dropzone", {
-            maxFilesize: 20,
-            maxFiles: 1,
-            acceptedFiles: ".jpeg,.jpg,.png",
-            addRemoveLinks: true,
-            init: function() {
-                this.on("thumbnail", function(file, dataUrl) {
-                    $('.dz-progress').hide();
-                    document.getElementById('shop_name').value = file.name;
-                    document.getElementById('shop_val').value = dataUrl;
-                });
-
-                this.on("removedfile", function(file) {
-                    document.getElementById('shop_name').value = 'Removed';
-                    document.getElementById('shop_val').value = 'Removed';
-                });
-
-            },
-            removedfile: function(file) {
-                var filename = file.name;
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ url('mob/task/route/upload/delete') }}',
-                    data: {
-                        '_token': csrf,
-                        filename,
-                    },
-                    sucess: function(data) {
-                        console.log('success: ' + data);
-                    }
-                });
-
-                var _ref;
-                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) :
-                    void 0;
-            }
-        });
-
-        $('#update-route').on('click', function() {
-            $('#form-route').submit();
-        });
-    </script>
 @endsection
