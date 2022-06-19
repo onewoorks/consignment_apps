@@ -190,12 +190,17 @@ class TaskController extends Controller
         return redirect('/mob/task/edit/' . $route->task_id);
     }
 
-    public function updateRoute(Request $request)
+    public function updateRoute($routeid, Request $request)
     {
-        $route = TaskAssignment::findOrFail($request->id);
+        $route = TaskAssignment::findOrFail($routeid);
         $route->shop_status = $request->shop_status;
-        $route->task_status = $request->task_status;
-        $route->shop_image = $request->shop_image;
+        $route->status = $request->task_status;
+
+        $fileName = $request->shop_name;
+        $destinationPath = '/uploads/customer/';
+        $shop_img_path =  $destinationPath . $fileName;
+
+        $route->shop_image = $shop_img_path;
         $route->updated_by = Auth::user()->name;
         $route->save();
 
@@ -209,7 +214,7 @@ class TaskController extends Controller
             $inventory->save();
         }
 
-        return redirect('/mob/task/edit/' . $route->task_id);
+        return redirect('/mob/task/details/' . $route->task_id);
     }
 
     public function upload(Request $request)

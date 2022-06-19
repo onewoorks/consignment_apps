@@ -26,7 +26,9 @@ class TaskAssignment extends Model
         'shop_id',
         'shop_status',
         'shop_image',
-        'remarks'
+        'remarks',
+        'created_by',
+        'updated_by'
     ];
 
     protected $primaryKey = 'id';

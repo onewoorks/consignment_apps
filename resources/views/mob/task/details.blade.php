@@ -149,9 +149,10 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-sm-4">
-                                    <form method="post"
+                                    <form id="form-route" method="post"
                                         action="{{ url('mob/task/route/update') }}/{{ $route->id }}">
                                         {{ csrf_field() }}
+                                        {{ method_field('PUT') }}
                                         <div class="mb-3">
                                             <label class="control-label">Task Status</label>
                                             <select id="task_status" name="task_status" class="form-control select2">
@@ -181,21 +182,23 @@
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <div class="d-flex flex-wrap gap-2">
-                                                            <button type="submit"
+                                                            <button id="update-route" type="submit"
                                                                 class="btn btn-primary waves-effect waves-light">Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="shop_val" id="shop_val" value="Default" />
+                                        <input type="hidden" name="shop_name" id="shop_name" value="Default" />
                                     </form>
                                 </div>
                                 <div class="col-xl-4 col-sm-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h4 class="card-title mb-3">Shop Image</h4>
-                                            <form method="post" action="{{ url('/mob/task/upload') }}" enctype="multipart/form-data"
-                                                class="dropzone">
+                                            <form method="post" action="{{ url('/mob/task/route/upload') }}"
+                                                enctype="multipart/form-data" class="dropzone">
                                                 {{ csrf_field() }}
                                                 <div class="fallback"></div>
                                                 <div class="dz-default dz-message">
@@ -223,6 +226,7 @@
     <!-- dropzone plugin -->
     <script src="{{ URL::asset('/assets/libs/dropzone/dropzone.min.js') }}"></script>
     <script type="text/javascript">
+        var csrf = $("input[name=_token]").val();
         Dropzone.autoDiscover = false;
 
         var myDropzone = new Dropzone(".dropzone", {
@@ -248,7 +252,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('mob/task/upload/delete') }}',
+                    url: '{{ url('mob/task/route/upload/delete') }}',
                     data: {
                         '_token': csrf,
                         filename,
@@ -262,6 +266,10 @@
                 return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) :
                     void 0;
             }
+        });
+
+        $('#update-route').on('click', function() {
+            $('#form-route').submit();
         });
     </script>
 @endsection

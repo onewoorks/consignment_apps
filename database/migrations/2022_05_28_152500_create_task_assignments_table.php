@@ -22,9 +22,11 @@ class CreateTaskAssignmentsTable extends Migration
             $table->datetime('start_time');
             $table->datetime('end_time');
             $table->integer('shop_id');
-            $table->integer('shop_status');
+            $table->string('shop_status');
             $table->string('shop_image');
             $table->string('remarks');
+            $table->string('created_by');
+            $table->string('updated_by');
         });
     }
 
