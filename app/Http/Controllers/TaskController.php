@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\TaskUser;
+use App\Models\Inventory;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
 use App\Models\TaskAssignment;
@@ -141,15 +142,17 @@ class TaskController extends Controller
             $users = TaskUser::where('task_id', $id)->get();
             $routes = TaskAssignment::where('task_id', $id)->get();
 
-            $task->users = $users;
+            $task->users = $this->getTaskUserDetails($users);
             if ($routes != null && count($routes) > 0) {
                 foreach ($routes as $route) {
                     $route->customer = Customer::findOrFail($route->shop_id);
                 }
             }
             $task->routes = $routes;
+            $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
+            $shop_status = LovSvc::getLovByCodeCategory('SHOP_STATUS');
         }
-        return view('mob.task.details', ['task' => $task]);
+        return view('mob.task.details', ['task' => $task, 'task_status' => $task_status, 'shop_status' => $shop_status]);
     }
 
     public function addRoute(Request $request)
@@ -185,5 +188,53 @@ class TaskController extends Controller
         $route->delete();
 
         return redirect('/mob/task/edit/' . $route->task_id);
+    }
+
+    public function updateRoute(Request $request)
+    {
+        $route = TaskAssignment::findOrFail($request->id);
+        $route->shop_status = $request->shop_status;
+        $route->task_status = $request->task_status;
+        $route->shop_image = $request->shop_image;
+        $route->updated_by = Auth::user()->name;
+        $route->save();
+
+        if ($request->shop_status === 'C') {
+            $customer = Customer::findOrFail($route->shop_id);
+            $inventory = new Inventory();
+            $inventory->shop_id = $route->shop_id;
+            $inventory->region = $customer->region;
+            $inventory->product_code = 'SHOP_CLOSED';
+            $inventory->created_by = Auth::user()->name;
+            $inventory->save();
+        }
+
+        return redirect('/mob/task/edit/' . $route->task_id);
+    }
+
+    public function upload(Request $request)
+    {
+        try {
+            $file = $request->file;
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path() . '/uploads/customer/';
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777);
+            }
+            $file->move($destinationPath, $fileName);
+        } catch (Exception $e) {
+            Log::error($e);
+        }
+    }
+
+    public function delete_uploaded_img(Request $request)
+    {
+        $filename =  $request->get('filename');
+        Customer::where('shop_image', $filename)->delete();
+        $path = public_path('uploads/customer/') . $filename;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return response()->json(['success' => $filename]);
     }
 }
