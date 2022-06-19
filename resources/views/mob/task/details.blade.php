@@ -103,7 +103,7 @@
                             <div class="row">
                                 <div class="col-xl-4 col-sm-4">
                                     <div class="card">
-                                        <a href="{{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }}"
+                                        <a href="@if ($route->shop_status !== 'C') {{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }} @else # @endif"
                                             class="text-reset">
                                             <div class="card-body">
                                                 <div class="d-flex">
@@ -155,7 +155,7 @@
                                         {{ method_field('PUT') }}
                                         <div class="mb-3">
                                             <label class="control-label">Task Status</label>
-                                            <select id="task_status" name="task_status" class="form-control select2">
+                                            <select id="task_status" name="task_status" class="form-control select2" @if ($route->shop_status === 'C') disabled @endif>
                                                 @if (isset($task_status) && count($task_status) > 0)
                                                     @foreach ($task_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -167,7 +167,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Shop Status</label>
-                                            <select id="shop_status" name="shop_status" class="form-control select2">
+                                            <select id="shop_status" name="shop_status" class="form-control select2" @if ($route->shop_status === 'C') disabled @endif>
                                                 @if (isset($shop_status) && count($shop_status) > 0)
                                                     @foreach ($shop_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -183,7 +183,7 @@
                                                     <div class="card-body">
                                                         <div class="d-flex flex-wrap gap-2">
                                                             <button id="update-route" type="submit"
-                                                                class="btn btn-primary waves-effect waves-light">Save</button>
+                                                                class="btn btn-primary waves-effect waves-light" @if ($route->shop_status === 'C') disabled @endif>Save</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -196,19 +196,27 @@
                                 <div class="col-xl-4 col-sm-4">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h4 class="card-title mb-3">Shop Image</h4>
-                                            <form method="post" action="{{ url('/mob/task/route/upload') }}"
-                                                enctype="multipart/form-data" class="dropzone">
-                                                {{ csrf_field() }}
-                                                <div class="fallback"></div>
-                                                <div class="dz-default dz-message">
-                                                    <div class="mb-3">
-                                                        <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                                    </div>
+                                            @if ($route->shop_status !== 'C')
+                                                <h4 class="card-title mb-3">Shop Image</h4>
+                                                <form method="post" action="{{ url('/mob/task/route/upload') }}"
+                                                    enctype="multipart/form-data" class="dropzone">
+                                                    {{ csrf_field() }}
+                                                    <div class="fallback"></div>
+                                                    <div class="dz-default dz-message">
+                                                        <div class="mb-3">
+                                                            <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                                                        </div>
 
-                                                    <h4>Drop files here or click to upload.</h4>
-                                                </div>
-                                            </form>
+                                                        <h4>Drop files here or click to upload.</h4>
+                                                    </div>
+                                                </form>
+                                            @else
+                                                @if ($route->shop_image != null)
+                                                    <img src="{{ asset($route->shop_image) }}" />
+                                                @else
+                                                    No shop image taken.
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

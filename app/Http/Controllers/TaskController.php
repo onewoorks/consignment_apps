@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
@@ -204,8 +205,12 @@ class TaskController extends Controller
         $route->updated_by = Auth::user()->name;
         $route->save();
 
+        $customer = Customer::findOrFail($route->shop_id);
+        $customer->updated_by = Auth::user()->name;
+        $customer->last_visit = Carbon::now();
+        $customer->save();
+
         if ($request->shop_status === 'C') {
-            $customer = Customer::findOrFail($route->shop_id);
             $inventory = new Inventory();
             $inventory->shop_id = $route->shop_id;
             $inventory->region = $customer->region;
