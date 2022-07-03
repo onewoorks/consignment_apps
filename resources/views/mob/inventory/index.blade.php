@@ -1,6 +1,7 @@
 @extends('layouts.mob.master')
 
 @section('title')
+    @lang('translation.InventoryList')
 @endsection
 
 @section('css')
@@ -10,6 +11,14 @@
 @endsection
 
 @section('content')
+    @component('components.breadcrumb')
+        @slot('li_1')
+            User
+        @endslot
+        @slot('title')
+            Inventory List
+        @endslot
+    @endcomponent
     <div class="row">
         <div class="row g-0">
             <div class="card mini-stats-wid">
@@ -82,7 +91,7 @@
         <div class="row g-0 inventory-list">
             <div class="card mini-stats-wid">
                 <div class="card-body">
-                    @if (isset($inventories))
+                    @if (isset($inventories) && count($inventories) > 0)
                         @foreach ($inventories as $i)
                             <div class="row">
                                 <div class="col-sm-4">
@@ -110,6 +119,11 @@
                             </div>
                             <hr />
                         @endforeach
+                    @else
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="mdi mdi-alert-outline me-2"></i>
+                            No Inventory Found for the Shop Name and Inventory Date Given!
+                        </div>
                     @endif
                 </div>
             </div>

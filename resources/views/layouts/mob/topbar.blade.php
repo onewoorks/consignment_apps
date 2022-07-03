@@ -13,7 +13,8 @@
                 </a>
             </div>
 
-            <button type="button" class="d-none btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+            <button type="button" class="d-none btn btn-sm px-3 font-size-16 header-item waves-effect"
+                id="vertical-menu-btn">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
         </div>
@@ -47,7 +48,8 @@
                     <img class="rounded-circle header-profile-user"
                         src="{{ isset(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('/assets/images/users/avatar-1.jpg') }}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ ucfirst(Auth::user()->name) }}</span>
+                    <span class="d-none d-xl-inline-block ms-1"
+                        key="t-henry">{{ ucfirst(Auth::user()->name) }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -56,9 +58,8 @@
                             class="bx bx-user font-size-16 align-middle me-1"></i> <span
                             key="t-profile">@lang('translation.Profile')</span></a>
                     <a class="dropdown-item d-block" href="#" data-bs-toggle="modal"
-                        data-bs-target=".change-password"><span class="badge bg-success float-end">11</span><i
-                            class="bx bx-wrench font-size-16 align-middle me-1"></i> <span
-                            key="t-settings">@lang('translation.Settings')</span></a>
+                        data-bs-target=".change-password"><i class="bx bx-wrench font-size-16 align-middle me-1"></i>
+                        <span key="t-settings">@lang('translation.Settings')</span></a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="javascript:void();"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
@@ -88,8 +89,8 @@
                     <div class="mb-3">
                         <label for="current_password">Current Password</label>
                         <input id="current-password" type="password"
-                            class="form-control @error('current_password') is-invalid @enderror"
-                            name="current_password" autocomplete="current_password" placeholder="Enter Current Password"
+                            class="form-control @error('current_password') is-invalid @enderror" name="current_password"
+                            autocomplete="current_password" placeholder="Enter Current Password"
                             value="{{ old('current_password') }}">
                         <div class="text-danger" id="current_passwordError" data-ajax-feedback="current_password">
                         </div>

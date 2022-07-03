@@ -6,7 +6,7 @@
 @section('css')
     <style>
         form#search_form {
-            background-color: #d6d8eb;
+            background-color: #eff0f5;
             width: auto;
             height: 44px;
             border-radius: 5px;
@@ -18,19 +18,19 @@
         input#search_field {
             all: unset;
             font: 16px system-ui;
-            color: rgb(34, 33, 33);
+            color: rgb(12, 12, 12);
             height: 100%;
             width: 100%;
             padding: 6px 10px;
         }
 
         ::placeholder {
-            color: #fff;
+            color: rgb(19, 18, 19);
             opacity: 0.7;
         }
 
         .search_icon {
-            color: #fff;
+            color: rgb(12, 12, 12);
             fill: currentColor;
             width: 24px;
             height: 24px;
@@ -51,9 +51,9 @@
         <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
-                    <form id="search_form" action="{{ url('#') }}">
-                        <input id="search_field" type="text" placeholder="Search Customer/Shop" name="search">
-                        <button id="search_button">
+                    <form id="search_form" method="get" action="{{ url('mob/customer/list') }}/{{ Auth::user()->name }}">
+                        <input id="search_field" type="text" placeholder="Search Customer" name="search">
+                        <button type="submit" id="search_button">
                             <span class="bx bx-search-alt search_icon"></span>
                         </button>
                     </form>
@@ -61,10 +61,10 @@
             </div>
         </div>
         <div class="row g-0 customer-list">
-
-            @if (isset($customers))
+            @if (isset($customers) && count($customers) > 0)
                 @foreach ($customers as $customer)
-                    <a href="{{ url('mob/customer/profile') }}/{{ $customer->task_id . '/' . $customer->id }}"
+                    <a id="customers[]" data-customer="{{ $customer }}"
+                        href="{{ url('mob/customer/profile') }}/{{ $customer->task_id . '/' . $customer->id }}"
                         class="text-decoration-underline text-reset">
                         <div class="card mini-stats-wid">
                             <div class="card-body">
@@ -111,6 +111,11 @@
                         </div>
                     </a>
                 @endforeach
+            @else
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="mdi mdi-alert-outline me-2"></i>
+                    No Customers Found!
+                </div>
             @endif
         </div>
         <div class="row g-0 fixed-footer">
@@ -125,11 +130,8 @@
         </div>
         <!-- end row -->
     </div>
-    </div>
     <!-- end row -->
 @endsection
 @section('script')
-    <script type="text/javascript">
-        $('#search_button').on('click', function() {})
-    </script>
+    <script type="text/javascript"></script>
 @endsection

@@ -100,7 +100,7 @@
                     @if (isset($task->routes))
                         @foreach ($task->routes as $route)
                             <div id="customer" class="row">
-                                <div class="col-xl-4 col-sm-4">
+                                <div class="col-xl-4 col-sm-4" title="Click here to maintain inventory.">
                                     <div class="card">
                                         <a href="@if ($route->shop_status !== 'C') {{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }} @else # @endif"
                                             class="text-reset">
@@ -108,12 +108,12 @@
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0 me-4">
                                                         <div class="avatar-md">
-                                                            <span class="avatar-title rounded-circle bg-light text-danger">
+                                                            <span class="avatar-title rounded-circle bg-light text-danger font-size-22">
                                                                 @if (isset($route->customer))
-                                                                    <img src="{{ asset($route->customer->shop_image) }}"
+                                                                    {{-- <img src="{{ asset($route->customer->shop_image) }}"
                                                                         alt="{{ $route->customer->shop_name }}"
                                                                         height="55">
-                                                                @else
+                                                                @else --}}
                                                                     {{ $route->sequence }}
                                                                 @endif
                                                             </span>
@@ -135,13 +135,13 @@
                                         <div class="px-4 py-3 border-top">
                                             <ul class="list-inline mb-0">
                                                 <li class="list-inline-item me-3">
-                                                    <span class="badge bg-success">{{ $route->status }}</span>
+                                                    <span class="badge bg-success">{{ $route->status_name }}</span>
                                                 </li>
-                                                <li class="list-inline-item me-3">
+                                                <li class="list-inline-item me-3" title="Updated At">
                                                     <i class="bx bx-calendar me-1"></i>{{ $route->updated_at }}
                                                 </li>
-                                                <li class="list-inline-item me-3">
-                                                    <i class="bx bx-info-circle me-1"></i> {{ $route->shop_status }}
+                                                <li class="list-inline-item me-3" title="Shop Status">
+                                                    <i class="bx bx-info-circle me-1"></i> {{ $route->shop_sts_name }}
                                                 </li>
                                             </ul>
                                         </div>
@@ -185,7 +185,7 @@
                                                         <div class="d-flex flex-wrap gap-2">
                                                             <button id="update-route" type="submit"
                                                                 class="btn btn-primary waves-effect waves-light"
-                                                                @if ($route->shop_status === 'C') disabled @endif>Save</button>
+                                                                @if ($route->shop_status === 'C') disabled @endif>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>

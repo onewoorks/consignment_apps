@@ -73,6 +73,7 @@ Route::group([
         Route::get('/list/{user}', [TaskController::class, 'list']);
         Route::get('/details/{id}', [TaskController::class, 'details']);
         Route::get('/edit/{taskid}', [TaskController::class, 'updateTaskDetails']);
+        Route::delete('/delete/{taskid}', [TaskController::class, 'deleteTask']);
         Route::group([
             'prefix' => 'route'
         ], function () {

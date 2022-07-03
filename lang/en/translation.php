@@ -9,6 +9,8 @@ return [
     "Task" => "Task",
     "TaskRoute" => "Task Route",
     "TaskDetails" => "Task Details",
+    "TaskList" => "Task List",
+    "InventoryList" => "Inventory List",
     "Report" => "Report",
     "Profile" => "Profile",
     "Branch" => "Branch",

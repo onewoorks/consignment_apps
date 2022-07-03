@@ -65,7 +65,7 @@ class CustomerController extends BaseController
         return view('mob.customer.register', $data);
     }
 
-    public function list($user)
+    public function list($user, Request $request)
     {
         try {
             $customers = Customer::join('kh_task_assignments', 'kh_task_assignments.shop_id', '=', 'kh_customers.id')
@@ -75,6 +75,7 @@ class CustomerController extends BaseController
                 ->select('kh_customers.*', 'kh_tasks.id as task_id', 'kh_tasks.task_name')
                 ->get();
 
+            $custs = array();
             if (count($customers) > 0) {
                 foreach ($customers as $customer) {
                     $products = Catalog::where('shop_id', $customer->id)->get();
@@ -89,14 +90,19 @@ class CustomerController extends BaseController
                         $customer->total_stock = $total_stock;
                         $customer->total_amount = $total_amount;
                     }
+
+                    if (isset($request->search) && str_contains($customer->shop_name, $request->search)) {
+                        array_push($custs, $customer);
+                    }
                 }
             }
         } catch (Exception $e) {
             Log::error($e);
             $customers = [];
+            $custs = [];
         }
 
-        return view('mob.customer.index', ['customers' => $customers]);
+        return view('mob.customer.index', ['customers' => isset($request->search) ? $custs : $customers]);
     }
 
     public function upload(Request $request)

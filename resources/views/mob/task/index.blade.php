@@ -37,9 +37,9 @@
                                         <div class="row">
                                             <div class="col-2">
                                                 <div class="text-center p-1">
-                                                    <div class="avatar-sm mx-auto mb-3 mt-1">
+                                                    <div class="avatar-sm mx-auto mb-2 mt-1">
                                                         <span
-                                                            class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-16">
+                                                            class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-14">
                                                             {{ $task->id }}
                                                         </span>
                                                     </div>
@@ -50,8 +50,21 @@
                                                     <span class="text-truncate pb-1">{{ $task->task_name }}</span>
                                                 </div>
                                             </div>
+                                            <div class="col-3">
+                                                <div class="p-3 text-center ">
+                                                    <form method="post"
+                                                        action="{{ url('mob/task/delete') }}/{{ $task->id }}">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('delete') }}
+                                                        <button type="submit" name="deltask"
+                                                            class="btn action-icon text-danger" title="Delete Task"><i
+                                                                class="mdi mdi-trash-can"></i></button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </a>
+                                    <hr />
                                 @endforeach
                             @else
                                 <div class="alert alert-warning">No Task Created</div>
@@ -105,7 +118,7 @@
                                         <select id="team_id" name="team_id" class="form-control select2">
                                             <option>Select</option>
                                             @if (isset($team))
-                                                <option value="{{ $team->team_id }}">{{ $team->team_name }}
+                                                <option value="{{ $team->team_id }}" selected>{{ $team->team_name }}
                                                 </option>
                                             @endif
                                         </select>
@@ -118,7 +131,8 @@
                                             multiple="multiple" data-placeholder="Choose ...">
                                             @if (isset($members) && count($members) > 0)
                                                 @foreach ($members as $m)
-                                                    <option value="{{ $m->user_id }}">{{ $m->name }}</option>
+                                                    <option value="{{ $m->user_id }}" selected>{{ $m->name }}
+                                                    </option>
                                                 @endforeach
                                             @endif
                                         </select>
@@ -131,7 +145,9 @@
                                             <option>Select</option>
                                             @if (isset($task_status) && count($task_status) > 0)
                                                 @foreach ($task_status as $status)
-                                                    <option value="{{ $status->lov_code }}">{{ $status->lov_name }}
+                                                    <option value="{{ $status->lov_code }}"
+                                                        @if ($status->lov_code === 'N') selected @endif>
+                                                        {{ $status->lov_name }}
                                                     </option>
                                                 @endforeach
                                             @endif
@@ -142,14 +158,14 @@
                                     <label for="start_time" class="col-form-label col-lg-2">Start Time</label>
                                     <div class="col-lg-10">
                                         <input name="start_time" class="form-control" type="datetime-local"
-                                            placeholder="Start Time" id="start_time">
+                                            value="{{ $default_datetime }}" id="start_time">
                                     </div>
                                 </div>
                                 <div class="form-group row mb-4">
                                     <label for="end_time" class="col-form-label col-lg-2">End Time</label>
                                     <div class="col-lg-10">
                                         <input name="end_time" class="form-control" type="datetime-local"
-                                            placeholder="End Time" id="end_time">
+                                            value="{{ $default_datetime }}" id="end_time">
                                     </div>
                                 </div>
                             </div>

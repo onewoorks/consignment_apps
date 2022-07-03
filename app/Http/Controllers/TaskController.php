@@ -43,8 +43,15 @@ class TaskController extends Controller
         $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
 
         $tasks = Task::where('created_by', Auth::user()->name)->get();
+        $default_datetime = Carbon::now()->format('Y-m-d H:i');
 
-        return view('mob.task.index', ['team' => $team, 'members' => TeamMember::where('team_id', $team->team_id)->get(), 'task_status' => $task_status, 'tasks' => $tasks]);
+        return view('mob.task.index', [
+            'team' => $team, 'members' => TeamMember::where(
+                'team_id',
+                $team->team_id
+            )->get(), 'task_status' => $task_status,
+            'tasks' => $tasks, 'default_datetime' => $default_datetime
+        ]);
     }
 
     public function create(Request $request)
@@ -64,34 +71,49 @@ class TaskController extends Controller
             }
         }
 
-        $users = TaskUser::where('task_id', $task->id)->get();
-        $task->users = $this->getTaskUserDetails($users);;
+        return redirect('/mob/task/edit/' . $task->id);
+    }
 
-        $customers = Customer::all();
-        $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
-        $routes = TaskAssignment::where('task_id', $task->id)->get();
+    public function deleteTask($taskid)
+    {
+        $task = Task::findOrFail($taskid);
 
-        if ($routes != null && count($routes) > 0) {
-            foreach ($routes as $route) {
-                $route->customer = Customer::findOrFail($route->shop_id);
+        if ($task->task_status === 'N') {
+            $routes = TaskAssignment::where('task_id', $taskid)->get();
+            if ($routes != null && count($routes) > 0) {
+                foreach ($routes as $route) {
+                    $route->delete();
+                }
             }
+
+            $assignees = TaskUser::where('task_id', $taskid)->get();
+            if ($assignees != null && count($assignees) > 0) {
+                foreach ($assignees as $assignee) {
+                    $assignee->delete();
+                }
+            }
+
+
+            $task->delete();
         }
 
-        return view('mob.task.addroute', [
-            'task' => $task,
-            'all_routes' => $routes,
-            'customers' => $customers,
-            'task_status' => $task_status
-        ]);
+        return redirect('/mob/task');
     }
 
     public function list($user)
     {
-        return view('mob.task.list', ['tasks' => Task::leftJoin('kh_task_users', function ($join) {
+        $tasks = Task::leftJoin('kh_task_users', function ($join) {
             $join->on('kh_tasks.id', '=', 'kh_task_users.task_id');
         })
             ->where('kh_task_users.user_id', $user)
-            ->get()]);
+            ->get();
+
+        if(count($tasks) > 0){
+            foreach ($tasks as $task) {
+                $task->status_name = LovSvc::getLovNameByCdCtgryAndCode('TASK_STATUS', $task->task_status);
+            }
+        }
+        return view('mob.task.list', ['tasks' => $tasks]);
     }
 
     private function getTaskUserDetails($taskusers)
@@ -122,17 +144,24 @@ class TaskController extends Controller
             if ($routes != null && count($routes) > 0) {
                 foreach ($routes as $route) {
                     $route->customer = Customer::findOrFail($route->shop_id);
+                    $route->status_name = LovSvc::getLovNameByCdCtgryAndCode('TASK_STATUS', $route->status);
                 }
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), 30);
         }
 
+        $default_datetime = Carbon::now()->format('Y-m-d H:i');
+
+        $current_task_seq = TaskAssignment::where('task_id', $taskid)->max('sequence');
+
         return view('mob.task.addroute', [
             'task' => $task,
             'all_routes' => $routes,
             'customers' => $customers,
-            'task_status' => $task_status
+            'task_status' => $task_status,
+            'default_datetime' => $default_datetime,
+            'task_seq' => $current_task_seq + 1
         ]);
     }
 
@@ -147,6 +176,8 @@ class TaskController extends Controller
             if ($routes != null && count($routes) > 0) {
                 foreach ($routes as $route) {
                     $route->customer = Customer::findOrFail($route->shop_id);
+                    $route->status_name = LovSvc::getLovNameByCdCtgryAndCode('TASK_STATUS', $route->status);
+                    $route->shop_sts_name = LovSvc::getLovNameByCdCtgryAndCode('SHOP_STATUS', $route->shop_status);
                 }
             }
             $task->routes = $routes;
@@ -163,24 +194,7 @@ class TaskController extends Controller
         $data['status'] = $request->task_status;
         TaskAssignment::create($data);
 
-        $routes = TaskAssignment::where('task_id', $request->task_id)->get();
-        if ($routes != null && count($routes) > 1) {
-            foreach ($routes as $route) {
-                $route->customer = Customer::findOrFail($route->shop_id);
-            }
-        }
-
-        $task = Task::findOrFail($request->task_id);
-        $users = TaskUser::where('task_id', $request->task_id)->get();
-        $task->users = $this->getTaskUserDetails($users);
-
-        $customers = Customer::all();
-        $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
-
-        return view('mob.task.addroute', [
-            'task' => $task, 'all_routes' => $routes, 'customers' => $customers,
-            'task_status' => $task_status
-        ]);
+        return redirect('/mob/task/edit/' . $data['task_id']);
     }
 
     public function deleteRoute($routeid)

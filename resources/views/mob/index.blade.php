@@ -19,7 +19,7 @@
                                 <div class="flex-shrink-0 align-self-center">
                                     <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
                                         <span class="avatar-title">
-                                            <i class="bx bx-copy-alt font-size-24"></i>
+                                            <i class="bx bx-add-to-queue font-size-24"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                             <div class="flex-shrink-0 align-self-center">
                                 <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
                                     <span class="avatar-title">
-                                        <i class="bx bx-copy-alt font-size-24"></i>
+                                        <i class="bx bx-task font-size-24"></i>
                                     </span>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="flex-shrink-0 align-self-center">
                                 <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
                                     <span class="avatar-title">
-                                        <i class="bx bx-copy-alt font-size-24"></i>
+                                        <i class="bx bx-store-alt font-size-24"></i>
                                     </span>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                             <div class="flex-shrink-0 align-self-center ">
                                 <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
                                     <span class="avatar-title rounded-circle bg-primary">
-                                        <i class="bx bx-archive-in font-size-24"></i>
+                                        <i class="bx bxl-shopify font-size-24"></i>
                                     </span>
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                             <div class="flex-shrink-0 align-self-center">
                                 <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
                                     <span class="avatar-title rounded-circle bg-primary">
-                                        <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        <i class="bx bxs-report font-size-24"></i>
                                     </span>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                             <div class="flex-shrink-0 align-self-center">
                                 <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
                                     <span class="avatar-title rounded-circle bg-primary">
-                                        <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                        <i class="bx bx-user font-size-24"></i>
                                     </span>
                                 </div>
                             </div>

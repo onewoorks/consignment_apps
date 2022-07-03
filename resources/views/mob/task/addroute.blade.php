@@ -60,7 +60,7 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Assignee</h4>
+                    <h4 class="card-title mb-4">Assignees:</h4>
 
                     <div class="table-responsive">
                         <table class="table align-middle table-nowrap">
@@ -133,7 +133,7 @@
                                                 <div class="mb-3">
                                                     <label for="sequence">Task Sequence</label>
                                                     <input id="sequence" name="sequence" type="number"
-                                                        class="form-control" placeholder="Task Sequence">
+                                                        class="form-control" value="{{ $task_seq }}">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="shop_id">Shop Name</label>
@@ -154,7 +154,7 @@
                                                         <option>Select</option>
                                                         @if (isset($task_status) && count($task_status) > 0)
                                                             @foreach ($task_status as $status)
-                                                                <option value="{{ $status->lov_code }}">
+                                                                <option value="{{ $status->lov_code }}" @if ($status->lov_code === 'N') selected @endif>
                                                                     {{ $status->lov_name }}</option>
                                                             @endforeach
                                                         @endif
@@ -165,12 +165,12 @@
                                                 <div class="mb-3">
                                                     <label for="start_time">Start Time</label>
                                                     <input name="start_time" class="form-control" type="datetime-local"
-                                                        placeholder="Start Time" id="start_time">
+                                                        value="{{ $default_datetime }}" id="start_time">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="end_time">End Time</label>
                                                     <input name="end_time" class="form-control" type="datetime-local"
-                                                        placeholder="End Time" id="end_time">
+                                                        value="" id="end_time">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="remarks">Remarks</label>
@@ -236,9 +236,9 @@
                                     <div class="px-4 py-3 border-top">
                                         <ul class="list-inline mb-0">
                                             <li class="list-inline-item me-3">
-                                                <span class="badge bg-success">{{ $route->status }}</span>
+                                                <span class="badge bg-success">{{ $route->status_name }}</span>
                                             </li>
-                                            <li class="list-inline-item me-3">
+                                            <li class="list-inline-item me-3" title="Created Date">
                                                 <i class="bx bx-calendar me-1"></i> {{ $route->created_at }}
                                             </li>
                                             <li class="list-inline-item me-3">
