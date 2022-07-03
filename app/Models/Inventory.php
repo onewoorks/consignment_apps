@@ -18,9 +18,11 @@ class Inventory extends Model
      */
     protected $fillable = [
         'id',
+        'route_id',
         'product_code',
         'product_name',
         'shop_id',
+        'shop_status',
         'region',
         'stock_flow',
         'quantity',

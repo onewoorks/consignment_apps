@@ -15,8 +15,10 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('kh_inventories', function (Blueprint $table) {
             $table->id();
+            $table->integer('route_id');
             $table->timestamps();
             $table->integer('shop_id');
+            $table->string('shop_status');
             $table->string('region');
             $table->string('product_code');
             $table->string('product_name');

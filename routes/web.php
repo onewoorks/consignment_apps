@@ -96,6 +96,8 @@ Route::group([
         'prefix' => 'report'
     ], function () {
         Route::get('/', [ReportController::class, 'index_mob']);
+        Route::get('/export', [ReportController::class, 'export']);
+        Route::get('/export/{user}', [ReportController::class, 'exportByUser']);
     });
 });
 

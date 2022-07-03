@@ -226,9 +226,10 @@ class TaskController extends Controller
 
         if ($request->shop_status === 'C') {
             $inventory = new Inventory();
+            $inventory->route_id = $route->id;
             $inventory->shop_id = $route->shop_id;
+            $inventory->shop_status = LovSvc::getLovNameByCdCtgryAndCode('SHOP_STATUS', $route->shop_status);
             $inventory->region = $customer->region;
-            $inventory->product_code = 'SHOP_CLOSED';
             $inventory->created_by = Auth::user()->name;
             $inventory->save();
         }
