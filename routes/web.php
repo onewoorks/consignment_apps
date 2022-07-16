@@ -130,12 +130,15 @@ Route::group([
         'prefix' => 'report'
     ], function () {
         Route::get('/', [ReportController::class, 'index']);
+        Route::get('export', [ReportController::class, 'export']);
     });
     Route::group([
         'prefix' => 'user'
     ], function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::delete('delete/{id}', [UserController::class, 'delete']);
+        Route::post('create', [UserController::class, 'create']);
+        Route::put('update', [UserController::class, 'update']);
+        Route::delete('delete', [UserController::class, 'delete']);
     });
 });
 

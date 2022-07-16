@@ -31,7 +31,7 @@ class InventoryController extends BaseController
             ->whereDate('kh_inventories.created_at', '=', Carbon::now())
             ->get();
 
-        return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+        return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser('M')]);
     }
 
     public function windex()
@@ -41,15 +41,21 @@ class InventoryController extends BaseController
             ->whereDate('kh_inventories.created_at', '=', Carbon::now())
             ->get();
 
-        return view('web.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+        return view('web.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser('W')]);
     }
 
-    private function distinctShopByUser()
+    private function distinctShopByUser($channel)
     {
-        return Inventory::select('kh_customers.id', 'kh_customers.shop_name')
-            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
-            ->where('kh_inventories.created_by', Auth::user()->name)->distinct()
-            ->get();
+        $query = Inventory::select('kh_customers.id', 'kh_customers.shop_name')
+            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id');
+
+        if ($channel === 'M') {
+            $query = $query->where('kh_inventories.created_by', Auth::user()->name);
+        }
+
+        $query = $query->distinct();
+
+        return $query->get();
     }
 
     public function filter(Request $request)

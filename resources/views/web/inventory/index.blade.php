@@ -19,7 +19,7 @@
             Dashboards
         @endslot
         @slot('title')
-            Inventory
+            Audit Inventory
         @endslot
     @endcomponent
 
@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <h4 class="card-title">Inventory</h4>
+                        <h4 class="card-title">Audit</h4>
                         <p class="card-title-desc">Please input the criteria</p>
                         <form id="form-inventory" method="post" action="{{ url('/web/inventory') }}">
                             {{ csrf_field() }}
