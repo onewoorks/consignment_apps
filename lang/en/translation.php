@@ -4,6 +4,8 @@ return [
     "RegisterNewCustomer" => "Register New Customer",
     "CreateTask" => "Create Task",
     "Inventory" => "Inventory",
+    "BranchInventory" => "Branch Inventory",
+    "AuditInventory" => "Audit Inventory",
     "Customer" => "Customer",
     "Shop" => "Shop",
     "Task" => "Task",

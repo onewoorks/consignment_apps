@@ -108,7 +108,8 @@ Route::group([
     Route::group([
         'prefix' => 'inventory'
     ], function () {
-        Route::get('/', [InventoryController::class, 'index']);
+        Route::get('/', [InventoryController::class, 'windex']);
+        Route::post('/', [InventoryController::class, 'filter']);
     });
     Route::group([
         'prefix' => 'shop'
@@ -119,6 +120,11 @@ Route::group([
         'prefix' => 'branch'
     ], function () {
         Route::get('/', [BranchController::class, 'index']);
+        Route::group([
+            'prefix' => 'inventory'
+        ], function () {
+            Route::get('/', [InventoryController::class, 'index']);
+        });
     });
     Route::group([
         'prefix' => 'report'
@@ -129,6 +135,7 @@ Route::group([
         'prefix' => 'user'
     ], function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::delete('delete/{id}', [UserController::class, 'delete']);
     });
 });
 

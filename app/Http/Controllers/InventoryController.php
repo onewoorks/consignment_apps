@@ -34,6 +34,16 @@ class InventoryController extends BaseController
         return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
     }
 
+    public function windex()
+    {
+        $inventories = Inventory::select('kh_inventories.*', 'kh_customers.shop_name')
+            ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
+            ->whereDate('kh_inventories.created_at', '=', Carbon::now())
+            ->get();
+
+        return view('web.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+    }
+
     private function distinctShopByUser()
     {
         return Inventory::select('kh_customers.id', 'kh_customers.shop_name')
@@ -44,14 +54,21 @@ class InventoryController extends BaseController
 
     public function filter(Request $request)
     {
-        $inventories = Inventory::select('kh_inventories.*', 'kh_customers.shop_name')
+        $query = Inventory::select('kh_inventories.*', 'kh_customers.shop_name')
             ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
-            ->where('kh_inventories.created_by', Auth::user()->name)
-            ->where('kh_inventories.shop_id', $request->shop_id)
-            ->whereDate('kh_inventories.created_at', '=', $request->inventorydt)
-            ->get();
+            ->whereDate('kh_inventories.created_at', '=', $request->inventorydt);
 
-        return view('mob.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+        if (!isset($request->channel)) {
+            $query = $query->where('kh_inventories.created_by', Auth::user()->name);
+        }
+
+        if ($request->shop_id != null && $request->shop_id != '') {
+            $query = $query->where('kh_inventories.shop_id', $request->shop_id);
+        }
+
+        $inventories = $query->get();
+
+        return view($request->channel . '.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
     }
 
     public function store(Request $request)

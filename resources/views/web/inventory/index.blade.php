@@ -1,221 +1,130 @@
 @extends('layouts.web.master')
 
-@section('title') @lang('translation.Dashboards') @endsection
+@section('title')
+    @lang('translation.Dashboards')
+@endsection
+
+@section('css')
+    <link href="{{ URL::asset('/assets/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <!-- DataTables -->
+    <link href="{{ URL::asset('/assets/libs/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 
 @section('content')
 
-@component('components.breadcrumb')
-@slot('li_1') Dashboards @endslot
-@slot('title') Inventory @endslot
-@endcomponent
+    @component('components.breadcrumb')
+        @slot('li_1')
+            Dashboards
+        @endslot
+        @slot('title')
+            Inventory
+        @endslot
+    @endcomponent
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col-sm-4">
-                        <div class="search-box me-2 mb-2 d-inline-block">
-                            <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <i class="bx bx-search-alt search-icon"></i>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <h4 class="card-title">Inventory</h4>
+                        <p class="card-title-desc">Please input the criteria</p>
+                        <form id="form-inventory" method="post" action="{{ url('/web/inventory') }}">
+                            {{ csrf_field() }}
+                            <input id="channel" name="channel" type="hidden" value="web" />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="shop_id">Shop Name</label>
+                                        <select id="shop_id" name="shop_id" class="form-control select2">
+                                            <option value="">Select</option>
+                                            @if (isset($shops) && count($shops) > 0)
+                                                @foreach ($shops as $shop)
+                                                    <option value="{{ $shop->id }}">
+                                                        {{ $shop->shop_name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label>Inventory Date</label>
+                                        <div class="input-group" id="datepicker2">
+                                            <input id="inventorydt" name="inventorydt" type="text" class="form-control"
+                                                placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                data-date-container='#datepicker2' data-provide="datepicker"
+                                                data-date-autoclose="true">
+                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <button type="submit" id="save-inventory"
+                                                    class="btn btn-primary waves-effect waves-light">Search</button>
+                                                <button type="reset" id="reset-inventory"
+                                                    class="btn btn-secondary waves-effect waves-light">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="inventorytable" class="table table-bordered dt-responsive  nowrap w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="text-align:center;">Branch Name</th>
+                                    <th style="text-align:center;">Shop</th>
+                                    <th style="text-align:center;">Product</th>
+                                    <th style="text-align:center;">Stock Flow</th>
+                                    <th style="text-align:center;">Total Unit</th>
+                                    <th style="text-align:center;">Price Per Unit (RM)</th>
+                                    <th style="text-align:center;">Total Price (RM)</th>
+                                    <th style="text-align:center;">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($inventories) && count($inventories) > 0)
+                                    @foreach ($inventories as $i)
+                                        <tr>
+                                            <td style="text-align:center;">{{ $i->region }}</td>
+                                            <td style="text-align:left;">{{ $i->shop_name }}</td>
+                                            <td style="text-align:left;">{{ $i->product_code }} -
+                                                {{ $i->product_name }}</td>
+                                            <td style="text-align:center;">{{ $i->stock_flow }}</td>
+                                            <td style="text-align:center;">{{ $i->quantity }}</td>
+                                            <td style="text-align:right;">{{ number_format($i->price_per_unit, 2) }}</td>
+                                            <td style="text-align:right;">{{ number_format($i->total_price, 2) }}</td>
+                                            <td style="text-align:center;">{{ $i->created_at }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table align-middle table-nowrap table-check">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width: 20px;" class="align-middle">
-                                    <div class="form-check font-size-16">
-                                        <input class="form-check-input" type="checkbox" id="checkAll">
-                                        <label class="form-check-label" for="checkAll"></label>
-                                    </div>
-                                </th>
-                                <th class="align-middle">Inventory ID</th>
-                                <th class="align-middle">Branch Name</th>
-                                <th class="align-middle">Shop</th>
-                                <th class="align-middle">Product</th>
-                                <th class="align-middle">Date</th>
-                                <th class="align-middle">Total Unit</th>
-                                <th class="align-middle">Total Price</th>
-                                <th class="align-middle">Status</th>
-                                <th class="align-middle">View Details</th>
-                                <th class="align-middle">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-check font-size-16">
-                                        <input class="form-check-input" type="checkbox" id="orderidcheck01">
-                                        <label class="form-check-label" for="orderidcheck01"></label>
-                                    </div>
-                                </td>
-                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
-                                <td>Setiu</td>
-                                <td>Shop D</td>
-                                <td>NFIX</td>
-                                <td>20-05-2022</td>
-                                <td>15</td>
-                                <td>150</td>
-                                <td>IN</td>
-                                <td>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded"
-                                        data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
-                                        View Details
-                                    </button>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-3">
-                                        <a href="javascript:void(0);" class="text-success"><i
-                                                class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger"><i
-                                                class="mdi mdi-delete font-size-18"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="form-check font-size-16">
-                                        <input class="form-check-input" type="checkbox" id="orderidcheck01">
-                                        <label class="form-check-label" for="orderidcheck01"></label>
-                                    </div>
-                                </td>
-                                <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
-                                <td>Paka</td>
-                                <td>Shop C</td>
-                                <td>AKSO</td>
-                                <td>20-05-2022</td>
-                                <td>5</td>
-                                <td>100</td>
-                                <td>OUT</td>
-                                <td>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded"
-                                        data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
-                                        View Details
-                                    </button>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-3">
-                                        <a href="javascript:void(0);" class="text-success"><i
-                                                class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger"><i
-                                                class="mdi mdi-delete font-size-18"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <ul class="pagination pagination-rounded justify-content-end mb-2">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                            <i class="mdi mdi-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                            <i class="mdi mdi-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
-</div>
-<!-- end row -->
-
-<!-- Modal -->
-<div class="modal fade orderdetailsModal" tabindex="-1" role="dialog" aria-labelledby=orderdetailsModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="orderdetailsModalLabel">Inventory Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="mb-2">Inventory id: <span class="text-primary">#SK2540</span></p>
-                <p class="mb-4">Branch Name: <span class="text-primary">Setiu</span></p>
-
-                <div class="table-responsive">
-                    <table class="table align-middle table-nowrap">
-                        <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <div>
-                                        C
-                                    </div>
-                                </th>
-                                <td>
-                                    <div>
-                                        <h5 class="text-truncate font-size-14">NFIX</h5>
-                                        <p class="text-muted mb-0">$10 x 10</p>
-                                    </div>
-                                </td>
-                                <td>$ 100</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div>
-                                        A
-                                    </div>
-                                </th>
-                                <td>
-                                    <div>
-                                        <h5 class="text-truncate font-size-14">AKSO</h5>
-                                        <p class="text-muted mb-0">$10 x 5</p>
-                                    </div>
-                                </td>
-                                <td>$ 50</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h6 class="m-0 text-right">Sub Total:</h6>
-                                </td>
-                                <td>
-                                    $ 150
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <h6 class="m-0 text-right">Total:</h6>
-                                </td>
-                                <td>
-                                    $ 150
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end modal -->
-
 @endsection
 @section('script')
+    <script src="{{ URL::asset('/assets/libs/select2/select2.min.js') }}"></script>
+    <script src="{{ URL::asset('/assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <!-- Required datatable js -->
+    <script src="{{ URL::asset('/assets/libs/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript">
+        var date = new Date();
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        $('#inventorydt').datepicker('setDate', today);
+
+        $("#inventorytable").DataTable();
+    </script>
 @endsection
