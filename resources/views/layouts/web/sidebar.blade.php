@@ -13,6 +13,8 @@
                         <span key="t-dashboards">@lang('translation.BranchInventory')</span></a>
                     <a href="{{ url('/web/shop') }}" key="t-saas"><i class="bx bx-shopping-bag"></i>
                         <span key="t-dashboards">@lang('translation.Shop')</span></a>
+                    <a href="{{ url('/web/lov') }}" key="t-crypto"><i class="bx bx-data"></i>
+                        <span key="t-dashboards">@lang('translation.DataLookup')</span></a>
                     <a href="{{ url('/web/branch') }}" key="t-crypto"><i class="bx bx-tone"></i>
                         <span key="t-dashboards">@lang('translation.Branch')</span></a>
                     <a href="{{ url('/web/report') }}" key="t-crypto"><i class="bx bxs-report"></i>

@@ -6,6 +6,7 @@ return [
     "Inventory" => "Inventory",
     "BranchInventory" => "Branch Inventory",
     "AuditInventory" => "Audit Inventory",
+    "DataLookup" => "Data Lookup",
     "Customer" => "Customer",
     "Shop" => "Shop",
     "Task" => "Task",

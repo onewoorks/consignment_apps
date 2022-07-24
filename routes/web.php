@@ -120,6 +120,10 @@ Route::group([
         'prefix' => 'branch'
     ], function () {
         Route::get('/', [BranchController::class, 'index']);
+        Route::get('/get/{id}', [BranchController::class, 'show']);
+        Route::post('/create', [BranchController::class, 'create']);
+        Route::put('/update/{id}', [BranchController::class, 'update']);
+        Route::delete('/delete/{id}', [BranchController::class, 'delete']);
         Route::group([
             'prefix' => 'inventory'
         ], function () {
@@ -140,43 +144,22 @@ Route::group([
         Route::put('update', [UserController::class, 'update']);
         Route::delete('delete', [UserController::class, 'delete']);
     });
+    Route::group([
+        'prefix' => 'lov'
+    ], function () {
+        Route::get('/', [LovController::class, 'getLovs']);
+        Route::get('/get/{id}', [LovController::class, 'getLovById']);
+        Route::post('/create', [LovController::class, 'create']);
+        Route::put('/update', [LovController::class, 'update']);
+        Route::delete('/delete', [LovController::class, 'delete']);
+        Route::get('/category/default/', [LovController::class, 'getDefaultLovByCodeCategory']);
+    });
 });
 
 Route::group([
     'prefix' => 'profile'
 ], function () {
     Route::get('/{id}', [UserController::class, 'viewProfile']);
-});
-
-Route::group([
-    'prefix' => 'lov'
-], function () {
-    Route::get('/', [LovController::class, 'getLovs']);
-    Route::get('/get/{id}', [LovController::class, 'getLovById']);
-    Route::post('/create', [LovController::class, 'create']);
-    Route::post('/update', [LovController::class, 'update']);
-    Route::post('/delete', [LovController::class, 'delete']);
-    Route::get('/category/list', [LovController::class, 'getLovCategoryList']);
-    Route::get('/category/default/', [LovController::class, 'getDefaultLovByCodeCategory']);
-});
-
-Route::group([
-    'prefix' => 'branch'
-], function () {
-    Route::get('/', [BranchController::class, 'index']);
-    Route::get('/get/{id}', [BranchController::class, 'show']);
-    Route::post('/create', [BranchController::class, 'create']);
-    Route::put('/update/{id}', [BranchController::class, 'update']);
-    Route::delete('/delete/{id}', [BranchController::class, 'delete']);
-});
-
-Route::group([
-    'prefix' => 'state'
-], function () {
-    Route::get('/', [StateController::class, 'index']);
-    Route::post('/create', [StateController::class, 'create']);
-    Route::put('/update/{id}', [StateController::class, 'update']);
-    Route::delete('/delete/{id}', [StateController::class, 'delete']);
 });
 
 Route::prefix('/print-data')->group(function () {

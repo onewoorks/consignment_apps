@@ -17,4 +17,13 @@ trait LovService
 
         return $lov != null ? $lov->lov_name : $code;
     }
+
+    public function getLovCategoryList()
+    {
+        $lovCategoryList = Lov::select('lov_category')
+            ->groupBy('lov_category')
+            ->get();
+
+        return $lovCategoryList;
+    }
 }

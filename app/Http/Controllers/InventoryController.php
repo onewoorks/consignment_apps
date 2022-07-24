@@ -64,7 +64,9 @@ class InventoryController extends BaseController
             ->join('kh_customers', 'kh_customers.id', '=', 'kh_inventories.shop_id')
             ->whereDate('kh_inventories.created_at', '=', $request->inventorydt);
 
+        $channel = 'W';
         if (!isset($request->channel)) {
+            $channel = 'M';
             $query = $query->where('kh_inventories.created_by', Auth::user()->name);
         }
 
@@ -74,7 +76,7 @@ class InventoryController extends BaseController
 
         $inventories = $query->get();
 
-        return view($request->channel . '.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser()]);
+        return view($request->channel . '.inventory.index', ['inventories' => $inventories, 'shops' => $this->distinctShopByUser($channel)]);
     }
 
     public function store(Request $request)

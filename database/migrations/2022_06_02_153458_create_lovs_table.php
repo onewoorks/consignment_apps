@@ -21,6 +21,7 @@ class CreateLovsTable extends Migration
             $table->string('lov_name');
             $table->string('description');
             $table->string('is_default');
+            $table->string('is_required');
             $table->string('created_by');
             $table->string('updated_by');
         });

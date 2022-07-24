@@ -9,94 +9,85 @@ use Illuminate\Http\Request;
 use App\Constants\DBConstant;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Traits\LovService as LovSvc;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
-class LovController extends BaseController {
+class LovController extends BaseController
+{
+
+    use LovSvc;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function create(Request $request) {
-        $response = [];
-        try {
-            $lov = new Lov();
-            $lov->lov_category = $request->lovCategory;
-            $lov->lov_code = $request->lovCode;
-            $lov->lov_description = $request->lovDescription;
-            $lov->remarks = $request->remarks;
-            $lov->is_required = $request->isRequired;
-            $lov->is_default = $request->isDefault;
-            $lov->created_date = Carbon::now();
-            $lov->save();
+    public function create(Request $request)
+    {
+        $lov = new Lov();
+        $lov->lov_category = $request->lovCategory;
+        $lov->lov_code = $request->lovCode;
+        $lov->lov_name = $request->lovName;
+        $lov->lov_description = $request->lovDescription;
+        $lov->is_required = $request->isRequired;
+        $lov->is_default = $request->isDefault;
+        $lov->created_at = Carbon::now();
+        $lov->created_by = Auth::user()->name;
+        $lov->save();
 
-            $response = ['status' => 'Success', 'message' => 'Lov successfully saved.'];
-        } catch (Exception $e) {
-            Log::error('' . $e->getMessage());
-            $response = ['status' => 'Error', 'message' => $e->getMessage()];
-        }
-        return redirect('lov')->with('response', json_encode($response));
+        return redirect('lov')->with('response', json_encode($lov));
     }
 
-    public function update(Request $request) {
-        $response = [];
-        try {
-            $lov = Lov::find($request->id);
-            $lov->lov_category = $request->lovCategory;
-            $lov->lov_code = $request->lovCode;
-            $lov->lov_description = $request->lovDescription;
-            $lov->remarks = $request->remarks;
-            $lov->is_required = $request->isRequired;
-            $lov->is_default = $request->isDefault;
-            $lov->last_updated = Carbon::now();
-            $lov->save();
+    public function update(Request $request)
+    {
+        $lov = Lov::findOrFail($request->id);
+        $lov->lov_category = $request->lovCategory;
+        $lov->lov_code = $request->lovCode;
+        $lov->lov_name = $request->lovName;
+        $lov->description = $request->lovDescription;
+        $lov->is_required = $request->isRequired;
+        $lov->is_default = $request->isDefault;
+        $lov->updated_by = Auth::user()->name;
+        $lov->updated_at = Carbon::now();
+        $lov->save();
 
-            $response = ['status' => 'Success', 'message' => 'Lov successfully updated.'];
-        } catch (Exception $e) {
-            Log::error('' . $e->getMessage());
-            $response = ['status' => 'Error', 'message' => $e->getMessage()];
-        }
-        return redirect('lov')->with('response', json_encode($response));
+        return redirect('web/lov')->with('response', json_encode($lov));
     }
 
-    public function delete(Request $request) {
-        $response = [];
-        try {
-            $lov = Lov::find($request->lovid);
-            $lov->delete();
-            $response = ['status' => 'Success', 'message' => 'Lov Successfully Deleted.'];
-        } catch (Exception $e) {
-            Log::error('' . $e->getMessage());
-            $response = ['status' => 'Error', 'message' => $e->getMessage()];
-        }
-        return redirect('lov')->with('response', json_encode($response));
+    public function delete(Request $request)
+    {
+        $lov = Lov::find($request->lovid);
+        $lov->delete();
+
+        return redirect('web/lov')->with('response', json_encode($lov));
     }
 
-    public function getLovs(Request $request) {
-        try {
-            if ($request->lovCategory != null && $request->code != null) {
-                $allLov = Lov::where('lov_category', $request->lovCategory)->where('lov_code', $request->code)->get();
-            } else if ($request->lovCategory != null) {
-                $allLov = Lov::where('lov_category', $request->lovCategory)->get();
-            } else if ($request->code != null) {
-                $allLov = Lov::where('lov_code', $request->code)->get();
-            } else {
-                $allLov = Lov::all();
-            }
-        } catch (Exception $e) {
-            Log::error('' . $e->getMessage());
-            $allLov = [];
+    public function getLovs(Request $request)
+    {
+        if ($request->lovCategory != null && $request->code != null) {
+            $allLov = Lov::where('lov_category', $request->lovCategory)->where('lov_code', $request->code)->get();
+        } else if ($request->lovCategory != null) {
+            $allLov = Lov::where('lov_category', $request->lovCategory)->get();
+        } else if ($request->code != null) {
+            $allLov = Lov::where('lov_code', $request->code)->get();
+        } else {
+            $allLov = Lov::all();
         }
 
-        return view('lovs.index', $allLov);
+        $ctgrys = LovSvc::getLovCategoryList();
+        $yesnolov = LovSvc::getLovByCodeCategory('YESNO');
+
+        return view('web.lovs.index', ['lovs' => $allLov, 'categories' => $ctgrys, 'yesnolov' => $yesnolov]);
     }
 
-    public function getLovById(Request $request) {
+    public function getLovById(Request $request)
+    {
         try {
             $lov = Lov::find($request->id);
             return ['status' => 'Success', 'lov' => $lov];
@@ -106,20 +97,8 @@ class LovController extends BaseController {
         }
     }
 
-    public function getLovCategoryList(Request $request) {
-        try {
-            $lovCategoryList = DB::table(DBConstant::LOV)
-                ->select('lov_category')
-                ->groupBy('lov_category')
-                ->get();
-            return ['status' => 'Success', 'lovCtgryList' => $lovCategoryList];
-        } catch (Exception $e) {
-            Log::error('' . $e->getMessage());
-            return ['status' => 'Error', 'message' => $e->getMessage()];
-        }
-    }
-
-    public function getDefaultLovByCodeCategory(Request $request){
+    public function getDefaultLovByCodeCategory(Request $request)
+    {
         try {
             $lov = Lov::where('lov_category', $request->lov_category)->where('is_default', 'Y')->first();
             return ['status' => 'Success', 'lov' => $lov];
@@ -128,5 +107,4 @@ class LovController extends BaseController {
             return ['status' => 'Error', 'message' => $e->getMessage(), 'lov' => []];
         }
     }
-
 }

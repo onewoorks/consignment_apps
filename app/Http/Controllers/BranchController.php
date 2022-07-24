@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use App\Traits\LovService as Lov;
 
 class BranchController extends BaseController
 {
+    use Lov;
 
     /**
      * Create a new controller instance.
@@ -21,7 +23,15 @@ class BranchController extends BaseController
 
     public function index()
     {
-        return view('web.branch.index', ['branches' => Branch::all()]);
+        $states = Lov::getLovByCodeCategory('STATE_CD');
+        $branches = Branch::all();
+        if ($branches) {
+            foreach ($branches as $b) {
+                $b->state_name = Lov::getLovNameByCdCtgryAndCode('STATE_CD', $b->state_code);
+            }
+        }
+
+        return view('web.branch.index', ['branches' => $branches, 'states' => $states]);
     }
 
     public function show($id)
@@ -31,7 +41,8 @@ class BranchController extends BaseController
 
     public function create(Request $request)
     {
-        return Branch::create($request->all());
+        $response = Branch::create($request->all());
+        return redirect('web/branch')->with('response', json_encode($response));
     }
 
     public function update(Request $request, $id)
@@ -39,7 +50,7 @@ class BranchController extends BaseController
         $branch = Branch::findOrFail($id);
         $branch->update($request->all());
 
-        return $branch;
+        return redirect('web/branch')->with('response', json_encode($branch));
     }
 
     public function delete(Request $request, $id)
@@ -47,6 +58,6 @@ class BranchController extends BaseController
         $branch = Branch::findOrFail($id);
         $branch->delete();
 
-        return 204;
+        return redirect('web/branch')->with('response', json_encode($branch));
     }
 }

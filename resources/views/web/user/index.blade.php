@@ -24,8 +24,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3"><button class="btn btn-primary waves-effect waves-light" type="button" data-bs-toggle="modal"
-                                data-bs-target="#addUserModal">Add New User</button></div>
+                        <div class="col-md-3"><button class="btn btn-primary waves-effect waves-light" type="button"
+                                data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button></div>
                     </div>
                     <hr />
                     <div class="table-responsive">
@@ -33,7 +33,7 @@
                             cellspacing="0">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="text-center" style="display:none;">#ID</th>
+                                    <th class="text-center" hidden>#ID</th>
                                     <th class="text-center">User Name</th>
                                     <th class="text-center">Email</th>
                                     <th class="text-center">Role</th>
@@ -46,26 +46,19 @@
                                 @if (isset($users) && count($users) > 0)
                                     @foreach ($users as $user)
                                         <tr>
-                                            <td class="text-center" style="display:none;">{{ $user->id }}</td>
+                                            <td class="text-center" hidden>{{ $user->id }}</td>
                                             <td class="text-center">{{ $user->name }}</td>
                                             <td class="text-center">{{ $user->email }}</td>
                                             <td class="text-center">{{ $user->role }}</td>
                                             <td class="text-center">{{ $user->dob }}</td>
                                             <td class="text-center">{{ $user->created_at }}</td>
                                             <td class="text-center">
-                                                <div class="btn-group">
-                                                    <span>
-                                                        <a data-bs-target="#editUserModal" data-bs-toggle="modal" title="Edit"
-                                                            data-user="{{ $user }}"
-                                                            class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>
-                                                    </span>
-                                                    <span>
-                                                        <a data-bs-target="#deleteUserModal" data-bs-toggle="modal" title="Delete"
-                                                            data-user="{{ $user }}"
-                                                            class="btn btn-xs btn-default"><i
-                                                                class="far fa-trash-alt"></i></a>
-                                                    </span>
-                                                </div>
+                                                <a data-bs-target="#editUserModal" data-bs-toggle="modal" title="Edit"
+                                                    data-user="{{ $user }}" class="text-success"><i
+                                                        class="mdi mdi-pencil font-size-18"></i></a>
+                                                <a data-bs-target="#deleteUserModal" data-bs-toggle="modal" title="Delete"
+                                                    data-user="{{ $user }}" class="text-danger"><i
+                                                        class="mdi mdi-delete font-size-18"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -93,10 +86,9 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="useremail" class="form-label">Email</label>
-                                <input type="email"
-                                    class="form-control @error('email') is-invalid @enderror"
-                                    id="useremail" value="{{ old('email') }}" name="email"
-                                    placeholder="Enter email" autofocus required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    id="useremail" value="{{ old('email') }}" name="email" placeholder="Enter email"
+                                    autofocus required>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -106,10 +98,9 @@
 
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text"
-                                    class="form-control @error('name') is-invalid @enderror"
-                                    value="{{ old('name') }}" id="username" name="name" autofocus
-                                    required placeholder="Enter username">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    value="{{ old('name') }}" id="username" name="name" autofocus required
+                                    placeholder="Enter username">
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -119,10 +110,8 @@
 
                             <div class="mb-3">
                                 <label for="userpassword" class="form-label">Password</label>
-                                <input type="password"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    id="userpassword" name="password" placeholder="Enter password"
-                                    autofocus required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="userpassword" name="password" placeholder="Enter password" autofocus required>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -146,11 +135,11 @@
 
                             <div class="mb-3">
                                 <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" class="form-control" id="role" name="role" required>
-                                        <option>Please select</option>
-                                        <option value="agent">Agent</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                <select class="form-select" class="form-control" id="role" name="role" required>
+                                    <option>Please select</option>
+                                    <option value="agent">Agent</option>
+                                    <option value="admin">Admin</option>
+                                </select>
                                 @error('role')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -161,14 +150,12 @@
                             <div class="mb-3">
                                 <label for="userdob">Date of Birth</label>
                                 <div class="input-group" id="datepicker1">
-                                    <input type="text"
-                                        class="form-control @error('dob') is-invalid @enderror"
+                                    <input type="text" class="form-control @error('dob') is-invalid @enderror"
                                         placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy"
                                         data-date-container='#datepicker1' data-date-end-date="0d"
-                                        value="{{ old('dob') }}" data-provide="datepicker"
-                                        name="dob" autofocus required>
-                                    <span class="input-group-text"><i
-                                            class="mdi mdi-calendar"></i></span>
+                                        value="{{ old('dob') }}" data-provide="datepicker" name="dob" autofocus
+                                        required>
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                     @error('dob')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -180,11 +167,9 @@
                             <div class="mb-3">
                                 <label for="avatar">Profile Picture</label>
                                 <div class="input-group">
-                                    <input type="file"
-                                        class="form-control @error('avatar') is-invalid @enderror"
+                                    <input type="file" class="form-control @error('avatar') is-invalid @enderror"
                                         id="inputGroupFile02" name="avatar" autofocus required>
-                                    <label class="input-group-text"
-                                        for="inputGroupFile02">Upload</label>
+                                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
                                 </div>
                                 @error('avatar')
                                     <span class="invalid-feedback" role="alert">
@@ -193,8 +178,7 @@
                                 @enderror
                             </div>
                             <div class="mt-4 d-grid">
-                                <button class="btn btn-primary waves-effect waves-light"
-                                    type="submit">Register</button>
+                                <button class="btn btn-primary waves-effect waves-light" type="submit">Register</button>
                             </div>
                         </form>
                     </div>

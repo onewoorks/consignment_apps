@@ -23,6 +23,7 @@ class Lov extends Model
         'lov_name',
         'description',
         'is_default',
+        'is_required',
         'created_by',
         'updated_by',
     ];
