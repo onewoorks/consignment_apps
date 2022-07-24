@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Branch;
 use App\Models\Catalog;
+use App\Models\Product;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use App\Models\BranchInventory;
 use Illuminate\Support\Facades\Log;
 use App\Constants\StockFlowConstant;
 use Illuminate\Support\Facades\Auth;
@@ -138,5 +141,52 @@ class InventoryController extends BaseController
         }
 
         return false;
+    }
+
+    public function branchInventoryIndex()
+    {
+        $branchInvtries = BranchInventory::all();
+        if ($branchInvtries) {
+            foreach ($branchInvtries as $i) {
+                $branch = Branch::where('branch_code', $i->branch_code)->first();
+                $i->branch_name = $branch->branch_name;
+                $prod = Product::where('product_code', $i->product_code)->first();
+                $i->product_name = $prod->product_name;
+            }
+        }
+
+        return view('web.branch.inventory.index', [
+            'inventories' => $branchInvtries,
+            'branches' => Branch::all(),
+            'products' => Product::all()
+        ]);
+    }
+
+    public function createBranchInventory(Request $request)
+    {
+        $data = $request->all();
+        $data['total_price'] = number_format($request->quantity * $request->price_per_unit, 2);
+        $data['created_by'] = Auth::user()->name;
+        $data['updated_by'] = Auth::user()->name;
+        $response = BranchInventory::create($data);
+        return redirect('web/branch/inventory')->with('response', json_encode($response));
+    }
+
+    public function updateBranchInventory(Request $request)
+    {
+        $branch = BranchInventory::findOrFail($request->id);
+        $branch->total_price = number_format($request->quantity * $request->price_per_unit, 2);
+        $branch->updated_by = Auth::user()->name;
+        $branch->update($request->all());
+
+        return redirect('web/branch/inventory')->with('response', json_encode($branch));
+    }
+
+    public function deleteBranchInventory(Request $request)
+    {
+        $branch = BranchInventory::findOrFail($request->brninvid);
+        $branch->delete();
+
+        return redirect('web/branch/inventory')->with('response', json_encode($branch));
     }
 }

@@ -275,7 +275,7 @@
                 $('#createdDate').val(lov[7]);
 
                 $('#lovid').val(lov[0]);
-                document.getElementById("lovname").textContent = lov[1] + ':' + lov[2] + '-' + lov[3] + ']';
+                document.getElementById("lovname").textContent = lov[1] + ':' + lov[2] + '-' + lov[3];
             });
 
             $('.elovCategory').prop("disabled", true);

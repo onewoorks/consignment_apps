@@ -126,7 +126,10 @@ Route::group([
         Route::group([
             'prefix' => 'inventory'
         ], function () {
-            Route::get('/', [InventoryController::class, 'index']);
+            Route::get('/', [InventoryController::class, 'branchInventoryIndex']);
+            Route::post('/create', [InventoryController::class, 'createBranchInventory']);
+            Route::put('/update/{id}', [InventoryController::class, 'updateBranchInventory']);
+            Route::delete('/delete/{id}', [InventoryController::class, 'deleteBranchInventory']);
         });
     });
     Route::group([
