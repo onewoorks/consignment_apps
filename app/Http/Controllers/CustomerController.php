@@ -72,7 +72,7 @@ class CustomerController extends BaseController
                 ->join('kh_tasks', 'kh_tasks.id', '=', 'kh_task_assignments.task_id')
                 ->join('kh_task_users', 'kh_task_users.task_id', '=', 'kh_tasks.id')
                 ->where('kh_task_users.user_id', $user)
-                ->select('kh_customers.*', 'kh_tasks.id as task_id', 'kh_tasks.task_name')
+                ->select('kh_customers.*', 'kh_tasks.id as task_id', 'kh_tasks.task_name', 'kh_task_assignments.id as route_id')
                 ->get();
 
             $custs = array();
@@ -128,7 +128,7 @@ class CustomerController extends BaseController
         return response()->json(['success' => $filename]);
     }
 
-    public function profile($task_id, $id)
+    public function profile($task_id, $route_id, $id)
     {
         $customer = Customer::findOrFail($id);
         $catalogs = Catalog::where('shop_id', $customer->id)->get();
@@ -144,6 +144,6 @@ class CustomerController extends BaseController
 
         $products = $this->getProductNotYetAvailableInCustomerShop($customer->id);
 
-        return view('mob.customer.wizard', ['customer' => $customer, 'products' => $products, 'task' => Task::findOrFail($task_id)]);
+        return view('mob.customer.wizard', ['customer' => $customer, 'products' => $products, 'task' => Task::findOrFail($task_id), 'route_id' => $route_id]);
     }
 }

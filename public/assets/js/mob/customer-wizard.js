@@ -84,6 +84,9 @@ submitBtn.addEventListener('click', () => {
     const timer = ms => new Promise((resolve, reject) => {
         let stock_outs = [];
         let stock_ins = [];
+        let task_id = $('#taskid').val();
+        let route_id = $('#routeid').val();
+
         $('input[name^=qty_stock_out]').map(function (idx, elem) {
             let catalog = elem.getAttribute('data-catalog');
             let region = elem.getAttribute('data-region');
@@ -115,7 +118,7 @@ submitBtn.addEventListener('click', () => {
             type: "POST",
             data: {
                 "_token": $('meta[name="csrf-token"]').attr('content'),
-                stock_outs, stock_ins
+                stock_outs, stock_ins, task_id, route_id
             },
             success: function (data) {
                 setTimeout(resolve(data), ms)
@@ -146,18 +149,18 @@ submitBtn.addEventListener('click', () => {
 
 var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
     $(elem).on('change', () => {
-        let stock_dec = $(elem).val();
+        let stock_dec = parseInt($(elem).val());
         $('div[name^=new_stock_out]').map(function (idx2, elem2) {
             if (idx === idx2) {
-                let previous_stockOut = localStorage.getItem(`prev_stock_out_${idx2}`);
-                if(previous_stockOut == null){
+                let previous_stockOut = parseInt(localStorage.getItem(`prev_stock_out_${idx2}`));
+                if(isNaN(previous_stockOut)){
                     localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec);
                     previous_stockOut = 0;
                 }
 
                 let tot_stock_ele = document.getElementById(`total_consigned_${idx2}`);
-                let initial_stock = tot_stock_ele.getAttribute('data-initialstock');
-                let current_stock = tot_stock_ele.innerHTML;
+                let initial_stock = parseInt(tot_stock_ele.getAttribute('data-initialstock'));
+                let current_stock = parseInt(tot_stock_ele.innerHTML);
 
                 if(stock_dec > initial_stock){
                     alert(`Maximum allowable Stock Out is ${initial_stock}`);
@@ -167,10 +170,10 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
                 } else {
                     document.getElementById(`new_stock_out_${idx2}`).innerHTML = stock_dec;
 
-                    if(parseInt(stock_dec) > parseInt(previous_stockOut)){
-                        tot_stock_ele.innerHTML = parseInt(current_stock) - 1;
+                    if(stock_dec > previous_stockOut){
+                        tot_stock_ele.innerHTML = current_stock - 1;
                     } else {
-                        tot_stock_ele.innerHTML = parseInt(current_stock) + 1;
+                        tot_stock_ele.innerHTML = current_stock + 1;
                     }
 
                     localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec);

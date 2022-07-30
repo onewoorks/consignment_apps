@@ -9,6 +9,8 @@ return [
     "DataLookup" => "Data Lookup",
     "Customer" => "Customer",
     "Shop" => "Shop",
+    "Product" => "Product",
+    "Team" => "Team",
     "Task" => "Task",
     "TaskRoute" => "Task Route",
     "TaskDetails" => "Task Details",

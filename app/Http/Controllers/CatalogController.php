@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\Catalog;
 use App\Models\Product;
 use App\Models\Customer;
@@ -40,6 +41,6 @@ class CatalogController extends BaseController
 
         $products = $this->getProductNotYetAvailableInCustomerShop($request->shop_id);
 
-        return view('mob.customer.wizard', ['customer' => $customer,'catalog' => $catalog, 'products' => $products]);
+        return view('mob.customer.wizard', ['customer' => $customer, 'catalog' => $catalog, 'products' => $products, 'task' => Task::findOrFail($request->task_id), 'route_id' => $request->shop_id]);
     }
 }

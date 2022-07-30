@@ -47,8 +47,8 @@
                                     <th class="text-center d-none">Product Code</th>
                                     <th class="text-center">Product Name</th>
                                     <th class="text-center">Available Quantity</th>
-                                    <th class="text-center">Total Price (RM)</th>
                                     <th class="text-center">Price Per Unit</th>
+                                    <th class="text-center">Total Price (RM)</th>
                                     <th class="text-center">Created At</th>
                                     <th class="text-center d-none">Updated At</th>
                                     <th class="text-center">Action</th>
@@ -64,8 +64,8 @@
                                             <td class="text-center d-none">{{ $inv->product_code }}</td>
                                             <td class="text-center">{{ $inv->product_code.' - '.$inv->product_name }}</td>
                                             <td class="text-center">{{ $inv->quantity }}</td>
-                                            <td class="text-center">{{ number_format($inv->total_price, 2) }}</td>
                                             <td class="text-center">{{ $inv->price_per_unit }}</td>
+                                            <td class="text-center">{{ number_format($inv->total_price, 2) }}</td>
                                             <td class="text-center">{{ $inv->created_at }}</td>
                                             <td class="text-center d-none">{{ $inv->updated_at }}</td>
                                             <td class="text-center">
@@ -266,7 +266,7 @@
                 $('.ebranchcode').val(branch[1]);
                 $('.eproductcode').val(branch[3]);
                 $('.equantity').val(branch[5]);
-                $('.epriceperunit').val(branch[7]);
+                $('.epriceperunit').val(branch[6]);
                 $('.ecreatedat').val(branch[8]);
                 $('.eupdatedat').val(branch[9]);
 

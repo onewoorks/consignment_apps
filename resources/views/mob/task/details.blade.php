@@ -102,7 +102,7 @@
                             <div id="customer" class="row">
                                 <div class="col-xl-4 col-sm-4" title="Click here to maintain inventory.">
                                     <div class="card">
-                                        <a href="@if ($route->shop_status !== 'C') {{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->shop_id }} @else # @endif"
+                                        <a href="@if ($route->shop_status !== 'C' && $route->status !== 'C') {{ url('mob/customer/profile') }}/{{ $route->task_id }}/{{ $route->id }}/{{ $route->shop_id }} @else # @endif"
                                             class="text-reset">
                                             <div class="card-body">
                                                 <div class="d-flex">
@@ -155,7 +155,7 @@
                                         <div class="mb-3">
                                             <label class="control-label">Task Status</label>
                                             <select id="task_status" name="task_status" class="form-control select2"
-                                                @if ($route->shop_status === 'C') disabled @endif>
+                                                @if ($route->shop_status === 'C' || $route->status === 'C') disabled @endif>
                                                 @if (isset($task_status) && count($task_status) > 0)
                                                     @foreach ($task_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -168,7 +168,7 @@
                                         <div class="mb-3">
                                             <label class="control-label">Shop Status</label>
                                             <select id="shop_status" name="shop_status" class="form-control select2"
-                                                @if ($route->shop_status === 'C') disabled @endif>
+                                                @if ($route->shop_status === 'C' || $route->status === 'C') disabled @endif>
                                                 @if (isset($shop_status) && count($shop_status) > 0)
                                                     @foreach ($shop_status as $status)
                                                         <option value="{{ $status->lov_code }}"
@@ -185,7 +185,7 @@
                                                         <div class="d-flex flex-wrap gap-2">
                                                             <button id="update-route" type="submit"
                                                                 class="btn btn-primary waves-effect waves-light"
-                                                                @if ($route->shop_status === 'C') disabled @endif>Update</button>
+                                                                @if ($route->shop_status === 'C' || $route->status === 'C') disabled @endif>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>

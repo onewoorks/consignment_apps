@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\BranchInventory;
 use Illuminate\Support\Facades\Log;
 use App\Constants\StockFlowConstant;
+use App\Models\TaskAssignment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -85,15 +86,20 @@ class InventoryController extends BaseController
     public function store(Request $request)
     {
         $stock_outs = $request->stock_outs;
-        $this->process_stock_flow($stock_outs, StockFlowConstant::OUT);
+        $this->process_stock_flow($stock_outs, StockFlowConstant::OUT, $request->route_id);
 
         $stock_ins = $request->stock_ins;
-        $this->process_stock_flow($stock_ins, StockFlowConstant::IN);
+        $this->process_stock_flow($stock_ins, StockFlowConstant::IN, $request->route_id);
+
+        $taskassign = TaskAssignment::findOrFail($request->route_id);
+        $taskassign->status = 'C';
+        $taskassign->updated_by = Auth::user()->name;
+        $taskassign->save();
 
         return 'Success, Done maintained the stock!';
     }
 
-    private function process_stock_flow($stocks = [], $flow)
+    private function process_stock_flow($stocks = [], $flow, $routeid)
     {
         $crtBy = Auth::user()->name;
         foreach ($stocks as $stock) {
@@ -116,11 +122,12 @@ class InventoryController extends BaseController
                 $inventory->price_per_unit = $pstock->price_per_unit;
                 $inventory->total_price = $quantity * $pstock->price_per_unit;
                 $inventory->created_by = $crtBy;
+                $inventory->route_id = $routeid;
                 $inventory->save();
 
                 $catalog = Catalog::findOrFail($pstock->id);
 
-                $available_stock = 0;
+                $available_stock = $catalog->available_stock;
                 if ($flow === StockFlowConstant::IN) {
                     $available_stock += $quantity;
                 } else if ($flow === StockFlowConstant::OUT) {

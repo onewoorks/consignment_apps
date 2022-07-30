@@ -34,14 +34,14 @@ class LovController extends BaseController
         $lov->lov_category = $request->lovCategory;
         $lov->lov_code = $request->lovCode;
         $lov->lov_name = $request->lovName;
-        $lov->lov_description = $request->lovDescription;
+        $lov->description = $request->lovDescription;
         $lov->is_required = $request->isRequired;
         $lov->is_default = $request->isDefault;
         $lov->created_at = Carbon::now();
         $lov->created_by = Auth::user()->name;
         $lov->save();
 
-        return redirect('lov')->with('response', json_encode($lov));
+        return redirect('web/lov')->with('response', json_encode($lov));
     }
 
     public function update(Request $request)

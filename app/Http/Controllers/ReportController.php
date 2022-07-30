@@ -63,7 +63,7 @@ class ReportController extends BaseController
     {
 
         $yr = $request->reportyear;
-        $mth = $request->reportyear;
+        $mth = $request->reportmonth;
 
         return Excel::download(new InventoryExport($yr, '', $mth), 'report.xlsx');
     }

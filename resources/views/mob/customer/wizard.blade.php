@@ -52,6 +52,9 @@
                                         <form id="form-stock" method="post" action="{{ url('/mob/catalog/add') }}">
                                             {{ csrf_field() }}
                                             <input id="shop_id" name="shop_id" type="hidden" value={{ $customer->id }}>
+                                            <input id="task_id" name="task_id" type="hidden" value={{ $task->id }}>
+                                            <input type="hidden" name="route_id" id="route_id"
+                                                value="{{ $route_id }}" />
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="mb-3">
@@ -68,9 +71,10 @@
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="quantity" class="form-label">Quantity:</label>
-                                                        <input id="quantity" name="quantity" data-toggle="touchspin"
-                                                            type="text" value="0" class="form-control consignment-tspin">
+                                                        <label for="available_stock" class="form-label">Quantity:</label>
+                                                        <input id="available_stock" name="available_stock"
+                                                            data-toggle="touchspin" type="text" value="0"
+                                                            class="form-control consignment-tspin">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="price_per_unit">Price Per Unit:</label>
@@ -119,7 +123,7 @@
                                                     <div class="col-sm-6">
                                                         <div class="text-center mx-auto mb-3 mt-3">
                                                             <h5>
-                                                                {{ $catalog->product->product_name }}
+                                                                {{ isset($catalog->product) ? $catalog->product->product_name : 'NA' }}
                                                             </h5>
                                                         </div>
                                                     </div>
@@ -165,7 +169,7 @@
                                                         <div class="col-sm-6">
                                                             <div class="text-center mx-auto mb-3 mt-3">
                                                                 <h5>
-                                                                    {{ $catalog->product->product_name }}
+                                                                    {{ isset($catalog->product) ? $catalog->product->product_name : 'NA' }}
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -175,8 +179,8 @@
                                                     <div class="text-center mx-auto mb-3 mt-3">
                                                         <input id="qty_stock_out" name="qty_stock_out[]"
                                                             data-catalog="{{ $catalog }}" data-toggle="touchspin"
-                                                            data-region="{{ $customer->region }}" type="text" value="0"
-                                                            class="form-control consignment-tspin">
+                                                            data-region="{{ $customer->region }}" type="text"
+                                                            value="0" class="form-control consignment-tspin">
                                                     </div>
                                                 </div>
                                             </div>
@@ -207,7 +211,7 @@
                                                         <div class="col-sm-6">
                                                             <div class="text-center mx-auto mb-3 mt-3">
                                                                 <h5>
-                                                                    {{ $catalog->product->product_name }}
+                                                                    {{ isset($catalog->product) ? $catalog->product->product_name : 'NA' }}
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -217,8 +221,8 @@
                                                     <div class="text-center mx-auto mb-3 mt-3">
                                                         <input id="qty_stock_in" name="qty_stock_in[]"
                                                             data-catalog="{{ $catalog }}" data-toggle="touchspin"
-                                                            data-region="{{ $customer->region }}" type="text" value="0"
-                                                            class="form-control consignment-tspin">
+                                                            data-region="{{ $customer->region }}" type="text"
+                                                            value="0" class="form-control consignment-tspin">
                                                     </div>
                                                 </div>
                                             </div>
@@ -247,10 +251,11 @@
                                                                 </span>
                                                             </div>
                                                             <h5 class="text-truncate pb-1">
-                                                                {{ $catalog->product->product_name }}</h5>
+                                                                {{ isset($catalog->product) ? $catalog->product->product_name : 'NA' }}
+                                                            </h5>
                                                         </div>
                                                         <div class="col-sm-6 text-center mx-auto mb-3 mt-3">
-                                                            <p class="text-muted mb-2 text-truncate">Total New Consigned
+                                                            <p class="text-muted mb-2 text-truncate">New Avail. Stock
                                                             </p>
                                                             <h5>
                                                                 <div data-initialstock="{{ $catalog->available_stock }}"
@@ -307,7 +312,8 @@
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
                                     <div class="d-grid mt-2">
-                                        <div class="btn btn-primary btn-block" id='print_consignment'>Print Consigment Note
+                                        <div class="btn btn-primary btn-block" id='print_consignment'>Print Consigment
+                                            Note
                                         </div>
                                     </div>
                                 </div>
@@ -328,6 +334,7 @@
             </div>
         </div>
         <input type="hidden" name="taskid" id="taskid" value="{{ $task->id }}" />
+        <input type="hidden" name="routeid" id="routeid" value="{{ $route_id }}" />
         <input type="hidden" name="custid" id="custid" value="{{ $customer->id }}" />
     </div>
     {{-- </div> --}}
@@ -341,6 +348,7 @@
     <script src="{{ URL::asset('/assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ URL::asset('/assets/js/mob/customer-wizard.js') }}"></script>
     <script type="text/javascript">
+        localStorage.clear();
         $("input[name='quantity']").TouchSpin({
             verticalbuttons: 0,
             buttondown_class: "btn btn-success",

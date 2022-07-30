@@ -64,7 +64,7 @@
             @if (isset($customers) && count($customers) > 0)
                 @foreach ($customers as $customer)
                     <a id="customers[]" data-customer="{{ $customer }}"
-                        href="{{ url('mob/customer/profile') }}/{{ $customer->task_id . '/' . $customer->id }}"
+                        href="{{ url('mob/customer/profile') }}/{{ $customer->task_id . '/' . $customer->route_id . '/' . $customer->id }}"
                         class="text-decoration-underline text-reset">
                         <div class="card mini-stats-wid">
                             <div class="card-body">

@@ -6,10 +6,12 @@ use App\Http\Controllers\LovController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Sales\SalesController;
@@ -55,7 +57,7 @@ Route::group([
             Route::post('/', [CustomerController::class, 'upload']);
             Route::post('/delete', [CustomerController::class, 'delete_uploaded_img']);
         });
-        Route::get('/profile/{task_id}/{id}', [CustomerController::class, 'profile']);
+        Route::get('/profile/{task_id}/{route_id}/{id}', [CustomerController::class, 'profile']);
     });
     Route::group([
         'prefix' => 'inventory'
@@ -155,6 +157,30 @@ Route::group([
         Route::put('/update', [LovController::class, 'update']);
         Route::delete('/delete', [LovController::class, 'delete']);
         Route::get('/category/default/', [LovController::class, 'getDefaultLovByCodeCategory']);
+    });
+    Route::group([
+        'prefix' => 'product'
+    ], function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::post('create', [ProductController::class, 'create']);
+        Route::put('update', [ProductController::class, 'update']);
+        Route::delete('delete', [ProductController::class, 'delete']);
+    });
+    Route::group([
+        'prefix' => 'team'
+    ], function () {
+        Route::get('/', [TeamController::class, 'index']);
+        Route::post('create', [TeamController::class, 'create']);
+        Route::put('update', [TeamController::class, 'update']);
+        Route::delete('delete', [TeamController::class, 'delete']);
+        Route::group([
+            'prefix' => 'member'
+        ], function () {
+            Route::get('/{team_id}', [TeamController::class, 'indexMember']);
+            Route::post('create', [TeamController::class, 'addMember']);
+            Route::put('update', [TeamController::class, 'updateMember']);
+            Route::delete('delete', [TeamController::class, 'deleteMember']);
+        });
     });
 });
 
