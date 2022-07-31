@@ -2,6 +2,7 @@
 
 return [
     "RegisterNewCustomer" => "Register New Customer",
+    "UpdateCustomer" => "Update Customer",
     "CreateTask" => "Create Task",
     "Inventory" => "Inventory",
     "BranchInventory" => "Branch Inventory",

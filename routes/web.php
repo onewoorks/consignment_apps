@@ -116,6 +116,15 @@ Route::group([
         'prefix' => 'shop'
     ], function () {
         Route::get('/', [ShopController::class, 'index']);
+        Route::get('/add', [ShopController::class, 'addShop']);
+        Route::post('/create', [ShopController::class, 'save']);
+        Route::get('/edit/{id}', [ShopController::class, 'editShop']);
+        Route::put('/update', [ShopController::class, 'update']);
+        Route::delete('/delete', [ShopController::class, 'delete']);
+        Route::group(['prefix' => 'upload'], function () {
+            Route::post('/', [ShopController::class, 'upload']);
+            Route::post('/delete', [ShopController::class, 'delete_uploaded_img']);
+        });
     });
     Route::group([
         'prefix' => 'branch'
