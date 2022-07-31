@@ -37,6 +37,7 @@
                                     <p class="card-title-desc">Please input the criteria</p>
                                     <form id="form-inventory" method="post" action="{{ url('/mob/inventory') }}">
                                         {{ csrf_field() }}
+                                        <input id="channel" name="channel" type="hidden" value="mob" />
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="mb-3">

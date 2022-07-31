@@ -119,7 +119,7 @@
         <div class="row g-0">
             <div class="card mini-stats-wid">
                 <div class="card-body">
-                    <a href="{{ url('/profile') }}/{{ Auth::user()->name }}">
+                    <a href="{{ url('/profile') }}/{{ Auth::user()->id }}">
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <p class="text-muted fw-medium">Profile</p>
