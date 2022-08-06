@@ -188,7 +188,7 @@
                 $('._id').val(team[0]);
                 $('.eteamname').val(team[1]);
                 $('.eremarks').val(team[2]);
-                $('#createdat').val(team[3]);
+                $('#createdat').val(team[4]);
 
                 $('#teamid').val(team[0]);
                 document.getElementById("dteam").textContent = team[1];

@@ -119,63 +119,260 @@
                                 </thead>
                                 <tbody>
                                     @if (isset($response) && count($response) > 0)
-                                        <?php $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-                                        $month_once = 0; ?>
+                                        <?php
+                                        $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                                        $month_once = 0;
+                                        $GTtotSaleNasty = 0;
+                                        $GTtotSaleAkso = 0;
+                                        $GTtotUnitSaleNasty = 0;
+                                        $GTtotUnitSaleAkso = 0;
+                                        $GTtotUnitKTZroxNasty = 0;
+                                        $GTtotUnitKTZroxAkso = 0;
+                                        $GTtotPriceKTZroxNasty = 0;
+                                        $GTtotPriceKTZroxAkso = 0;
+                                        $GTtotUnitKMBvrNasty = 0;
+                                        $GTtotUnitKMBvrAkso = 0;
+                                        $GTtotPriceKMBvrNasty = 0;
+                                        $GTtotPriceKMBvrAkso = 0;
+                                        $GTtotUnitBSTtNasty = 0;
+                                        $GTtotUnitBSTtAkso = 0;
+                                        $GTtotPriceBSTtNasty = 0;
+                                        $GTtotPriceBSTtAkso = 0;
+                                        $GTtotUnitDGSdNasty = 0;
+                                        $GTtotUnitDGSdAkso = 0;
+                                        $GTtotPriceDGSdNasty = 0;
+                                        $GTtotPriceDGSdAkso = 0;
+                                        $GTtotUnitVSTStNasty = 0;
+                                        $GTtotUnitVSTStAkso = 0;
+                                        $GTtotPriceVSTStNasty = 0;
+                                        $GTtotPriceVSTStAkso = 0;
+                                        ?>
 
                                         @foreach ($months as $m)
+                                            <?php
+                                            $isFound = false;
+                                            $totSaleNasty = 0;
+                                            $totSaleAkso = 0;
+                                            $totUnitSaleNasty = 0;
+                                            $totUnitSaleAkso = 0;
+                                            $totUnitKTZroxNasty = 0;
+                                            $totUnitKTZroxAkso = 0;
+                                            $totPriceKTZroxNasty = 0;
+                                            $totPriceKTZroxAkso = 0;
+                                            $totUnitKMBvrNasty = 0;
+                                            $totUnitKMBvrAkso = 0;
+                                            $totPriceKMBvrNasty = 0;
+                                            $totPriceKMBvrAkso = 0;
+                                            $totUnitBSTtNasty = 0;
+                                            $totUnitBSTtAkso = 0;
+                                            $totPriceBSTtNasty = 0;
+                                            $totPriceBSTtAkso = 0;
+                                            $totUnitDGSdNasty = 0;
+                                            $totUnitDGSdAkso = 0;
+                                            $totPriceDGSdNasty = 0;
+                                            $totPriceDGSdAkso = 0;
+                                            $totUnitVSTStNasty = 0;
+                                            $totUnitVSTStAkso = 0;
+                                            $totPriceVSTStNasty = 0;
+                                            $totPriceVSTStAkso = 0;
+
+                                            ?>
                                             @foreach ($response as $res)
                                                 @if ($m === $res->imonth)
-                                                    <?php $month_once++; ?>
+                                                    <?php $month_once++; $isFound = true; ?>
                                                     <tr>
                                                         <td style="background-color:rgb(49, 46, 236);color:aliceblue;">
                                                             {{ $month_once === 1 ? $res->imonth : '' }}</td>
                                                         <td>{{ $res->iday }}</td>
                                                         <td>{{ $res->idate }}</td>
-                                                        <td>{{ $res->d_tot_sale_nasty }}</td>
-                                                        <td>{{ $res->d_tot_sale_akso }}</td>
+                                                        <td>{{ number_format($res->d_tot_sale_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_sale_akso, 2) }}</td>
                                                         <td>{{ $res->d_tot_unit_sale_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_sale_akso }}</td>
                                                         <td>{{ $res->d_tot_unit_kt_zrox_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_kt_zrox_akso }}</td>
-                                                        <td>{{ $res->d_prcp_unit_kt_zrox_nasty }}</td>
-                                                        <td>{{ $res->d_prcp_unit_kt_zrox_akso }}</td>
-                                                        <td>{{ $res->d_tot_price_kt_zrox_nasty }}</td>
-                                                        <td>{{ $res->d_tot_price_kt_zrox_akso }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_kt_zrox_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_kt_zrox_akso, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_kt_zrox_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_kt_zrox_akso, 2) }}</td>
                                                         <td></td>
                                                         <td>{{ $res->d_tot_unit_kmm_bvr_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_kmm_bvr_akso }}</td>
-                                                        <td>{{ $res->d_prcp_unit_kmm_bvr_nasty }}</td>
-                                                        <td>{{ $res->d_prcp_unit_kmm_bvr_akso }}</td>
-                                                        <td>{{ $res->d_tot_price_kmm_bvr_nasty }}</td>
-                                                        <td>{{ $res->d_tot_price_kmm_bvr_akso }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_kmm_bvr_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_kmm_bvr_akso, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_kmm_bvr_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_kmm_bvr_akso, 2) }}</td>
                                                         <td></td>
                                                         <td>{{ $res->d_tot_unit_bs_tt_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_bs_tt_akso }}</td>
-                                                        <td>{{ $res->d_prcp_unit_bs_tt_nasty }}</td>
-                                                        <td>{{ $res->d_prcp_unit_bs_tt_akso }}</td>
-                                                        <td>{{ $res->d_tot_price_bs_tt_nasty }}</td>
-                                                        <td>{{ $res->d_tot_price_bs_tt_akso }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_bs_tt_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_bs_tt_akso, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_bs_tt_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_bs_tt_akso, 2) }}</td>
                                                         <td></td>
                                                         <td>{{ $res->d_tot_unit_dg_sd_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_dg_sd_akso }}</td>
-                                                        <td>{{ $res->d_prcp_unit_dg_sd_nasty }}</td>
-                                                        <td>{{ $res->d_prcp_unit_dg_sd_akso }}</td>
-                                                        <td>{{ $res->d_tot_price_dg_sd_nasty }}</td>
-                                                        <td>{{ $res->d_tot_price_dg_sd_akso }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_dg_sd_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_dg_sd_akso, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_dg_sd_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_dg_sd_akso, 2) }}</td>
                                                         <td></td>
                                                         <td>{{ $res->d_tot_unit_vst_st_nasty }}</td>
                                                         <td>{{ $res->d_tot_unit_vst_st_akso }}</td>
-                                                        <td>{{ $res->d_prcp_unit_vst_st_nasty }}</td>
-                                                        <td>{{ $res->d_prcp_unit_vst_st_akso }}</td>
-                                                        <td>{{ $res->d_tot_price_vst_st_nasty }}</td>
-                                                        <td>{{ $res->d_tot_price_vst_st_akso }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_vst_st_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_prcp_unit_vst_st_akso, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_vst_st_nasty, 2) }}</td>
+                                                        <td>{{ number_format($res->d_tot_price_vst_st_akso, 2) }}</td>
                                                         <td></td>
                                                     </tr>
-                                                    <?php $month_once = 0; ?>
+                                                    <?php
+                                                    $month_once = 0;
+                                                    $totSaleNasty += $res->d_tot_sale_nasty;
+                                                    $totSaleAkso += $res->d_tot_sale_akso;
+                                                    $totUnitSaleNasty += $res->d_tot_unit_sale_nasty;
+                                                    $totUnitSaleAkso += $res->d_tot_unit_sale_akso;
+                                                    $totUnitKTZroxNasty += $res->d_tot_unit_kt_zrox_nasty;
+                                                    $totUnitKTZroxAkso += $res->d_tot_unit_kt_zrox_akso;
+                                                    $totPriceKTZroxNasty += $res->d_tot_price_kt_zrox_nasty;
+                                                    $totPriceKTZroxAkso += $res->d_tot_price_kt_zrox_nasty;
+                                                    $totUnitKMBvrNasty += $res->d_tot_unit_kmm_bvr_nasty;
+                                                    $totUnitKMBvrAkso += $res->d_tot_unit_kmm_bvr_akso;
+                                                    $totPriceKMBvrNasty += $res->d_tot_price_kmm_bvr_nasty;
+                                                    $totPriceKMBvrAkso += $res->d_tot_price_kmm_bvr_akso;
+                                                    $totUnitBSTtNasty += $res->d_tot_unit_bs_tt_nasty;
+                                                    $totUnitBSTtAkso += $res->d_tot_unit_bs_tt_akso;
+                                                    $totPriceBSTtNasty += $res->d_tot_price_bs_tt_nasty;
+                                                    $totPriceBSTtAkso += $res->d_tot_price_bs_tt_akso;
+                                                    $totUnitDGSdNasty += $res->d_tot_unit_dg_sd_nasty;
+                                                    $totUnitDGSdAkso += $res->d_tot_unit_dg_sd_akso;
+                                                    $totPriceDGSdNasty += $res->d_tot_price_dg_sd_nasty;
+                                                    $totPriceDGSdAkso += $res->d_tot_price_dg_sd_akso;
+                                                    $totUnitVSTStNasty += $res->d_tot_unit_vst_st_nasty;
+                                                    $totUnitVSTStAkso += $res->d_tot_unit_vst_st_akso;
+                                                    $totPriceVSTStNasty += $res->d_tot_price_vst_st_nasty;
+                                                    $totPriceVSTStAkso += $res->d_tot_price_vst_st_akso;
+                                                    ?>
                                                 @endif
                                             @endforeach
+                                            @if ($isFound)
+                                                <tr style="background-color:rgb(234, 243, 232);color:rgb(12, 12, 12);">
+                                                    <td>Total</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totSaleNasty, 2) }}</td>
+                                                    <td>{{ number_format($totSaleAkso, 2) }}</td>
+                                                    <td>{{ $totUnitSaleNasty }}</td>
+                                                    <td>{{ $totUnitSaleAkso }}</td>
+                                                    <td>{{ $totUnitKTZroxNasty }}</td>
+                                                    <td>{{ $totUnitKTZroxAkso }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totPriceKTZroxNasty, 2) }}</td>
+                                                    <td>{{ number_format($totPriceKTZroxAkso, 2) }}</td>
+                                                    <td></td>
+                                                    <td>{{ $totUnitKMBvrNasty }}</td>
+                                                    <td>{{ $totUnitKMBvrAkso }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totPriceKMBvrNasty, 2) }}</td>
+                                                    <td>{{ number_format($totPriceKMBvrAkso, 2) }}</td>
+                                                    <td></td>
+                                                    <td>{{ $totUnitBSTtNasty }}</td>
+                                                    <td>{{ $totUnitBSTtAkso }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totPriceBSTtNasty, 2) }}</td>
+                                                    <td>{{ number_format($totPriceBSTtAkso, 2) }}</td>
+                                                    <td></td>
+                                                    <td>{{ $totUnitDGSdNasty }}</td>
+                                                    <td>{{ $totUnitDGSdAkso }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totPriceDGSdNasty, 2) }}</td>
+                                                    <td>{{ number_format($totPriceDGSdAkso, 2) }}</td>
+                                                    <td></td>
+                                                    <td>{{ $totUnitVSTStNasty }}</td>
+                                                    <td>{{ $totUnitVSTStAkso }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>{{ number_format($totPriceVSTStNasty, 2) }}</td>
+                                                    <td>{{ number_format($totPriceVSTStAkso, 2) }}</td>
+                                                    <td></td>
+                                                </tr>
+                                            @endif
+                                            <?php
+                                            $GTtotSaleNasty += $totSaleNasty;
+                                            $GTtotSaleAkso += $totSaleAkso;
+                                            $GTtotUnitSaleNasty += $totUnitSaleNasty;
+                                            $GTtotUnitSaleAkso += $totUnitSaleAkso;
+                                            $GTtotUnitKTZroxNasty += $totUnitKTZroxNasty;
+                                            $GTtotUnitKTZroxAkso += $totUnitKTZroxAkso;
+                                            $GTtotPriceKTZroxNasty += $totPriceKTZroxNasty;
+                                            $GTtotPriceKTZroxAkso += $totPriceKTZroxAkso;
+                                            $GTtotUnitKMBvrNasty += $totUnitKMBvrNasty;
+                                            $GTtotUnitKMBvrAkso += $totUnitKMBvrAkso;
+                                            $GTtotPriceKMBvrNasty += $totPriceKMBvrNasty;
+                                            $GTtotPriceKMBvrAkso += $totPriceKMBvrAkso;
+                                            $GTtotUnitBSTtNasty += $totUnitBSTtNasty;
+                                            $GTtotUnitBSTtAkso += $totUnitBSTtAkso;
+                                            $GTtotPriceBSTtNasty += $totPriceBSTtNasty;
+                                            $GTtotPriceBSTtAkso += $totPriceBSTtAkso;
+                                            $GTtotUnitDGSdNasty += $totUnitDGSdNasty;
+                                            $GTtotUnitDGSdAkso += $totUnitDGSdAkso;
+                                            $GTtotPriceDGSdNasty += $totPriceDGSdNasty;
+                                            $GTtotPriceDGSdAkso += $totPriceDGSdAkso;
+                                            $GTtotUnitVSTStNasty += $totUnitVSTStNasty;
+                                            $GTtotUnitVSTStAkso += $totUnitVSTStAkso;
+                                            $GTtotPriceVSTStNasty += $totPriceVSTStNasty;
+                                            $GTtotPriceVSTStAkso += $totPriceVSTStAkso;
+                                            ?>
                                         @endforeach
+                                        <tr style="background-color:rgb(49, 46, 236);color:aliceblue;">
+                                            <td>Grand Total</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotSaleNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotSaleAkso, 2) }}</td>
+                                            <td>{{ $GTtotUnitSaleNasty }}</td>
+                                            <td>{{ $GTtotUnitSaleAkso }}</td>
+                                            <td>{{ $GTtotUnitKTZroxNasty }}</td>
+                                            <td>{{ $GTtotUnitKTZroxAkso }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotPriceKTZroxNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotPriceKTZroxAkso, 2) }}</td>
+                                            <td></td>
+                                            <td>{{ $GTtotUnitKMBvrNasty }}</td>
+                                            <td>{{ $GTtotUnitKMBvrAkso }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotPriceKMBvrNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotPriceKMBvrAkso, 2) }}</td>
+                                            <td></td>
+                                            <td>{{ $GTtotUnitBSTtNasty }}</td>
+                                            <td>{{ $GTtotUnitBSTtAkso }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotPriceBSTtNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotPriceBSTtAkso, 2) }}</td>
+                                            <td></td>
+                                            <td>{{ $GTtotUnitDGSdNasty }}</td>
+                                            <td>{{ $GTtotUnitDGSdAkso }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotPriceDGSdNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotPriceDGSdAkso, 2) }}</td>
+                                            <td></td>
+                                            <td>{{ $GTtotUnitVSTStNasty }}</td>
+                                            <td>{{ $GTtotUnitVSTStAkso }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ number_format($GTtotPriceVSTStNasty, 2) }}</td>
+                                            <td>{{ number_format($GTtotPriceVSTStAkso, 2) }}</td>
+                                            <td></td>
+                                        </tr>
                                     @endif
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -215,6 +412,7 @@
 
         var settings = {
             pageLength: 31,
+            ordering: false,
             dom: 'Bfrtip',
             buttons: [{
                 extend: 'excel',
