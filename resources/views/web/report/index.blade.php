@@ -28,6 +28,7 @@
                         <label class="col-form-label col-lg-2">Month</label>
                         <div class="col-lg-10">
                             <select id="reportmonth" name="reportmonth" class="form-control select2">
+                                <option value="">Select</option>
                                 @if (isset($months) && count($months) > 0)
                                     @foreach ($months as $m)
                                         <option value="{{ $m->key }}"
@@ -58,6 +59,7 @@
                                 style="width:100%">
                                 <thead class="text-center" style="background:grey; color:aliceblue;">
                                     <tr>
+                                        <th rowspan="3">MONTH</th>
                                         <th rowspan="3">DAY</th>
                                         <th rowspan="3">DATE</th>
                                         <th rowspan="3">Daily Total RM Sale Nasty</th>
@@ -117,50 +119,61 @@
                                 </thead>
                                 <tbody>
                                     @if (isset($response) && count($response) > 0)
-                                        @foreach ($response as $res)
-                                            <tr>
-                                                <td>{{ $res->iday }}</td>
-                                                <td>{{ $res->idate }}</td>
-                                                <td>{{ $res->d_tot_sale_nasty }}</td>
-                                                <td>{{ $res->d_tot_sale_akso }}</td>
-                                                <td>{{ $res->d_tot_unit_sale_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_sale_akso }}</td>
-                                                <td>{{ $res->d_tot_unit_kt_zrox_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_kt_zrox_akso }}</td>
-                                                <td>{{ $res->d_prcp_unit_kt_zrox_nasty }}</td>
-                                                <td>{{ $res->d_prcp_unit_kt_zrox_akso }}</td>
-                                                <td>{{ $res->d_tot_price_kt_zrox_nasty }}</td>
-                                                <td>{{ $res->d_tot_price_kt_zrox_akso }}</td>
-                                                <td></td>
-                                                <td>{{ $res->d_tot_unit_kmm_bvr_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_kmm_bvr_akso }}</td>
-                                                <td>{{ $res->d_prcp_unit_kmm_bvr_nasty }}</td>
-                                                <td>{{ $res->d_prcp_unit_kmm_bvr_akso }}</td>
-                                                <td>{{ $res->d_tot_price_kmm_bvr_nasty }}</td>
-                                                <td>{{ $res->d_tot_price_kmm_bvr_akso }}</td>
-                                                <td></td>
-                                                <td>{{ $res->d_tot_unit_bs_tt_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_bs_tt_akso }}</td>
-                                                <td>{{ $res->d_prcp_unit_bs_tt_nasty }}</td>
-                                                <td>{{ $res->d_prcp_unit_bs_tt_akso }}</td>
-                                                <td>{{ $res->d_tot_price_bs_tt_nasty }}</td>
-                                                <td>{{ $res->d_tot_price_bs_tt_akso }}</td>
-                                                <td></td>
-                                                <td>{{ $res->d_tot_unit_dg_sd_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_dg_sd_akso }}</td>
-                                                <td>{{ $res->d_prcp_unit_dg_sd_nasty }}</td>
-                                                <td>{{ $res->d_prcp_unit_dg_sd_akso }}</td>
-                                                <td>{{ $res->d_tot_price_dg_sd_nasty }}</td>
-                                                <td>{{ $res->d_tot_price_dg_sd_akso }}</td>
-                                                <td></td>
-                                                <td>{{ $res->d_tot_unit_vst_st_nasty }}</td>
-                                                <td>{{ $res->d_tot_unit_vst_st_akso }}</td>
-                                                <td>{{ $res->d_prcp_unit_vst_st_nasty }}</td>
-                                                <td>{{ $res->d_prcp_unit_vst_st_akso }}</td>
-                                                <td>{{ $res->d_tot_price_vst_st_nasty }}</td>
-                                                <td>{{ $res->d_tot_price_vst_st_akso }}</td>
-                                                <td></td>
-                                            </tr>
+                                        <?php $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                                        $month_once = 0; ?>
+
+                                        @foreach ($months as $m)
+                                            @foreach ($response as $res)
+                                                @if ($m === $res->imonth)
+                                                    <?php $month_once++; ?>
+                                                    <tr>
+                                                        <td style="background-color:rgb(49, 46, 236);color:aliceblue;">
+                                                            {{ $month_once === 1 ? $res->imonth : '' }}</td>
+                                                        <td>{{ $res->iday }}</td>
+                                                        <td>{{ $res->idate }}</td>
+                                                        <td>{{ $res->d_tot_sale_nasty }}</td>
+                                                        <td>{{ $res->d_tot_sale_akso }}</td>
+                                                        <td>{{ $res->d_tot_unit_sale_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_sale_akso }}</td>
+                                                        <td>{{ $res->d_tot_unit_kt_zrox_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_kt_zrox_akso }}</td>
+                                                        <td>{{ $res->d_prcp_unit_kt_zrox_nasty }}</td>
+                                                        <td>{{ $res->d_prcp_unit_kt_zrox_akso }}</td>
+                                                        <td>{{ $res->d_tot_price_kt_zrox_nasty }}</td>
+                                                        <td>{{ $res->d_tot_price_kt_zrox_akso }}</td>
+                                                        <td></td>
+                                                        <td>{{ $res->d_tot_unit_kmm_bvr_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_kmm_bvr_akso }}</td>
+                                                        <td>{{ $res->d_prcp_unit_kmm_bvr_nasty }}</td>
+                                                        <td>{{ $res->d_prcp_unit_kmm_bvr_akso }}</td>
+                                                        <td>{{ $res->d_tot_price_kmm_bvr_nasty }}</td>
+                                                        <td>{{ $res->d_tot_price_kmm_bvr_akso }}</td>
+                                                        <td></td>
+                                                        <td>{{ $res->d_tot_unit_bs_tt_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_bs_tt_akso }}</td>
+                                                        <td>{{ $res->d_prcp_unit_bs_tt_nasty }}</td>
+                                                        <td>{{ $res->d_prcp_unit_bs_tt_akso }}</td>
+                                                        <td>{{ $res->d_tot_price_bs_tt_nasty }}</td>
+                                                        <td>{{ $res->d_tot_price_bs_tt_akso }}</td>
+                                                        <td></td>
+                                                        <td>{{ $res->d_tot_unit_dg_sd_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_dg_sd_akso }}</td>
+                                                        <td>{{ $res->d_prcp_unit_dg_sd_nasty }}</td>
+                                                        <td>{{ $res->d_prcp_unit_dg_sd_akso }}</td>
+                                                        <td>{{ $res->d_tot_price_dg_sd_nasty }}</td>
+                                                        <td>{{ $res->d_tot_price_dg_sd_akso }}</td>
+                                                        <td></td>
+                                                        <td>{{ $res->d_tot_unit_vst_st_nasty }}</td>
+                                                        <td>{{ $res->d_tot_unit_vst_st_akso }}</td>
+                                                        <td>{{ $res->d_prcp_unit_vst_st_nasty }}</td>
+                                                        <td>{{ $res->d_prcp_unit_vst_st_akso }}</td>
+                                                        <td>{{ $res->d_tot_price_vst_st_nasty }}</td>
+                                                        <td>{{ $res->d_tot_price_vst_st_akso }}</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <?php $month_once = 0; ?>
+                                                @endif
+                                            @endforeach
                                         @endforeach
                                     @endif
                             </table>
@@ -190,6 +203,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
     <script type="text/javascript">
         $(".select2").select2();
 
@@ -202,40 +216,34 @@
         var settings = {
             pageLength: 31,
             dom: 'Bfrtip',
-            buttons: {
-                buttons: [{
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible',
-                            autoPrint: false,
-                            orientation: 'landscape'
-                        }
-                    },
-                    {
-                        extend: 'excel'
-                    },
-                    {
-                        extend: 'pdf',
-                        text: 'Export PDF',
-                        orientation: 'landscape',
-                        customize: function(doc) {
-                            var colCount = new Array();
-                            $(rtbl).find('tbody tr:first-child td').each(function() {
-                                if ($(this).attr('colspan')) {
-                                    for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                                        colCount.push('*');
-                                    }
-                                } else {
-                                    colCount.push('*');
-                                }
-                            });
-                            doc.content[1].table.widths = colCount;
-                        }
-                    }
-                ]
-            }
+            buttons: [{
+                extend: 'excel',
+                action: function(e, dt, node, config) {
+                    ExportToExcel('xlsx');
+                }
+            }]
         }
 
         $('#reportTable').DataTable(settings);
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('reportTable');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "Consignment_Report"
+            });
+
+            var today = new Date();
+            var date = today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate();
+            var time = today.getHours() + "" + today.getMinutes() + "" + today.getSeconds();
+            var dateTime = date + 'T' + time;
+
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Consignment_Report_' + dateTime + '.' + (type || 'xlsx')));
+        }
     </script>
 @endsection
