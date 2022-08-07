@@ -74,8 +74,6 @@ class InventoryExport implements FromCollection, WithHeadings
         $sql .= " group by month(ki.created_at), day(ki.created_at), date(ki.created_at)";
         $sql .= " order by month(ki.created_at), day(ki.created_at), date(ki.created_at)";
 
-        Log::info($sql);
-
         return  collect(DB::select($sql, [$this->year]));
     }
 
