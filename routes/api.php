@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Team\ApiTeamController;
+use App\Http\Controllers\Api\ApiTeamController;
+use App\Http\Controllers\Api\ApiInventoryController;
 use App\Http\Controllers\Sales\SalesController as Sales;
 
 /*
@@ -28,5 +29,9 @@ Route::prefix('/v1')->group(function(){
 
     Route::prefix('/member')->group(function () {
         Route::post('/list', [ApiTeamController::class, 'listByTeamId']);
+    });
+
+    Route::prefix('/inventory')->group(function () {
+        Route::post('/validate', [ApiInventoryController::class, 'validateStockAtBranchInventory']);
     });
 });

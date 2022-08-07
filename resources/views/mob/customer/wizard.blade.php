@@ -281,7 +281,7 @@
                                                         <div class="col-3 text-center">
                                                             <div class="mx-auto mb-3 mt-3">
                                                                 <div id="new_stock_out_{{ $loop->index }}"
-                                                                    class="btn btn-danger btn-lg action-remove"
+                                                                    data-catalog="{{ $catalog }}" data-region="{{ $customer->region }}" class="btn btn-danger btn-lg action-remove"
                                                                     name="new_stock_out[]">0
                                                                 </div>
                                                             </div>

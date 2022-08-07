@@ -153,7 +153,7 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
         $('div[name^=new_stock_out]').map(function (idx2, elem2) {
             if (idx === idx2) {
                 let previous_stockOut = parseInt(localStorage.getItem(`prev_stock_out_${idx2}`));
-                if(isNaN(previous_stockOut)){
+                if (isNaN(previous_stockOut)) {
                     localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec);
                     previous_stockOut = 0;
                 }
@@ -162,7 +162,7 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
                 let initial_stock = parseInt(tot_stock_ele.getAttribute('data-initialstock'));
                 let current_stock = parseInt(tot_stock_ele.innerHTML);
 
-                if(stock_dec > initial_stock){
+                if (stock_dec > initial_stock) {
                     alert(`Maximum allowable Stock Out is ${initial_stock}`);
                     $(elem).val(stock_dec - 1);
                     localStorage.setItem(`prev_stock_out_${idx2}`, stock_dec - 1);
@@ -170,7 +170,7 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
                 } else {
                     document.getElementById(`new_stock_out_${idx2}`).innerHTML = stock_dec;
 
-                    if(stock_dec > previous_stockOut){
+                    if (stock_dec > previous_stockOut) {
                         tot_stock_ele.innerHTML = current_stock - 1;
                     } else {
                         tot_stock_ele.innerHTML = current_stock + 1;
@@ -183,13 +183,34 @@ var qty_stock_outs = $('input[name^=qty_stock_out]').map(function (idx, elem) {
     });
 }).get();
 
+
+var IsStockAvailableAtBranchInventory = async (branchCode, productCode, quantityIn) => {
+    return await $.ajax({
+        type: 'POST',
+        url: '/api/v1/inventory/validate',
+        data: {
+            branch: branchCode,
+            product: productCode,
+            quantity: quantityIn
+        },
+        success: function (data) {
+            return data;
+        }
+    })
+
+}
+
 var qty_stock_ins = $('input[name^=qty_stock_in]').map(function (idx, elem) {
     $(elem).on('change', () => {
         let stock_inc = $(elem).val();
         $('div[name^=new_stock_in]').map(function (idx2, elem2) {
+            var catalog = elem.getAttribute('data-catalog');
+            let region = elem.getAttribute('data-region');
+            let o_catalog = JSON.parse(catalog);
+
             if (idx === idx2) {
                 let previous_stockIn = localStorage.getItem(`prev_stock_in_${idx2}`);
-                if(previous_stockIn == null){
+                if (previous_stockIn == null) {
                     localStorage.setItem(`prev_stock_in_${idx2}`, stock_inc);
                     previous_stockIn = 0;
                 }
@@ -198,8 +219,19 @@ var qty_stock_ins = $('input[name^=qty_stock_in]').map(function (idx, elem) {
 
                 let tot_stock_ele = document.getElementById(`total_consigned_${idx2}`);
                 let current_stock = tot_stock_ele.innerHTML;
-                if(parseInt(stock_inc) > parseInt(previous_stockIn)){
-                    tot_stock_ele.innerHTML = parseInt(current_stock) + 1;
+                if (parseInt(stock_inc) > parseInt(previous_stockIn)) {
+                    IsStockAvailableAtBranchInventory(region, o_catalog['product_code'], stock_inc)
+                        .then((response) => {
+                            if (parseInt(response) === 1) {
+                                tot_stock_ele.innerHTML = parseInt(current_stock) + 1;
+                            } else {
+                                alert('No Stock Available. Exceed Maximum Limit of Available Product ' + o_catalog['product_code']);
+                                $(elem).val(stock_inc - 1);
+                                localStorage.setItem(`prev_stock_in_${idx2}`, stock_inc - 1);
+                                document.getElementById(`new_stock_in_${idx2}`).innerHTML = stock_inc - 1;
+                            }
+                        })
+
                 } else {
                     tot_stock_ele.innerHTML = parseInt(current_stock) - 1;
                 }
@@ -210,9 +242,9 @@ var qty_stock_ins = $('input[name^=qty_stock_in]').map(function (idx, elem) {
     });
 }).get();
 
-$('#print_consignment').on('click', function(){
+$('#print_consignment').on('click', function () {
     let product_data = []
-    $('.list-product').each(function(){
+    $('.list-product').each(function () {
         var $this = $(this)
         product_data.push({
             catalog_id: this.id,
