@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
@@ -63,16 +64,17 @@ class InventoryExport implements FromCollection, WithHeadings
         $sql .= "where year(ki.created_at) = ? ";
 
         if ($this->user != null && $this->user != '') {
-            $sql .= "and ki.created_by = " . $this->user;
+            $sql .= "and ki.created_by = '" . $this->user . "'";
         }
 
         if ($this->month != null && $this->month != '') {
-            $sql .= "and month(ki.created_at) = " . $this->month;
+            $sql .= " and month(ki.created_at) = " . $this->month;
         }
 
         $sql .= " group by month(ki.created_at), day(ki.created_at), date(ki.created_at)";
         $sql .= " order by month(ki.created_at), day(ki.created_at), date(ki.created_at)";
 
+        Log::info($sql);
 
         return  collect(DB::select($sql, [$this->year]));
     }
