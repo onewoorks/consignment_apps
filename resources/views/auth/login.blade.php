@@ -1,111 +1,146 @@
-
 @extends('layouts.master-without-nav')
 
 @section('title')
     @lang('translation.Login')
 @endsection
 
+@section('css')
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="{{ URL::asset('/assets/libs/owl.carousel/owl.carousel.min.css') }}">
+@endsection
+
 @section('body')
 
-    <body>
+    <body class="auth-body-bg">
     @endsection
 
     @section('content')
-        <div class="account-pages my-5 pt-sm-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="card overflow-hidden">
-                            <div class="bg-primary bg-soft">
-                                <div class="row">
-                                    <div class="col-7">
-                                        <div class="text-primary p-4">
-                                            <h5 class="text-primary">Welcome Back !</h5>
-                                            <p>Sign in to continue to Ncig Consignment</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-5 align-self-end">
-                                        <img src="{{ URL::asset('/assets/images/profile-img.png') }}" alt=""
-                                            class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="auth-logo">
-                                    <a href="index" class="auth-logo-light">
-                                        <div class="avatar-md profile-user-wid mb-4">
-                                            <span class="avatar-title rounded-circle bg-light">
-                                                <img src="{{ URL::asset('/assets/images/logo-light.svg') }}" alt=""
-                                                    class="rounded-circle" height="34">
-                                            </span>
-                                        </div>
-                                    </a>
+        <div>
+            <div class="container-fluid p-0">
+                <div class="row g-0">
 
-                                    <a href="index" class="auth-logo-dark">
-                                        <div class="avatar-md profile-user-wid mb-4">
-                                            <span class="avatar-title rounded-circle bg-light">
-                                                <img src="{{ URL::asset('/assets/images/logo.svg') }}" alt=""
-                                                    class="rounded-circle" height="34">
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="p-2">
-                                    <form class="form-horizontal" action="index">
+                    <div class="col-xl-9">
+                        <div class="auth-full-bg pt-lg-5 p-4">
+                            <div class="w-100">
+                                <div class="bg-overlay"></div>
+                                <div class="d-flex h-100 flex-column">
 
-                                        <div class="mb-3">
-                                            <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username"
-                                                placeholder="Enter username">
-                                        </div>
+                                    <div class="p-4 mt-auto">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-7">
+                                                <div class="text-center">
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <div class="input-group auth-pass-inputgroup">
-                                                <input type="password" class="form-control" placeholder="Enter password"
-                                                    aria-label="Password" aria-describedby="password-addon">
-                                                <button class="btn btn-light " type="button" id="password-addon"><i
-                                                        class="mdi mdi-eye-outline"></i></button>
+                                                   
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
 
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="remember-check">
-                                            <label class="form-check-label" for="remember-check">
-                                                Remember me
-                                            </label>
+                    <div class="col-xl-3">
+                        <div class="auth-full-page-content p-md-5 p-4">
+                            <div class="w-100">
+
+                                <div class="d-flex flex-column h-100">
+                                    <div class="mb-4 mb-md-5">
+                                        <a href="index" class="d-block auth-logo">
+                                            {{-- <img src="{{ URL::asset('/assets/images/logo-dark.png') }}" alt="" height="18" class="auth-logo-dark">
+                                        <img src="{{ URL::asset('/assets/images/logo-light.png') }}" alt="" height="18" class="auth-logo-light"> --}}
+                                            <h2>CONSIGNMENT APPS</h2>
+                                        </a>
+                                    </div>
+                                    <div class="my-auto">
+
+                                        <div>
+                                            <h5 class="text-primary">Welcome Back !</h5>
+                                            <p class="text-muted">Sign in to Consignment Apps.</p>
                                         </div>
+                                        <div class="mt-4">
+                                            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Email</label>
+                                                    <input name="email" type="email"
+                                                        class="form-control @error('email') is-invalid @enderror"
+                                                        value="{{ old('email', 'admin@themesbrand.com') }}" id="username"
+                                                        placeholder="Enter Email" autocomplete="email" autofocus>
+                                                    @error('email')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
 
-                                        <div class="mt-3 d-grid">
-                                            <button class="btn btn-primary waves-effect waves-light" type="submit">Log
-                                                In</button>
+                                                <div class="mb-3">
+                                                    <div class="float-end">
+                                                        @if (Route::has('password.request'))
+                                                            <a href="{{ route('password.request') }}"
+                                                                class="text-muted">Forgot password?</a>
+                                                        @endif
+                                                    </div>
+                                                    <label class="form-label">Password</label>
+                                                    <div
+                                                        class="input-group auth-pass-inputgroup @error('password') is-invalid @enderror">
+                                                        <input type="password" name="password"
+                                                            class="form-control  @error('password') is-invalid @enderror"
+                                                            id="userpassword" value="123456" placeholder="Enter password"
+                                                            aria-label="Password" aria-describedby="password-addon">
+                                                        <button class="btn btn-light " type="button" id="password-addon"><i
+                                                                class="mdi mdi-eye-outline"></i></button>
+                                                        @error('password')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="remember"
+                                                        {{ old('remember') ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="remember">
+                                                        Remember me
+                                                    </label>
+                                                </div>
+
+                                                <div class="mt-3 d-grid">
+                                                    <button class="btn btn-primary waves-effect waves-light"
+                                                        type="submit">Log
+                                                        In</button>
+                                                </div>
+                                            </form>
                                         </div>
+                                    </div>
 
-
-                                        <div class="mt-4 text-center">
-                                            <a href="auth-recoverpw" class="text-muted"><i
-                                                    class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                        </div>
-                                    </form>
+                                    <div class="mt-4 mt-md-5 text-center">
+                                        <p class="mb-0">©
+                                            <script>
+                                                document.write(new Date().getFullYear())
+                                            </script> Consignment Apps. Crafted with <i
+                                                class="mdi mdi-heart text-danger"></i> <br />by
+                                            Onewoorks Solutions
+                                        </p>
+                                    </div>
                                 </div>
 
+
                             </div>
                         </div>
-                        <div class="mt-5 text-center">
-
-                            <div>
-                                <p>© <script>
-                                        document.write(new Date().getFullYear())
-
-                                    </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Onewoorks Solutions
-                                </p>
-                            </div>
-                        </div>
-
                     </div>
+                    <!-- end col -->
                 </div>
+                <!-- end row -->
             </div>
+            <!-- end container-fluid -->
         </div>
-        <!-- end account-pages -->
-
+    @endsection
+    @section('script')
+        <!-- owl.carousel js -->
+        <script src="{{ URL::asset('/assets/libs/owl.carousel/owl.carousel.min.js') }}"></script>
+        <!-- auth-2-carousel init -->
+        <script src="{{ URL::asset('/assets/js/pages/auth-2-carousel.init.js') }}"></script>
     @endsection
