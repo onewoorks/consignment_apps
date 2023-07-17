@@ -6,12 +6,12 @@ use App\Models\Lov;
 
 trait LovService
 {
-    public function getLovByCodeCategory($cdctgry)
+    public static function getLovByCodeCategory($cdctgry)
     {
         return Lov::where('lov_category', $cdctgry)->get();
     }
 
-    public function getLovNameByCdCtgryAndCode($cdctgry, $code)
+    public static function getLovNameByCdCtgryAndCode($cdctgry, $code)
     {
         $lov = Lov::where('lov_category', $cdctgry)->where('lov_code', $code)->first();
 

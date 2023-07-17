@@ -39,7 +39,7 @@ class TaskController extends Controller
         })
             ->where('kh_team_members.user_id', Auth::user()->name)
             ->first();
-
+        
         $task_status = LovSvc::getLovByCodeCategory('TASK_STATUS');
 
         $tasks = Task::where('created_by', Auth::user()->name)->get();
