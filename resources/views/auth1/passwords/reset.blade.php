@@ -20,7 +20,7 @@
                                     <div class="col-7">
                                         <div class="text-primary p-4">
                                             <h5 class="text-primary"> Reset Password</h5>
-                                            <p>Re-Password with Skote.</p>
+                                            <p>Re-Password with Ncig Consignment</p>
                                         </div>
                                     </div>
                                     <div class="col-5 align-self-end">
@@ -91,7 +91,7 @@
                             <p>© <script>
                                     document.write(new Date().getFullYear())
 
-                                </script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
                         </div>
 
                     </div>

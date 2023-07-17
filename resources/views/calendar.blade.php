@@ -11,7 +11,7 @@
 @section('content')
 
 @component('components.breadcrumb')
-@slot('li_1') Skote @endslot
+@slot('li_1') Ncig Consigment @endslot
 @slot('title') Calendar @endslot
 @endcomponent
 

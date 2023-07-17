@@ -50,7 +50,7 @@
 
                                                                     <div>
                                                                         <h4 class="font-size-16 text-primary">Abs1981</h4>
-                                                                        <p class="font-size-14 mb-0">- Skote User</p>
+                                                                        <p class="font-size-14 mb-0">- Ncig User</p>
                                                                     </div>
                                                                 </div>
 
@@ -65,7 +65,7 @@
 
                                                                     <div>
                                                                         <h4 class="font-size-16 text-primary">nezerious</h4>
-                                                                        <p class="font-size-14 mb-0">- Skote User</p>
+                                                                        <p class="font-size-14 mb-0">- Ncig User</p>
                                                                     </div>
                                                                 </div>
 
@@ -99,7 +99,7 @@
 
                                         <div>
                                             <h5 class="text-primary"> Reset Password</h5>
-                                            <p class="text-muted">Re-Password with Skote.</p>
+                                            <p class="text-muted">Re-Password with Ncig Consignment</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -141,7 +141,7 @@
                                         <p class="mb-0">© <script>
                                                 document.write(new Date().getFullYear())
 
-                                            </script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by
+                                            </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by
                                             Themesbrand</p>
                                     </div>
                                 </div>

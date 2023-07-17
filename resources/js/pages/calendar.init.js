@@ -1,8 +1,8 @@
 /*
-Template Name: Skote - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://themesbrand.com/
-Contact: themesbrand@gmail.com
+Template Name: Admin Template
+Author: Onewoorks
+Website: https://onewoorks.com/
+Contact: technical@onewoorks.com
 File: Calendar init js
 */
 

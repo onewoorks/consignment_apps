@@ -23,7 +23,7 @@
                                     <div class="col-7">
                                         <div class="text-primary p-4">
                                             <h5 class="text-primary">Free Register</h5>
-                                            <p>Get your free Skote account now.</p>
+                                            <p>Get your account now.</p>
                                         </div>
                                     </div>
                                     <div class="col-5 align-self-end">
@@ -150,7 +150,7 @@
                                         </div>
 
                                         <div class="mt-4 text-center">
-                                            <p class="mb-0">By registering you agree to the Skote <a href="#"
+                                            <p class="mb-0">By registering you agree to the Ncig Consigment <a href="#"
                                                     class="text-primary">Terms of Use</a></p>
                                         </div>
                                     </form>
@@ -166,7 +166,7 @@
                                 <p>© <script>
                                         document.write(new Date().getFullYear())
 
-                                    </script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                                    </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
                                 </p>
                             </div>
                         </div>

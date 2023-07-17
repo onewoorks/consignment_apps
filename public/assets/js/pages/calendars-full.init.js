@@ -5,9 +5,9 @@ var __webpack_exports__ = {};
   \***************************************************/
 /*
 Template Name: Minia - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://themesbrand.com/
-Contact: themesbrand@gmail.com
+Author: Onewoorks
+Website: https://onewoorks.com/
+Contact: technical@onewoorks.com
 File: Calendar init js
 */
 !function ($) {

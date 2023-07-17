@@ -38,7 +38,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">David McHenry</a></h5>
                                         <p class="text-muted mb-0">UI/UX Designer</p>
                                     </td>
-                                    <td>david@skote.com</td>
+                                    <td>david@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Photoshop</a>
@@ -70,7 +70,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Frank Kirk</a></h5>
                                         <p class="text-muted mb-0">Frontend Developer</p>
                                     </td>
-                                    <td>frank@skote.com</td>
+                                    <td>frank@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Html</a>
@@ -103,7 +103,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Rafael Morales</a></h5>
                                         <p class="text-muted mb-0">Backend Developer</p>
                                     </td>
-                                    <td>Rafael@skote.com</td>
+                                    <td>Rafael@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Php</a>
@@ -137,7 +137,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Mark Ellison</a></h5>
                                         <p class="text-muted mb-0">Full Stack Developer</p>
                                     </td>
-                                    <td>mark@skote.com</td>
+                                    <td>mark@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Ruby</a>
@@ -170,7 +170,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Minnie Walter</a></h5>
                                         <p class="text-muted mb-0">Frontend Developer</p>
                                     </td>
-                                    <td>minnie@skote.com</td>
+                                    <td>minnie@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Html</a>
@@ -203,7 +203,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Shirley Smith</a></h5>
                                         <p class="text-muted mb-0">UI/UX Designer</p>
                                     </td>
-                                    <td>shirley@skote.com</td>
+                                    <td>shirley@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Photoshop</a>
@@ -236,7 +236,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">John Santiago</a></h5>
                                         <p class="text-muted mb-0">Full Stack Developer</p>
                                     </td>
-                                    <td>john@skote.com</td>
+                                    <td>john@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Ruby</a>
@@ -269,7 +269,7 @@
                                         <h5 class="font-size-14 mb-1"><a href="#" class="text-dark">Colin Melton</a></h5>
                                         <p class="text-muted mb-0">Backend Developer</p>
                                     </td>
-                                    <td>colin@skote.com</td>
+                                    <td>colin@Ncig Consignmentcom</td>
                                     <td>
                                         <div>
                                             <a href="#" class="badge badge-soft-primary font-size-11 m-1">Php</a>

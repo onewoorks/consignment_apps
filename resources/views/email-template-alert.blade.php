@@ -75,7 +75,7 @@
                                                 <td class="content-block"
                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                                     valign="top">
-                                                    Thanks for choosing <b>Skote</b> Admin.
+                                                    Thanks for choosing <b>Ncig Consignment</b> Admin.
                                                 </td>
                                             </tr>
                                             <tr
@@ -83,7 +83,7 @@
                                                 <td class="content-block"
                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                                     valign="top">
-                                                    <b>Skote</b>
+                                                    <b>Ncig Consignment</b>
                                                     <p>Support Team</p>
                                                 </td>
                                             </tr>
@@ -93,7 +93,7 @@
                                                 <td class="content-block"
                                                     style="text-align: center;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0;"
                                                     valign="top">
-                                                    © 2021 Skote
+                                                    © 2021 Ncig Consignment
                                                 </td>
                                             </tr>
                                         </table>

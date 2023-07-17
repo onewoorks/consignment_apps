@@ -223,7 +223,7 @@
                                 <td><img src="{{ URL::asset('/assets/images/companies/img-5.png') }}" alt=""
                                         class="avatar-sm"></td>
                                 <td>
-                                    <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">Skote Dashboard
+                                    <h5 class="text-truncate font-size-14"><a href="#" class="text-dark">Ncig Consigment Dashboard
                                             UI</a></h5>
                                     <p class="text-muted mb-0">Separate existence is a myth</p>
                                 </td>

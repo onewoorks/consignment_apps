@@ -49,7 +49,7 @@
 
                                                                     <div>
                                                                         <h4 class="font-size-16 text-primary">Abs1981</h4>
-                                                                        <p class="font-size-14 mb-0">- Skote User</p>
+                                                                        <p class="font-size-14 mb-0">- Ncig User</p>
                                                                     </div>
                                                                 </div>
 
@@ -64,7 +64,7 @@
 
                                                                     <div>
                                                                         <h4 class="font-size-16 text-primary">nezerious</h4>
-                                                                        <p class="font-size-14 mb-0">- Skote User</p>
+                                                                        <p class="font-size-14 mb-0">- Ncig User</p>
                                                                     </div>
                                                                 </div>
 
@@ -98,7 +98,7 @@
 
                                         <div>
                                             <h5 class="text-primary">Register account</h5>
-                                            <p class="text-muted">Get your free Skote account now.</p>
+                                            <p class="text-muted">Get your account now.</p>
                                         </div>
 
                                         <div class="mt-4">
@@ -132,7 +132,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <p class="mb-0">By registering you agree to the Skote <a href="#"
+                                                    <p class="mb-0">By registering you agree to the Ncig Consigment <a href="#"
                                                             class="text-primary">Terms of Use</a></p>
                                                 </div>
 
@@ -181,7 +181,7 @@
                                         <p class="mb-0">© <script>
                                                 document.write(new Date().getFullYear())
 
-                                            </script> Skote. Crafted with <i class="mdi mdi-heart text-danger"></i> by
+                                            </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by
                                             Themesbrand</p>
                                     </div>
                                 </div>

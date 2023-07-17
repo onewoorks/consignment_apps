@@ -70,13 +70,13 @@
                             <tbody>
                                 <tr>
                                     <td>01</td>
-                                    <td>Skote - Admin Dashboard Template</td>
+                                    <td>Ncig Consigment - Admin Dashboard Template</td>
                                     <td class="text-end">$499.00</td>
                                 </tr>
                                 
                                 <tr>
                                     <td>02</td>
-                                    <td>Skote - Landing Template</td>
+                                    <td>Ncig Consigment - Landing Template</td>
                                     <td class="text-end">$399.00</td>
                                 </tr>
 
