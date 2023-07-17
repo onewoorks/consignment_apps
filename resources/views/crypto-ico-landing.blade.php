@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <title>@lang('translation.ICO_Landing') | Ncig Consigment Application</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
+    <meta content="Onewoorks Application Development" name="description" />
+    <meta content="onewoorks" name="irwan ibrahim" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('/assets/images/favicon.ico') }}">
 
@@ -1147,7 +1147,7 @@
                     <p class="mb-2">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script> © Ncig Consignment Design & Develop by Themesbrand
+                        </script> © Ncig Consignment Design & Develop by Onewoorks Solutions
                     </p>
                     <p>It will be as simple as occidental in fact, it will be to an english person, it will seem like
                         simplified English, as a skeptical</p>

@@ -54,10 +54,10 @@
 
                                                         <div class="item">
                                                             <div class="py-3">
-                                                                <p class="font-size-16 mb-4">" If Every Vendor on Envato
-                                                                    are as supportive as Themesbrand, Development with
-                                                                    be a nice experience. You guys are Wonderful. Keep
-                                                                    us the good work. "</p>
+                                                                <p class="font-size-16 mb-4">" Thanks note...
+                                                                    
+                                                                    
+                                                                    "</p>
 
                                                                 <div>
                                                                     <h4 class="font-size-16 text-primary">nezerious</h4>
@@ -140,7 +140,7 @@
                                     <p class="mb-0">© <script>
                                             document.write(new Date().getFullYear())
                                         </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by
-                                        Themesbrand</p>
+                                        Onewoorks Solutions</p>
                                 </div>
                             </div>
 

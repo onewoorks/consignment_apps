@@ -69,7 +69,7 @@
                             <p>© <script>
                                     document.write(new Date().getFullYear())
 
-                                </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Themesbrand</p>
+                                </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Onewoorks Solutions</p>
                         </div>
 
                     </div>

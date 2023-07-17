@@ -56,7 +56,7 @@
                                             <label for="username" class="form-label">Email</label>
                                             <input name="email" type="email"
                                                 class="form-control @error('email') is-invalid @enderror"
-                                                value="{{ old('email', 'admin@themesbrand.com') }}" id="username"
+                                                value="{{ old('email', 'admin@usermail.com') }}" id="username"
                                                 placeholder="Enter Email" autocomplete="email" autofocus>
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
@@ -139,7 +139,7 @@
                                 <p>© <script>
                                         document.write(new Date().getFullYear())
 
-                                    </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+                                    </script> Ncig Consigment with <i class="mdi mdi-heart text-danger"></i> by Onewoorks Solutions
                                 </p>
                             </div>
                         </div>
